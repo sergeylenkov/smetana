@@ -1,4 +1,4 @@
-import path from 'path';
+import { join, extname, basename } from 'path';
 import { parse } from 'cue-parser';
 import { ICueSheet } from 'cue-parser/lib/types';
 import { IAudioMetadata, parseFile } from 'music-metadata';
@@ -24,7 +24,7 @@ export class Scanner {
     const files = await FS.readDir(folder)
 
     for (const file of files) {
-      await this.scanFolder(path.join(folder, file));
+      await this.scanFolder(join(folder, file));
     }
   }
 
@@ -115,9 +115,9 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (mp3Ext.includes(path.extname(file))) {
+        if (mp3Ext.includes(extname(file))) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}mp3: ${Colors.FgYellow}${file}${Colors.Reset}`);
-          const filePath = path.join(folder, file);
+          const filePath = join(folder, file);
 
           const metadata = await parseFile(filePath);
           const track = await this.metadataToTrack(metadata, folder, file);
@@ -140,9 +140,9 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (flacExt.includes(path.extname(file))) {
+        if (flacExt.includes(extname(file))) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}flac: ${Colors.FgYellow}${file}${Colors.Reset}`);
-          const filePath = path.join(folder, file);
+          const filePath = join(folder, file);
 
           const metadata = await parseFile(filePath);
           const track = await this.metadataToTrack(metadata, folder, file);
@@ -165,9 +165,9 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (cueExt.includes(path.extname(file))) {
+        if (cueExt.includes(extname(file))) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}cue: ${Colors.FgYellow}${file}${Colors.Reset}`);
-          const filePath = path.join(folder, file);
+          const filePath = join(folder, file);
 
           const sheet = parse(filePath);
           const cueTracks = await this.cuesheetToTrack(sheet, folder, file);
@@ -191,9 +191,9 @@ export class Scanner {
       const images: string[] = [];
 
       for (const file of files) {
-        const filePath = path.join(folder, file);
+        const filePath = join(folder, file);
 
-        if (imgExt.includes(path.extname(file))) {
+        if (imgExt.includes(extname(file))) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}image: ${Colors.FgYellow}${file}${Colors.Reset}`);
           images.push(filePath);
         } else {
@@ -220,7 +220,7 @@ export class Scanner {
     const album = metadata.common.album ? trim(metadata.common.album, [' ', '"', '\'']) : '';
     const year = metadata.common.year || 0;
 
-    const stats = await FS.stat(path.join(folder, fileName));
+    const stats = await FS.stat(join(folder, fileName));
 
     const track: Track = {
       key: `${artists.join('_')}_${album}_${year}`,
@@ -287,9 +287,9 @@ export class Scanner {
 
         let file = cueFile.name || fileName;
 
-        if (!FS.isFileExists(path.join(folder, file))) {
-          const ext = path.extname(file);
-          file = path.basename(file, ext);
+        if (!FS.isFileExists(join(folder, file))) {
+          const ext = extname(file);
+          file = basename(file, ext);
 
           const files = await FS.readDir(folder);
 
@@ -300,7 +300,7 @@ export class Scanner {
           })
         }
 
-        const stats = await FS.stat(path.join(folder, fileName));
+        const stats = await FS.stat(join(folder, fileName));
 
         const track: Track = {
           key: `${artists.join('_')}_${album}_${year}`,

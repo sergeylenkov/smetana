@@ -1,9 +1,9 @@
+const parseArgs = require('minimist');
 import { Colors } from './utils/console';
 import { Scanner } from './scanner';
 import { Database } from './scanner/db';
-import { Album, Artist, Genre } from './scanner/models';
 
-async function scan(path: string, database: string) {
+async function scan(path: string, dbPath: string) {
   try {
     const startTime = Date.now();
 
@@ -25,117 +25,45 @@ async function scan(path: string, database: string) {
     console.log(`Total genres found: ${Colors.FgYellow}${genres.length}${Colors.Reset}`);
     console.log(`Total covers found: ${Colors.FgYellow}${covers.length}${Colors.Reset}`);
 
-    console.log('Writing database...');
+    console.log(`Writing database ${Colors.FgYellow}${dbPath}${Colors.Reset}`);
 
-    const db = new Database(database);
+    const db = new Database(dbPath);
 
     await db.create();
     await db.clear();
 
-    const artistsMap: Map<string, Artist> = new Map();
-    const albumsMap: Map<string, Album> = new Map();
-    const genresMap: Map<string, Genre> = new Map();
+    console.log(`Processing ${Colors.FgYellow}artists${Colors.Reset}`);
+    await db.processArtists(artists);
 
-    for (const artist of artists) {
-      const id = await db.addArtist(artist);
-      artist.id = id;
+    console.log(`Processing ${Colors.FgYellow}genres${Colors.Reset}`);
+    await db.processGenres(genres);
 
-      artistsMap.set(artist.name, artist);
-    }
+    console.log(`Processing ${Colors.FgYellow}covers${Colors.Reset}`);
+    await db.processCovers(covers);
 
-    console.log(`Added ${Colors.FgYellow}artists${Colors.Reset} to database`);
+    console.log(`Processing ${Colors.FgYellow}albums${Colors.Reset}`);
+    await db.processAlbums(albums);
 
-    for (const genre of genres) {
-      const id = await db.addGenre(genre);
-      genre.id = id;
+    console.log(`Processing ${Colors.FgYellow}tracks${Colors.Reset}`);
+    await db.processTracks(tracks);
 
-      genresMap.set(genre.name, genre);
-    }
-
-    console.log(`Added ${Colors.FgYellow}genres${Colors.Reset} to database`);
-
-    for (const cover of covers) {
-      const id = await db.addCover(cover);
-      cover.id = id;
-    }
-
-    console.log(`Added ${Colors.FgYellow}covers${Colors.Reset} to database`);
-
-    for (const album of albums) {
-      const id = await db.addAlbum(album);
-      album.id = id;
-
-      albumsMap.set(album.key, album);
-    }
-
-    console.log(`Added ${Colors.FgYellow}albums${Colors.Reset} to database`);
-    console.log(`Linking ${Colors.FgYellow}tracks${Colors.Reset} with data...`);
-
-    const albumsPath = new Map<number, string[]>();
-
-    for (const track of tracks) {
-      const id = await db.addTrack(track);
-      track.id = id;
-
-      const album = albumsMap.get(track.key);
-
-      if (album) {
-        await db.linkAlbumWithTrack(album, track);
-      }
-
-      for (const trackArtist of track.artists) {
-        const artist = artistsMap.get(trackArtist);
-
-        if (artist) {
-          await db.linkArtistWithTrack(artist, track);
-        }
-      }
-
-      for (const trackGenre of track.genres) {
-        const genre = genresMap.get(trackGenre);
-
-        if (genre) {
-          await db.linkGenreWithTrack(genre, track);
-        }
-      }
-
-      for (const cover of covers) {
-        if (cover.file.startsWith(track.path)) {
-          await db.linkCoverWithTrack(cover, track);
-        }
-      }
-    }
-
-    console.log(`All tracks linked`);
-
-    console.log(`Linking ${Colors.FgYellow}albums${Colors.Reset} with data...`);
-
-    let rows = await db.getAlbumsArtists();
-
-    for (const row of rows) {
-      await db.linkArtistWithAlbum(row['artist_id'], row['album_id']);
-    }
-
-    rows = await db.getAlbumsCovers();
-
-    for (const row of rows) {
-      await db.linkCoverWithAlbum(row['cover_id'], row['album_id']);
-    }
-
-    rows = await db.getAlbumsGenres();
-
-    for (const row of rows) {
-      await db.linkGenreWithAlbum(row['genre_id'], row['album_id']);
-    }
-
-    console.log(`All albums linked`);
+    console.log(`Processing ${Colors.FgYellow}albums metadata${Colors.Reset}`);
 
     db.close();
 
-    console.log(`All data written to database ${Colors.FgYellow}${database}${Colors.Reset}`);
+    console.log(`All data written to database`);
   } catch (error) {
     console.log(`${Colors.FgRed}${error}${Colors.Reset}`);
   }
 }
 
-scan('D:\\Temp\\Music', 'D:\\Projects\\player\\library.db');
+const args = parseArgs(process.argv.slice(2));
+
+if (args['library'] && args['db']) {
+  scan(args['library'], args['db']);
+} else {
+  console.error(
+    'Use npm run scan -- --library <path-to-music-library> --db <path-to-db>'
+  );
+  process.exit(1);
+}

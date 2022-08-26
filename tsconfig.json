@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ES6",
     "module": "esnext",
     "allowJs": true,
     "jsx": "react",
@@ -19,6 +19,8 @@
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/**/*"]
+  "include": ["src/**/**/*"],
+  "exclude": ["node_modules/**/**/*"]
 }

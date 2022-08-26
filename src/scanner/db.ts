@@ -52,10 +52,18 @@ const SELECT_ALBUMS_GENRES = 'SELECT alt.album_id, gt.genre_id FROM tracks t, ge
 export class DatabaseException extends Error {}
 
 export class Database {
-  private db;
+  private _db;
+  private _artistsMap: Map<string, Artist> = new Map();
+  private _albumsMap: Map<string, Album> = new Map();
+  private _genresMap: Map<string, Genre> = new Map();
+  private _tracks: Track[] = [];
+  private _albums: Album[] = [];
+  private _artists: Artist[] = [];
+  private _genres: Genre[] = [];
+  private _covers: Cover[] = [];
 
   constructor(path: string) {
-    this.db = new sqlite3.Database(path);
+    this._db = new sqlite3.Database(path);
   }
 
   public async create() {
@@ -82,69 +90,168 @@ export class Database {
     await this.exec(CLEAR_COVERS);
   }
 
-  public async addTrack(track: Track): Promise<number> {
+  public async processArtists(artists: Artist[]) {
+    this._artists = artists;
+
+    for (const artist of artists) {
+      const id = await this.addArtist(artist);
+      artist.id = id;
+
+      this._artistsMap.set(artist.name, artist);
+    }
+  }
+
+  public async processGenres(genres: Genre[]) {
+    this._genres = genres;
+
+    for (const genre of genres) {
+      const id = await this.addGenre(genre);
+      genre.id = id;
+
+      this._genresMap.set(genre.name, genre);
+    }
+  }
+
+  public async processCovers(covers: Cover[]) {
+    this._covers = covers;
+
+    for (const cover of covers) {
+      const id = await this.addCover(cover);
+      cover.id = id;
+    }
+  }
+
+  public async processAlbums(albums: Album[]) {
+    this._albums = albums;
+
+    for (const album of albums) {
+      const id = await this.addAlbum(album);
+      album.id = id;
+
+      this._albumsMap.set(album.key, album);
+    }
+  }
+
+  public async processTracks(tracks: Track[]) {
+    this._tracks = tracks;
+
+    for (const track of tracks) {
+      const id = await this.addTrack(track);
+      track.id = id;
+
+      const album = this._albumsMap.get(track.key);
+
+      if (album) {
+        await this.linkAlbumWithTrack(album, track);
+      }
+
+      for (const trackArtist of track.artists) {
+        const artist = this._artistsMap.get(trackArtist);
+
+        if (artist) {
+          await this.linkArtistWithTrack(artist, track);
+        }
+      }
+
+      for (const trackGenre of track.genres) {
+        const genre = this._genresMap.get(trackGenre);
+
+        if (genre) {
+          await this.linkGenreWithTrack(genre, track);
+        }
+      }
+
+      for (const cover of this._covers) {
+        if (cover.file.startsWith(track.path)) {
+          await this.linkCoverWithTrack(cover, track);
+        }
+      }
+    }
+  }
+
+  public async processAlbumsMetaData() {
+    let rows = await this.getAlbumsArtists();
+
+    for (const row of rows) {
+      await this.linkArtistWithAlbum(row['artist_id'], row['album_id']);
+    }
+
+    rows = await this.getAlbumsCovers();
+
+    for (const row of rows) {
+      await this.linkCoverWithAlbum(row['cover_id'], row['album_id']);
+    }
+
+    rows = await this.getAlbumsGenres();
+
+    for (const row of rows) {
+      await this.linkGenreWithAlbum(row['genre_id'], row['album_id']);
+    }
+  }
+
+  private async addTrack(track: Track): Promise<number> {
     return this.insert(INSERT_TRACK, [track.path, track.fileName, track.title, track.track, track.disk, track.start, track.duration, track.codec, track.created_at.toISOString(), track.modified_at.toISOString()]);
   }
 
-  public async addCover(cover: Cover): Promise<number> {
+  private async addCover(cover: Cover): Promise<number> {
     return this.insert(INSERT_COVER, [cover.file]);
   }
 
-  public async addAlbum(album: Album): Promise<number> {
+  private async addAlbum(album: Album): Promise<number> {
     return this.insert(INSERT_ALBUM, [album.name, album.year]);
   }
 
-  public async addGenre(genre: Genre): Promise<number> {
+  private async addGenre(genre: Genre): Promise<number> {
     return this.insert(INSERT_GENRE, [genre.name]);
   }
 
-  public async addArtist(artist: Artist): Promise<number> {
+  private async addArtist(artist: Artist): Promise<number> {
     return this.insert(INSERT_ARTIST, [artist.name]);
   }
 
-  public async linkAlbumWithTrack(album: Album, track: Track) {
+  private async linkAlbumWithTrack(album: Album, track: Track) {
     this.insert(INSERT_ALBUMS_TRACKS, [album.id, track.id]);
   }
 
-  public async linkArtistWithTrack(artist: Artist, track: Track) {
+  private async linkArtistWithTrack(artist: Artist, track: Track) {
     this.insert(INSERT_ARTISTS_TRACKS, [artist.id, track.id]);
   }
 
-  public async linkGenreWithTrack(genre: Genre, track: Track) {
+  private async linkGenreWithTrack(genre: Genre, track: Track) {
     this.insert(INSERT_GENRES_TRACKS, [genre.id, track.id]);
   }
 
-  public async linkCoverWithTrack(cover: Cover, track: Track) {
+  private async linkCoverWithTrack(cover: Cover, track: Track) {
     this.insert(INSERT_COVERS_TRACKS, [cover.id, track.id]);
   }
 
-  public async linkArtistWithAlbum(artistId: number, albumId: number) {
+  private async linkArtistWithAlbum(artistId: number, albumId: number) {
     this.insert(INSERT_ARTISTS_ALBUMS, [artistId, albumId]);
   }
 
-  public async linkCoverWithAlbum(coverId: number, albumId: number) {
+  private async linkCoverWithAlbum(coverId: number, albumId: number) {
     this.insert(INSERT_COVERS_ALBUMS, [coverId, albumId]);
   }
 
-  public async linkGenreWithAlbum(genreId: number, albumId: number) {
+  private async linkGenreWithAlbum(genreId: number, albumId: number) {
     this.insert(INSERT_GENRES_ALBUMS, [genreId, albumId]);
   }
 
-  public async getAlbumsArtists(): Promise<any[]> {
+  private async getAlbumsArtists(): Promise<any[]> {
     return this.select(SELECT_ALBUMS_ALRTISTS);
   }
 
-  public async getAlbumsCovers(): Promise<any[]> {
+  private async getAlbumsCovers(): Promise<any[]> {
     return this.select(SELECT_ALBUMS_COVERS);
   }
 
-  public async getAlbumsGenres(): Promise<any[]> {
+  private async getAlbumsGenres(): Promise<any[]> {
     return this.select(SELECT_ALBUMS_GENRES);
   }
 
   private async exec(query: string): Promise<void> {
     return new Promise((resolve) => {
-      this.db.exec(query, (error: Error | null) => {
+      this._db.exec(query, (error: Error | null) => {
         if (error) {
           throw new DatabaseException(error.message);
         }
@@ -156,7 +263,7 @@ export class Database {
 
   private insert(query: string, params: any[]): Promise<number> {
     return new Promise((resolve) => {
-      this.db.run(query, params, function(error: Error | null) {
+      this._db.run(query, params, function(error: Error | null) {
         if (error) {
           throw new DatabaseException(error.message);
         }
@@ -168,7 +275,7 @@ export class Database {
 
   private select(query: string): Promise<any[]> {
     return new Promise((resolve) => {
-      this.db.all(query, function(error: Error | null, rows: any[]) {
+      this._db.all(query, function(error: Error | null, rows: any[]) {
         if (error) {
           throw new DatabaseException(error.message);
         }
@@ -179,6 +286,6 @@ export class Database {
   }
 
   public close() {
-    this.db.close();
+    this._db.close();
   }
 }
