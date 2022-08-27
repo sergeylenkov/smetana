@@ -363,6 +363,41 @@ export class Scanner {
       }
     });
 
+    const tracksByKey = new Map<string, Track[]>();
+
+    result.forEach(track => {
+      const group = tracksByKey.get(track.key) || [];
+      group.push(track);
+
+      tracksByKey.set(track.key, group);
+    })
+
+    for (const key of tracksByKey.keys()) {
+      const tracks = tracksByKey.get(key) || [];
+
+      const totalDurationTrack = tracks.filter((track) => track.duration > 0);
+
+      if (totalDurationTrack.length === 1) {
+        const totalDuration = totalDurationTrack[0].duration;
+
+        const lastTrack = tracks[tracks.length - 1];
+
+        if (lastTrack.duration === 0) {
+          lastTrack.duration = totalDuration - lastTrack.start;
+        }
+
+        for (let i = 0; i < tracks.length - 1; i++) {
+          const track = tracks[i];
+          const nextTrack = tracks[i + 1];
+
+          if (track.duration === 0) {
+            track.duration = nextTrack.start - track.start;
+          }
+        }
+
+      }
+    }
+
     return result;
   }
 
