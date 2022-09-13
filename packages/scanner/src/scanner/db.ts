@@ -41,8 +41,8 @@ const INSERT_ALBUMS_TRACKS = 'INSERT INTO albums_tracks (album_id, track_id) VAL
 const INSERT_ARTISTS_TRACKS = 'INSERT INTO artists_tracks (artist_id, track_id) VALUES (?, ?)';
 const INSERT_GENRES_TRACKS = 'INSERT INTO genres_tracks (genre_id, track_id) VALUES (?, ?)';
 const INSERT_COVERS_TRACKS = 'INSERT INTO covers_tracks (cover_id, track_id) VALUES (?, ?)';
-const INSERT_COVERS_ALBUMS = 'INSERT INTO artists_albums (artist_id, album_id) VALUES (?, ?)';
-const INSERT_ARTISTS_ALBUMS = 'INSERT INTO covers_albums (cover_id, album_id) VALUES (?, ?)';
+const INSERT_ARTISTS_ALBUMS = 'INSERT INTO artists_albums (artist_id, album_id) VALUES (?, ?)';
+const INSERT_COVERS_ALBUMS = 'INSERT INTO covers_albums (cover_id, album_id) VALUES (?, ?)';
 const INSERT_GENRES_ALBUMS = 'INSERT INTO genres_albums (genre_id, album_id) VALUES (?, ?)';
 
 const SELECT_ALBUMS_ALRTISTS = 'SELECT alt.album_id, art.artist_id FROM tracks t, artists_tracks art, albums_tracks alt WHERE art.track_id = t.id AND alt.track_id = t.id GROUP BY alt.album_id, art.artist_id';

@@ -39,7 +39,7 @@ export class Scanner {
   public get albums(): Album[] {
     const result: Album[] = [];
 
-    for (const [key, value] of this._albums) {
+    for (const [, value] of this._albums) {
       result.push(value);
     }
 

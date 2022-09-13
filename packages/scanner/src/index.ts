@@ -5,7 +5,7 @@ import { Database } from './scanner/db';
 
 async function scan(path: string, dbPath: string) {
   try {
-    const startTime = Date.now();
+    let startTime = Date.now();
 
     const scanner = new Scanner();
     await scanner.scan(path);
@@ -16,7 +16,7 @@ async function scan(path: string, dbPath: string) {
     const genres = scanner.genres;
     const artists = scanner.artists;
 
-    const endTime = Date.now();
+    let endTime = Date.now();
 
     console.log(`Parsing finished in ${Colors.FgYellow}${(endTime - startTime) / 1000}s${Colors.Reset}`)
     console.log(`Total tracks found: ${Colors.FgYellow}${tracks.length}${Colors.Reset}`);
@@ -26,6 +26,8 @@ async function scan(path: string, dbPath: string) {
     console.log(`Total covers found: ${Colors.FgYellow}${covers.length}${Colors.Reset}`);
 
     console.log(`Writing database ${Colors.FgYellow}${dbPath}${Colors.Reset}`);
+
+    startTime = Date.now();
 
     const db = new Database(dbPath);
 
@@ -48,10 +50,13 @@ async function scan(path: string, dbPath: string) {
     await db.processTracks(tracks);
 
     console.log(`Processing ${Colors.FgYellow}albums metadata${Colors.Reset}`);
+    await db.processAlbumsMetaData();
 
     db.close();
 
-    console.log(`All data written to database`);
+    endTime = Date.now();
+
+    console.log(`All data written to database in ${(endTime - startTime) / 1000}s`);
   } catch (error) {
     console.log(`${Colors.FgRed}${error}${Colors.Reset}`);
   }
