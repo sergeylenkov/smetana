@@ -14,11 +14,20 @@ export class AlbumsService {
     return this.albumsRepository.find({
       relations: {
         artists: true,
+        genres: true,
+        covers: true,
       },
     });
   }
 
   findById(id: number): Promise<Album> {
-    return this.albumsRepository.findOneBy({ id });
+    return this.albumsRepository.findOne({
+      where: { id: id },
+      relations: {
+        artists: true,
+        genres: true,
+        covers: true,
+      },
+    });
   }
 }

@@ -1,4 +1,3 @@
-import { Artist } from '../artists/artist.entity';
 import {
   Entity,
   Column,
@@ -6,6 +5,9 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import { Artist } from '../artists/artist.entity';
+import { Genre } from '../genres/genre.entity';
+import { Cover } from '../cover/cover.entity';
 
 @Entity({ name: 'albums', synchronize: false })
 export class Album {
@@ -29,4 +31,28 @@ export class Album {
     },
   })
   artists: Artist[];
+
+  @ManyToMany(() => Genre)
+  @JoinTable({
+    name: 'genres_albums',
+    joinColumn: {
+      name: 'album_id',
+    },
+    inverseJoinColumn: {
+      name: 'genre_id',
+    },
+  })
+  genres: Genre[];
+
+  @ManyToMany(() => Cover)
+  @JoinTable({
+    name: 'covers_albums',
+    joinColumn: {
+      name: 'album_id',
+    },
+    inverseJoinColumn: {
+      name: 'cover_id',
+    },
+  })
+  covers: Cover[];
 }
