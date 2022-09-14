@@ -1,0 +1,40 @@
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+}
+
+input {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+* {
+  box-sizing: border-box;
+}
