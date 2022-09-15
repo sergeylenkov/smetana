@@ -18,6 +18,6 @@ export class AlbumsController {
 
   @Get(':id/tracks')
   getTracks(@Param('id') id): Promise<Album> {
-    return this.albumsService.getTracks(id);
+    return this.albumsService.getWithTracks(id);
   }
 }

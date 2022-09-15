@@ -6,14 +6,14 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlbumsListComponent } from './albums-list/albums-list.component';
-import { AlbumItemComponent } from './album-item/album-item.component';
+import { AlbumCardComponent } from './album-card/album-card.component';
 import { AlbumDetailsComponent } from './album-details/album-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumsListComponent,
-    AlbumItemComponent,
+    AlbumCardComponent,
     AlbumDetailsComponent
   ],
   imports: [

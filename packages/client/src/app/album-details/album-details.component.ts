@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { AlbumsService } from '../albums.service';
 import { Album } from '../dto/album';
 
@@ -14,11 +14,27 @@ export class AlbumDetailsComponent implements OnInit {
   constructor(private service: AlbumsService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getTracks();
+    const id = this.route.snapshot.params['id'];
+    this.getTracks(id);
   }
 
-  async getTracks() {
-    const id = this.route.snapshot.params['id'];
+  async getTracks(id: number) {
     this.album = await this.service.getTracks(id);
+  }
+
+  playTrack(id: number) {
+    const track = this.album?.tracks.find((item) => {
+      return item.id === id;
+    })
+
+    if (track) {
+      const myAudio = document.createElement('audio');
+
+      if (myAudio.canPlayType('audio/mpeg')) {
+        myAudio.setAttribute('src', track.url);
+      }
+
+      myAudio.play();
+    }
   }
 }

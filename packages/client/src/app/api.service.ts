@@ -20,7 +20,7 @@ export class API {
     return [];
   }
 
-  @Get('album/:id')
+  @Get('albums/:id/tracks')
   public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
     if (response) {
       return JsonSerializer.Deserialize<Album>(Album, response);

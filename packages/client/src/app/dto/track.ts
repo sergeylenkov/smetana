@@ -1,4 +1,5 @@
 import { JsonProperty } from '@serglenkov/json-serializer';
+import { environment } from 'src/environments/environment';
 
 export class Track {
   @JsonProperty()
@@ -21,4 +22,8 @@ export class Track {
 
   @JsonProperty()
   track: number = 0;
+
+  get url(): string {
+    return `${environment.apiUrl}/tracks/${this.id}/file`;
+  }
 }
