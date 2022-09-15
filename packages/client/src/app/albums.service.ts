@@ -11,4 +11,8 @@ export class AlbumsService {
   public async getAlbums(): Promise<Album[]> {
     return this.api.getAlbums();
   }
+
+  public async getTracks(id: number): Promise<Album | undefined> {
+    return this.api.getTracks(id);
+  }
 }

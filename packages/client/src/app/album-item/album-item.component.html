@@ -1,1 +1,12 @@
-<p>album-item works!</p>
+<div class="album-card">
+  <div class="album-card__cover">
+    <a [routerLink]="['/album', album!.id]">
+      <img class="album-card__image" src="{{album!.getCoverUrl()}}" *ngIf="album?.getCoverUrl() != undefined" />
+      <svg-icon class="album-card__placeholder" src="assets/album.svg" *ngIf="album?.getCoverUrl() == undefined"></svg-icon>
+    </a>
+  </div>
+  <div class="album-card__bottom">
+    <a class="album-card__title" [routerLink]="['/album', album!.id]">{{album!.name}}</a>
+    <a class="album-card__artist" *ngFor="let artist of album!.artists" [routerLink]="['/artist', artist!.id]">{{artist.name}}</a>
+  </div>
+</div>

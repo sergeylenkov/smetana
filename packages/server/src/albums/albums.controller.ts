@@ -12,7 +12,12 @@ export class AlbumsController {
   }
 
   @Get(':id')
-  getById(@Param() params): Promise<Album> {
-    return this.albumsService.findById(params.id);
+  getById(@Param('id') id): Promise<Album> {
+    return this.albumsService.findById(id);
+  }
+
+  @Get(':id/tracks')
+  getTracks(@Param('id') id): Promise<Album> {
+    return this.albumsService.getTracks(id);
   }
 }

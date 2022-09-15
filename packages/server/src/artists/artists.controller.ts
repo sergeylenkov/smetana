@@ -12,7 +12,7 @@ export class ArtistsController {
   }
 
   @Get(':id')
-  getById(@Param() params): Promise<Artist> {
-    return this.artistsService.findById(params.id);
+  getById(@Param('id') id): Promise<Artist> {
+    return this.artistsService.findById(id);
   }
 }

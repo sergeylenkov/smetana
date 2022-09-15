@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlbumsService } from '../albums.service';
 import { Album } from '../dto/album';
 
@@ -9,7 +9,7 @@ import { Album } from '../dto/album';
   providers:  [ AlbumsService ]
 })
 export class AlbumsListComponent implements OnInit {
-  public albums: Album[] = [];
+  albums: Album[] = [];
 
   constructor(private service: AlbumsService) { }
 

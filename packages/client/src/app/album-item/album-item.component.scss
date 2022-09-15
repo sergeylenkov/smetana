@@ -1,0 +1,62 @@
+@import '../../styles/mixins.scss';
+
+.album-card {
+  @include flex-column;
+
+  width: 300px;
+}
+
+.album-card__cover {
+  @include flex-row-center;
+
+  width: 300px;
+  height: 300px;
+
+  border: 1px solid var(--card-border-color);
+  border-radius: 4px;
+
+  background-color: var(----card-background);
+  overflow: hidden;
+}
+
+.album-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.album-card__placeholder {
+  color: var(--card-placeholder-color);
+
+  & > svg {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+.album-card__bottom {
+  @include flex-column;
+  margin-top: 10px;
+}
+
+.album-card__title {
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--main-text-color);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.album-card__artist {
+  margin-top: 5px;
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--secondary-text-color);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -8,6 +8,7 @@ import {
 import { Artist } from '../artists/artist.entity';
 import { Genre } from '../genres/genre.entity';
 import { Cover } from '../cover/cover.entity';
+import { Track } from '../tracks/track.entity';
 
 @Entity({ name: 'albums', synchronize: false })
 export class Album {
@@ -55,4 +56,16 @@ export class Album {
     },
   })
   covers: Cover[];
+
+  @ManyToMany(() => Track)
+  @JoinTable({
+    name: 'albums_tracks',
+    joinColumn: {
+      name: 'album_id',
+    },
+    inverseJoinColumn: {
+      name: 'track_id',
+    },
+  })
+  tracks: Track[];
 }

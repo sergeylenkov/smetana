@@ -1,5 +1,3 @@
 <div class="albums-list">
-  <div *ngFor="let album of albums">
-    <div class="title">{{album.name}}</div>
-  </div>
+  <app-album-item *ngFor="let album of albums" [album]="album"></app-album-item>
 </div>

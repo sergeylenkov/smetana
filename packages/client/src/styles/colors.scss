@@ -1,28 +1,8 @@
 :root {
   --background: rgb(255, 255, 255);
-  --header-background: rgb(255, 255, 255);
-  --header-shadow: 1px 1px 3px 1px rgba(240, 240, 240, 0.8);
-  --header-divider: rgb(205, 208, 213);
-  --content-background: rgb(244, 244, 244);
-  --main-text-color: rgb(58, 62 ,74);
-  --menu-background: rgb(255, 255, 255);
-  --menu-shadow: 1px 0px 6px 1px rgba(240, 240, 240, 0.8);
-  --menu-text-color: rgb(58, 62 ,74);
-  --menu-text-color-active: rgb(231, 28, 47);
-  --action-button-background: rgb(13, 105, 242);
-  --action-button-text: rgb(255, 255, 255);
-  --action-button-hover: rgb(10, 84, 194);
-  --action-button-disabled: rgb(196, 202, 212);
-  --action-button-active: rgb(9, 73, 170);
-  --form-shadow: rgb(138 150 168 / 40%) 0px 4px 16px, rgb(138 150 168 / 8%) 0px 0px 6px;
-  --from-input-border: rgb(138, 150, 168);
-  --from-input-border-focus: rgb(9, 73, 170);
-  --card-background: rgb(255,255,255);
-  --card-border: rgb(244, 243, 248);
-  --card-shadow: rgb(138 150 168 / 40%) 0px 4px 16px, rgb(138 150 168 / 8%) 0px 0px 6px;
-  --card-title-color: rgb(163, 163, 163);
-  --card-main-color: rgb(69, 72, 79);
-  --card-type-color: rgb(255,255,255);
-  --card-type-background: rgb(69, 72, 79);
-  --card-type-deposit-background: rgb(51, 116, 18);
+  --main-text-color: rgb(34, 34, 34);
+  --secondary-text-color: rgb(119, 119, 119);
+  --card-placeholder-color: rgb(59, 59, 59);
+  --card-border-color: rgb(245,245,245);
+  --card-background: rgb(242,242,242);
 }

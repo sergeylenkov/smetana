@@ -20,6 +20,7 @@
     "@angular/router": "~13.1.0",
     "@serglenkov/http-client": "^0.1.4",
     "@serglenkov/json-serializer": "^0.1.2",
+    "angular-svg-icon": "^13.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

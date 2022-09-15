@@ -1,0 +1,10 @@
+@import '../../styles/mixins.scss';
+
+.albums-list {
+  @include grid;
+
+  padding: 0 24px;
+  width: 100%;
+  grid-gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+}

@@ -1,0 +1,5 @@
+@import '../../styles/mixins.scss';
+
+.tracks-list {
+  @include flex-column;
+}

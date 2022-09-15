@@ -11,4 +11,9 @@
 @mixin flex-row-center {
   @include flex-row;
   align-items: center;
+  justify-content: center;
+}
+
+@mixin grid {
+  display: grid;
 }

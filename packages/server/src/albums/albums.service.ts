@@ -30,4 +30,13 @@ export class AlbumsService {
       },
     });
   }
+
+  getTracks(id: number): Promise<Album> {
+    return this.albumsRepository.findOne({
+      where: { id: id },
+      relations: {
+        tracks: true,
+      },
+    });
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Get, Http, HttpResponseType, JSONObject, Response } from '@serglenkov/http-client';
+import { Get, Http, HttpResponseType, JSONObject, Param, Response } from '@serglenkov/http-client';
 import { JsonSerializer } from '@serglenkov/json-serializer';
 import { environment } from '../environments/environment';
 import { Album } from './dto/album';
@@ -18,5 +18,14 @@ export class API {
     }
 
     return [];
+  }
+
+  @Get('album/:id')
+  public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
+    if (response) {
+      return JsonSerializer.Deserialize<Album>(Album, response);
+    }
+
+    return undefined;
   }
 }

@@ -12,7 +12,7 @@ export class GenresController {
   }
 
   @Get(':id')
-  getById(@Param() params): Promise<Genre> {
-    return this.genresService.findById(params.id);
+  getById(@Param('id') id): Promise<Genre> {
+    return this.genresService.findById(id);
   }
 }
