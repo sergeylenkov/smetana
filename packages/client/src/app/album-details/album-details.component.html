@@ -7,12 +7,15 @@
   </div>
   <div class="tracks-list">
     <div class="track-item" *ngFor="let track of album!.tracks">
-      <button class="play-button" (click)="playTrack(track.id)">
+      <button class="play-button" (click)="playTrack(track.id)" *ngIf="!currentTrack || currentTrack.id !== track.id">
         <svg-icon class="play-button__icon" src="assets/play.svg"></svg-icon>
+      </button>
+      <button class="play-button play-button_active" (click)="stopTrack()" *ngIf="currentTrack && currentTrack.id === track.id">
+        <svg-icon class="play-button__icon" src="assets/pause.svg"></svg-icon>
       </button>
       <div class="track-item__index">{{track.track}}</div>
       <div class="track-item__title">{{track.title}}</div>
-      <div class="track-item__duration">{{track.duration}}</div>
+      <div class="track-item__duration"><app-time [time]="track.duration"></app-time></div>
     </div>
   </div>
 </div>
