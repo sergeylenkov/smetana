@@ -3,16 +3,16 @@
 .albums-list {
   @include grid;
 
-  padding: 0 24px;
+  padding: 24px;
   width: 100%;
   grid-gap: 15px;
   grid-template-columns: repeat(5, 1fr);
 
-  @media (min-width: 1200px) {
+  @media (min-width: 2000px) {
     grid-template-columns: repeat(6, 1fr);
   }
 
-  @media (min-width: 1600px) {
-    grid-template-columns: repeat(8, 1fr);
+  @media (min-width: 2400px) {
+    grid-template-columns: repeat(7, 1fr);
   }
 }

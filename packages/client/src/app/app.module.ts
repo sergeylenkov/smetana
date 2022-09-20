@@ -8,13 +8,17 @@ import { AppComponent } from './app.component';
 import { AlbumsListComponent } from './albums-list/albums-list.component';
 import { AlbumCardComponent } from './album-card/album-card.component';
 import { AlbumDetailsComponent } from './album-details/album-details.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { TimeComponent } from './time/time.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumsListComponent,
     AlbumCardComponent,
-    AlbumDetailsComponent
+    AlbumDetailsComponent,
+    NavigationComponent,
+    TimeComponent
   ],
   imports: [
     BrowserModule,
