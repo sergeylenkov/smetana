@@ -3,7 +3,13 @@
 .album-card {
   @include flex-column;
 
-  width: 300px;
+  width: 312px;
+  padding: 6px;
+
+  border: 1px solid var(--card-border-color);
+  border-radius: 4px;
+
+  background-color: var(--card-background);
 }
 
 .album-card__cover {
@@ -13,9 +19,8 @@
   height: 300px;
 
   border: 1px solid var(--card-border-color);
-  border-radius: 4px;
+  border-radius: 2px;
 
-  background-color: var(----card-background);
   overflow: hidden;
 }
 

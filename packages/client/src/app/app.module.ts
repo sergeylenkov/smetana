@@ -10,6 +10,7 @@ import { AlbumCardComponent } from './album-card/album-card.component';
 import { AlbumDetailsComponent } from './album-details/album-details.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { TimeComponent } from './time/time.component';
+import { PlayerComponent } from './player/player.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TimeComponent } from './time/time.component';
     AlbumCardComponent,
     AlbumDetailsComponent,
     NavigationComponent,
-    TimeComponent
+    TimeComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

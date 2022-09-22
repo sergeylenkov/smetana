@@ -15,18 +15,28 @@ export class AlbumDetailsComponent implements OnInit {
   public currentTrack?: Track;
 
   constructor(private service: AlbumsService, private route: ActivatedRoute, private player: PlayerService) {
-    player.onTrackEnded.subscribe(() => {
-      this.playNext();
-    })
+    player.onTrackStart.subscribe((track: Track) => {
+      this.currentTrack = player.track;
+      this.album = player.album;
+    });
+
+    player.onStop.subscribe(() => {
+      this.currentTrack = player.track;
+      this.album = player.album;
+    });
   }
 
   ngOnInit(): void {
+    this.currentTrack = this.player.track;
+    this.album = this.player.album;
+
     const id = this.route.snapshot.params['id'];
     this.getTracks(id);
   }
 
   private async getTracks(id: number) {
     this.album = await this.service.getTracks(id);
+    this.player.album = this.album;
   }
 
   public playTrack(id: number) {
@@ -35,28 +45,11 @@ export class AlbumDetailsComponent implements OnInit {
     })
 
     if (track) {
-      this.currentTrack = track;
-
-      this.player.setVolume(0.2);
       this.player.playTrack(track);
     }
   }
 
   public stopTrack() {
-    this.currentTrack = undefined;
     this.player.stop();
-  }
-
-  private playNext() {
-    if (this.album && this.album.tracks && this.currentTrack) {
-      let index = this.album?.tracks.indexOf(this.currentTrack);
-
-      if (index !== -1 && index < this.album.tracks.length - 1) {
-        index = index + 1;
-        const nextTrack = this.album.tracks[index];
-
-        this.playTrack(nextTrack.id);
-      }
-    }
   }
 }

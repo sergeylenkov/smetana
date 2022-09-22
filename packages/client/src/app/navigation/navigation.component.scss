@@ -9,6 +9,11 @@
   justify-content: flex-start;
   border-bottom: 1px solid var(--nav-divider-color);
 
+  &__header {
+    font-size: 22px;
+    padding-bottom: 5px;
+  }
+
   &__list {
     @include flex-row-center-vertical;
     height: 100%;
@@ -51,6 +56,12 @@
     }
 
     &:hover {
+      &::after {
+        transform: translateY(0);
+      }
+    }
+
+    &_active {
       &::after {
         transform: translateY(0);
       }
