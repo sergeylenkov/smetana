@@ -4,7 +4,7 @@
     <svg-icon class="player__placeholder" src="assets/album.svg" *ngIf="album?.getCoverUrl() == undefined"></svg-icon>
   </div>
   <div class="player__title">
-    <div class="player__album"*ngIf="album">{{album.name}}</div>
     <div class="player__track">{{track.title}}</div>
+    <div class="player__album" *ngIf="album">{{album.name}}</div>
   </div>
 </div>

@@ -30,6 +30,13 @@ const CLEAR_ALBUMS = 'DELETE from albums';
 const CLEAR_ARTISTS = 'DELETE from artists';
 const CLEAR_GENRES = 'DELETE from genres';
 const CLEAR_COVERS = 'DELETE from covers';
+const CLEAR_COVERS_TRACKS = 'DELETE from covers_tracks';
+const CLEAR_COVERS_ALBUMS = 'DELETE from covers_albums';
+const CLEAR_ALBUMS_TRACKS = 'DELETE from albums_tracks';
+const CLEAR_ARTISTS_TRACKS = 'DELETE from artists_tracks';
+const CLEAR_GENRES_TRACKS = 'DELETE from genres_tracks';
+const CLEAR_GENRES_ALBUMS = 'DELETE from genres_albums';
+const CLEAR_ARTISTS_ALBUM = 'DELETE from artists_albums';
 
 const INSERT_TRACK = 'INSERT INTO tracks (path, file_name, title, track, disk, start, duration, codec, created_at, modified_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const INSERT_ALBUM = 'INSERT INTO albums (name, year) VALUES (?, ?)';
@@ -56,10 +63,6 @@ export class Database {
   private _artistsMap: Map<string, Artist> = new Map();
   private _albumsMap: Map<string, Album> = new Map();
   private _genresMap: Map<string, Genre> = new Map();
-  private _tracks: Track[] = [];
-  private _albums: Album[] = [];
-  private _artists: Artist[] = [];
-  private _genres: Genre[] = [];
   private _covers: Cover[] = [];
 
   constructor(path: string) {
@@ -79,7 +82,6 @@ export class Database {
     await this.exec(CREATE_ARTISTS_TRACKS);
     await this.exec(CREATE_ARTISTS_ALBUMS);
     await this.exec(CREATE_GENRES_TRACKS);
-    await this.exec(CREATE_GENRES_ALBUMS);
   }
 
   public async clear() {
@@ -88,11 +90,16 @@ export class Database {
     await this.exec(CLEAR_ARTISTS);
     await this.exec(CLEAR_GENRES);
     await this.exec(CLEAR_COVERS);
+    await this.exec(CLEAR_COVERS_TRACKS);
+    await this.exec(CLEAR_COVERS_ALBUMS);
+    await this.exec(CLEAR_ALBUMS_TRACKS);
+    await this.exec(CLEAR_ARTISTS_TRACKS);
+    await this.exec(CLEAR_GENRES_ALBUMS);
+    await this.exec(CLEAR_ARTISTS_ALBUM);
+    await this.exec(CLEAR_GENRES_TRACKS);
   }
 
   public async processArtists(artists: Artist[]) {
-    this._artists = artists;
-
     for (const artist of artists) {
       const id = await this.addArtist(artist);
       artist.id = id;
@@ -102,8 +109,6 @@ export class Database {
   }
 
   public async processGenres(genres: Genre[]) {
-    this._genres = genres;
-
     for (const genre of genres) {
       const id = await this.addGenre(genre);
       genre.id = id;
@@ -122,8 +127,6 @@ export class Database {
   }
 
   public async processAlbums(albums: Album[]) {
-    this._albums = albums;
-
     for (const album of albums) {
       const id = await this.addAlbum(album);
       album.id = id;
@@ -133,8 +136,6 @@ export class Database {
   }
 
   public async processTracks(tracks: Track[]) {
-    this._tracks = tracks;
-
     for (const track of tracks) {
       const id = await this.addTrack(track);
       track.id = id;

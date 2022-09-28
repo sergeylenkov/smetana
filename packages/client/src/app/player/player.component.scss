@@ -12,12 +12,12 @@
     @include flex-column;
   }
 
-  &__album {
+  &__track {
     font-size: 14px;
     color: var(--main-text-color);
   }
 
-  &__track {
+  &__album {
     margin-top: 2px;
     font-size: 12px;
     color: var(--secondary-text-color);

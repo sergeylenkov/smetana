@@ -42,7 +42,7 @@ export class PlayerService {
 
   public playTrack(track: Track) {
     this.track = track;
-
+    console.log(track);
     this._audio.setAttribute('src', track.url);
     this._audio.play();
 

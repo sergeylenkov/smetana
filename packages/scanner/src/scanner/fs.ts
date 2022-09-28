@@ -31,4 +31,16 @@ export class FS {
   public static isFileExists(file: string): boolean {
     return fs.existsSync(file);
   }
+
+  public static async write(data: Buffer, file: string): Promise<void> {
+    return new Promise((resolve) => {
+      fs.writeFile(file, data, (error: Error | null) => {
+        if (error) {
+          throw new FileSystemExeption(error.message);
+        }
+
+        resolve();
+      });
+    })
+  }
 }

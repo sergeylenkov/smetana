@@ -1,7 +1,8 @@
 import { join, extname, basename } from 'path';
 import { parse } from 'cue-parser';
 import { ICueSheet } from 'cue-parser/lib/types';
-import { IAudioMetadata, parseFile } from 'music-metadata';
+import { IAudioMetadata, IPicture, parseFile } from 'music-metadata';
+import hasha from 'hasha';
 import { Colors } from '../utils/console';
 import { FS, PathStats } from './fs';
 import { Track, Artist, Album, Cover, Genre } from './models';
@@ -113,6 +114,8 @@ export class Scanner {
     try {
       const files = await FS.readDir(folder);
       const tracks: Track[] = [];
+      const coversFiles: IPicture[] = [];
+      const coversHash: Set<string> = new Set();
 
       for (const file of files) {
         if (mp3Ext.includes(extname(file))) {
@@ -120,9 +123,41 @@ export class Scanner {
           const filePath = join(folder, file);
 
           const metadata = await parseFile(filePath);
+
+          const covers = metadata.common.picture || [];
+
+          covers.forEach(cover => {
+            const hash = hasha(cover.data, { algorithm: 'md5' });
+
+            if (!coversHash.has(hash)) {
+              coversHash.add(hash);
+
+              cover.name = file;
+              coversFiles.push(cover);
+            }
+          });
+
           const track = await this.metadataToTrack(metadata, folder, file);
 
           tracks.push(track);
+        }
+
+        if (coversFiles.length === 1) {
+          const coverFile = join(folder, 'cover.png');
+
+          if (!FS.isFileExists(coverFile)) {
+            await FS.write(coversFiles[0].data, coverFile);
+            console.log(`${Colors.FgWhite}Write ${Colors.FgCyan}cover: ${Colors.FgYellow}${coverFile}${Colors.Reset}`);
+          }
+        } else {
+          for (const cover of coversFiles) {
+            const coverFile = join(folder, `${cover.name}_cover.png`);
+
+            if (!FS.isFileExists(coverFile)) {
+              await FS.write(cover.data, coverFile);
+              console.log(`${Colors.FgWhite}Write ${Colors.FgCyan}cover: ${Colors.FgYellow}${coverFile}${Colors.Reset}`);
+            }
+          }
         }
       }
 
