@@ -10,6 +10,7 @@ const CREATE_TRACKS = 'CREATE TABLE IF NOT EXISTS tracks (id INTEGER PRIMARY KEY
                                                           start INTEGER,\
                                                           duration INTEGER,\
                                                           codec TEXT,\
+                                                          multitrack INTEGER,\
                                                           created_at TEXT,\
                                                           modified_at TEXT)';
 const CREATE_ALBUMS = 'CREATE TABLE IF NOT EXISTS albums (id INTEGER PRIMARY KEY, name TEXT NOT NULL, year INTEGER)';
@@ -38,7 +39,7 @@ const CLEAR_GENRES_TRACKS = 'DELETE from genres_tracks';
 const CLEAR_GENRES_ALBUMS = 'DELETE from genres_albums';
 const CLEAR_ARTISTS_ALBUM = 'DELETE from artists_albums';
 
-const INSERT_TRACK = 'INSERT INTO tracks (path, file_name, title, track, disk, start, duration, codec, created_at, modified_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+const INSERT_TRACK = 'INSERT INTO tracks (path, file_name, title, track, disk, start, duration, codec, multitrack, created_at, modified_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const INSERT_ALBUM = 'INSERT INTO albums (name, year) VALUES (?, ?)';
 const INSERT_COVER = 'INSERT INTO covers (file) VALUES (?)';
 const INSERT_GENRE = 'INSERT INTO genres (name) VALUES (?)';
@@ -82,6 +83,7 @@ export class Database {
     await this.exec(CREATE_ARTISTS_TRACKS);
     await this.exec(CREATE_ARTISTS_ALBUMS);
     await this.exec(CREATE_GENRES_TRACKS);
+    await this.exec(CREATE_GENRES_ALBUMS);
   }
 
   public async clear() {
@@ -191,7 +193,7 @@ export class Database {
   }
 
   private async addTrack(track: Track): Promise<number> {
-    return this.insert(INSERT_TRACK, [track.path, track.fileName, track.title, track.track, track.disk, track.start, track.duration, track.codec, track.created_at.toISOString(), track.modified_at.toISOString()]);
+    return this.insert(INSERT_TRACK, [track.path, track.fileName, track.title, track.track, track.disk, track.start, track.duration, track.codec, track.multitrack, track.created_at.toISOString(), track.modified_at.toISOString()]);
   }
 
   private async addCover(cover: Cover): Promise<number> {

@@ -272,6 +272,7 @@ export class Scanner {
       start: 0,
       duration: metadata.format.duration || 0,
       codec: metadata.format.codec || '',
+      multitrack: false,
       created_at: stats.ctime,
       modified_at: stats.mtime
     }
@@ -352,6 +353,7 @@ export class Scanner {
           start: start,
           duration: 0,
           codec: '',
+          multitrack: false,
           created_at: stats.ctime,
           modified_at: stats.mtime
         }
@@ -410,6 +412,8 @@ export class Scanner {
     for (const key of tracksByKey.keys()) {
       const tracks = tracksByKey.get(key) || [];
 
+      tracks.sort((a, b) => a.track - b.track);
+
       const totalDurationTrack = tracks.filter((track) => track.duration > 0);
 
       if (totalDurationTrack.length === 1) {
@@ -429,7 +433,24 @@ export class Scanner {
             track.duration = nextTrack.start - track.start;
           }
         }
+      }
 
+      if (tracks.length > 0) {
+        const fileNames: Map<string, number> = new Map();
+
+        tracks.forEach(track => {
+          let count = fileNames.get(track.fileName);
+
+          if (count !== undefined) {
+            fileNames.set(track.fileName, count++);
+          } else {
+            fileNames.set(track.fileName, 0);
+          }
+        })
+
+        tracks.forEach(track => {
+          track.multitrack = fileNames.has(track.fileName);
+        });
       }
     }
 
@@ -460,6 +481,7 @@ export class Scanner {
       start: track1.start === 0 ? track2.start : track1.start,
       duration: track1.duration === 0 ? track2.duration : track1.duration,
       codec: track1.codec === '' ? track2.codec : track1.codec,
+      multitrack: track1.multitrack,
       created_at: track1.created_at,
       modified_at: track1.modified_at,
     };

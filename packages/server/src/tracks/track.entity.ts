@@ -22,4 +22,7 @@ export class Track {
 
   @Column()
   duration: number;
+
+  @Column({ name: 'multitrack' })
+  isMultitrack: boolean;
 }

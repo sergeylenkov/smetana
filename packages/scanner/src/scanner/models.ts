@@ -14,6 +14,7 @@ export interface Track {
   start: number;
   duration: number;
   codec: string;
+  multitrack: boolean;
   created_at: Date;
   modified_at: Date;
 }

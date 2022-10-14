@@ -9,6 +9,12 @@
   justify-content: flex-start;
   border-bottom: 1px solid var(--nav-divider-color);
 
+  &__logo {
+    width: 25px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
   &__header {
     font-size: 22px;
     padding-bottom: 5px;

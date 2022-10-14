@@ -21,6 +21,7 @@
     "@serglenkov/http-client": "^0.1.5",
     "@serglenkov/json-serializer": "^0.1.5",
     "angular-svg-icon": "^13.0.0",
+    "howler": "^2.2.3",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -29,6 +30,7 @@
     "@angular-devkit/build-angular": "~13.1.4",
     "@angular/cli": "~13.1.4",
     "@angular/compiler-cli": "~13.1.0",
+    "@types/howler": "^2.2.7",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.10.0",

@@ -23,6 +23,9 @@ export class Track {
   @JsonProperty()
   track: number = 0;
 
+  @JsonProperty()
+  isMultitrack: boolean = false;
+
   get url(): string {
     return `${environment.apiUrl}/tracks/${this.id}/file`;
   }

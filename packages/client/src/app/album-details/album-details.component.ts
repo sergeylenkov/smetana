@@ -35,8 +35,16 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   private async getTracks(id: number) {
-    this.album = await this.service.getTracks(id);
-    this.player.album = this.album;
+    const album = await this.service.getTracks(id);
+
+    if (album) {
+      album.tracks.sort((a, b) => {
+        return a.track - b.track;
+      })
+
+      this.album = album;
+      this.player.album = this.album;
+    }
   }
 
   public playTrack(id: number) {
@@ -49,7 +57,7 @@ export class AlbumDetailsComponent implements OnInit {
     }
   }
 
-  public stopTrack() {
-    this.player.stop();
+  public pauseTrack() {
+    this.player.pause();
   }
 }
