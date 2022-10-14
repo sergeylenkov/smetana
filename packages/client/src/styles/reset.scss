@@ -1,0 +1,43 @@
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+button {
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+}
+
+input {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}

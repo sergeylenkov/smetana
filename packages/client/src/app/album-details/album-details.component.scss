@@ -1,0 +1,107 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/animations.scss';
+
+.album-details {
+  @include flex-column;
+
+  padding: 24px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--main-text-color);
+  }
+
+  &__artist {
+    margin-top: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    color: var(--secondary-text-color);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__cover {
+    @include flex-row-center;
+
+    width: 300px;
+    height: 300px;
+
+    margin: 20px 0;
+
+    border: 1px solid var(--card-border-color);
+    border-radius: 4px;
+
+    background-color: var(----card-background);
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__placeholder {
+    color: var(--card-placeholder-color);
+
+    & > svg {
+      width: 250px;
+      height: 250px;
+    }
+  }
+}
+
+.tracks-list {
+  @include flex-column;
+
+  min-width: 400px;
+  max-width: 600px
+}
+
+.track-item {
+  @include flex-row;
+
+  padding: 10px 0;
+
+  &__index {
+    margin: auto 10px auto 0;
+    font-size: 15px;
+    color: var(--secondary-text-color);
+  }
+
+  &__title {
+    margin: auto 10px auto 0;
+    font-size: 15px;
+    color: var(--main-text-color);
+  }
+
+  &__duration {
+    margin: auto 0 auto auto;
+    font-size: 15px;
+    color: var(--secondary-text-color);
+  }
+}
+
+.play-button {
+  margin: auto 10px auto 0;
+  width: 20px;
+  height: 20px;
+
+  color: var(--card-placeholder-color);
+
+  cursor: pointer;
+
+  &__icon > svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &_active {
+    color: var(--active-color);
+    animation: var(--play-button-animation);
+  }
+}
