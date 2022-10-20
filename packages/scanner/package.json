@@ -7,11 +7,12 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
-    "test": "jest --config ./jest.config.js --coverage=false",
+    "test": "jest --config ./jest.config.js --coverage=false -i",
     "scan": "node ./build/index.js"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
+    "@types/minimist": "^1.2.2",
     "@types/sqlite3": "^3.1.8",
     "hasha": "^5.2.2",
     "jest": "^27.4.3",

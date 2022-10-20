@@ -68,10 +68,14 @@ export class Scanner {
       const tracksFlac = await this.parseFlac(folder);
       const tracksCue = await this.parseCue(folder);
 
-      const mergedTracks = this.mergeFlacWithCue(tracksFlac, tracksCue);
-
       this._tracks.push(...tracksMp3);
-      this._tracks.push(...mergedTracks);
+
+      if (tracksCue.length > 0 && tracksFlac.length > 0) {
+        const mergedTracks = this.mergeFlacWithCue(tracksFlac, tracksCue);
+        this._tracks.push(...mergedTracks);
+      } else {
+        this._tracks.push(...tracksFlac);
+      }
 
       if (tracksMp3.length > 0 || tracksFlac.length > 0 || tracksCue.length > 0) {
         const files = await this.searchCovers(folder);
@@ -370,89 +374,40 @@ export class Scanner {
     const tracks: Set<string> = new Set<string>();
 
     flacTracks.forEach(flacTrack => {
-      const cueTrack = cueTracks.find(track => {
-        if (track.fileName === flacTrack.fileName && track.title === flacTrack.title) {
-          return true;
-        }
+     const filtered = cueTracks.filter(cueTrack => {
+        return cueTrack.fileName === flacTrack.fileName;
+      });
 
-        return false;
-      })
+      if (filtered.length > 1) {
+        const totalDuration = flacTrack.duration;
+        filtered.sort((a, b) => a.track - b.track);
 
-      const track = this.mergeFlacWithCueTrack(flacTrack, cueTrack);
-
-      tracks.add(`${track.fileName}_${track.title}`);
-      result.push(track);
-    });
-
-    cueTracks.forEach(cueTrack => {
-      const flacTrack = flacTracks.find(track => {
-        if (track.fileName === cueTrack.fileName && track.title === cueTrack.title) {
-          return true;
-        }
-
-        return false;
-      })
-
-      const track = this.mergeFlacWithCueTrack(cueTrack, flacTrack);
-
-      if (!tracks.has(`${track.fileName}_${track.title}`)) {
-        result.push(track);
-      }
-    });
-
-    const tracksByKey = new Map<string, Track[]>();
-
-    result.forEach(track => {
-      const group = tracksByKey.get(track.key) || [];
-      group.push(track);
-
-      tracksByKey.set(track.key, group);
-    })
-
-    for (const key of tracksByKey.keys()) {
-      const tracks = tracksByKey.get(key) || [];
-
-      tracks.sort((a, b) => a.track - b.track);
-
-      const totalDurationTrack = tracks.filter((track) => track.duration > 0);
-
-      if (totalDurationTrack.length === 1) {
-        const totalDuration = totalDurationTrack[0].duration;
-
-        const lastTrack = tracks[tracks.length - 1];
-
-        if (lastTrack.duration === 0) {
-          lastTrack.duration = totalDuration - lastTrack.start;
-        }
-
-        for (let i = 0; i < tracks.length - 1; i++) {
-          const track = tracks[i];
-          const nextTrack = tracks[i + 1];
+        for (let i = 0; i < filtered.length - 1; i++) {
+          const track = filtered[i];
+          const nextTrack = filtered[i + 1];
 
           if (track.duration === 0) {
             track.duration = nextTrack.start - track.start;
           }
         }
-      }
 
-      if (tracks.length > 0) {
-        const fileNames: Map<string, number> = new Map();
+        const lastTrack = filtered[filtered.length - 1];
+        lastTrack.duration = totalDuration - lastTrack.start;
 
-        tracks.forEach(track => {
-          let count = fileNames.get(track.fileName);
+        filtered.forEach(cueTrack => {
+          const track = this.mergeFlacWithCueTrack(cueTrack, flacTrack);
+          track.multitrack = true;
 
-          if (count !== undefined) {
-            fileNames.set(track.fileName, count++);
-          } else {
-            fileNames.set(track.fileName, 0);
-          }
-        })
-
-        tracks.forEach(track => {
-          track.multitrack = fileNames.has(track.fileName);
+          tracks.add(`${track.fileName}_${track.title}`);
+          result.push(track);
         });
+      } else {
+        const track = this.mergeFlacWithCueTrack(flacTrack, filtered[0]);
+
+        tracks.add(`${track.fileName}_${track.title}`);
+        result.push(track);
       }
-    }
+    });
 
     return result;
   }

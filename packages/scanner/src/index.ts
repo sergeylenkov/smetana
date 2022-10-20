@@ -1,4 +1,4 @@
-const parseArgs = require('minimist');
+import parseArgs from 'minimist';
 import { Colors } from './utils/console';
 import { Scanner } from './scanner';
 import { Database } from './scanner/db';
