@@ -5,12 +5,12 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AlbumsListComponent } from './albums-list/albums-list.component';
-import { AlbumCardComponent } from './album-card/album-card.component';
-import { AlbumDetailsComponent } from './album-details/album-details.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { TimeComponent } from './time/time.component';
-import { PlayerComponent } from './player/player.component';
+import { AlbumsListComponent } from './components/albums-list/albums-list.component';
+import { AlbumCardComponent } from './components/album-card/album-card.component';
+import { AlbumDetailsComponent } from './components/album-details/album-details.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { TimeComponent } from './components/time/time.component';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
   declarations: [

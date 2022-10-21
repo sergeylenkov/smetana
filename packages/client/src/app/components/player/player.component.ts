@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Album } from '../dto/album';
-import { Track } from '../dto/track';
-import { PlayerService } from '../player.service';
+import { Album } from '../../dto/album';
+import { Track } from '../../dto/track';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-player',

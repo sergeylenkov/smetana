@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { API } from './api.service';
-import { Album } from './dto/album';
+import { Album } from '../dto/album';
 
 @Injectable({
   providedIn: 'root',

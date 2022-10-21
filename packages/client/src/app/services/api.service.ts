@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Get, Http, HttpResponseType, JSONObject, Param, Response } from '@serglenkov/http-client';
+import { Get, Http, HttpResponseType, JSONObject, Param, Query, Response } from '@serglenkov/http-client';
 import { JsonSerializer } from '@serglenkov/json-serializer';
-import { environment } from '../environments/environment';
-import { Album } from './dto/album';
+import { environment } from '../../environments/environment';
+import { Album } from '../dto/album';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +27,24 @@ export class API {
     }
 
     return undefined;
+  }
+
+  @Get('player/track/:id/play')
+  public async playTrack(@Param('id') id: number): Promise<number> {
+    return id;
+  }
+
+  @Get('player/track/:id/stop')
+  public async stopTrack(@Param('id') id: number): Promise<number> {
+    return id;
+  }
+
+  @Get('player/track/:id/pause')
+  public async pauseTrack(@Param('id') id: number): Promise<number> {
+    return id;
+  }
+
+  @Get('player/volume')
+  public async volume(@Query() query?: JSONObject | string): Promise<void> {
   }
 }

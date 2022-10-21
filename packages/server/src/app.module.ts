@@ -12,6 +12,7 @@ import { Cover } from './cover/cover.entity';
 import { CoversModule } from './cover/covers.module';
 import { Track } from './tracks/track.entity';
 import { TracksModule } from './tracks/tracks.module';
+import { PlayerModule } from './player/player.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TracksModule } from './tracks/tracks.module';
     GenresModule,
     CoversModule,
     TracksModule,
+    PlayerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

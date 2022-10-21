@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlbumsService } from '../albums.service';
-import { Album } from '../dto/album';
-import { Track } from '../dto/track';
-import { PlayerService } from '../player.service';
+import { AlbumsService } from '../../services/albums.service';
+import { Album } from '../../dto/album';
+import { Track } from '../../dto/track';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-album-details',
