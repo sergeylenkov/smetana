@@ -21,6 +21,10 @@ export class ApiPlayer implements IPlayer {
     await this.api.playTrack(track.id);
 
     this.onStart(track);
+
+    setTimeout(() => {
+      this.onEnd(track);
+    }, track.duration * 1000);
   }
 
   stop(track: Track): void {
