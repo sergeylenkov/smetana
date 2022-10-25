@@ -11,4 +11,6 @@ export interface IPlayer {
   onStart: (track: Track) => void;
   onStop: (track: Track) => void;
   onEnd: (track: Track) => void;
+  onPause: (track: Track) => void;
+  onResume: (track: Track) => void;
 }

@@ -12,10 +12,10 @@ export class PlayerComponent implements OnInit {
   public track?: Track;
   public album?: Album;
 
-  constructor(private player: PlayerService) {
-    player.onTrackStart.subscribe((track: Track) => {
-      this.track = player.track;
-      this.album = player.album;
+  constructor(private playerService: PlayerService) {
+    playerService.onStart.subscribe((track: Track) => {
+      this.track = playerService.track;
+      this.album = playerService.album;
     });
   }
 

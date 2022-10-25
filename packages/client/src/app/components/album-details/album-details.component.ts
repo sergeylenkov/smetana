@@ -14,21 +14,29 @@ export class AlbumDetailsComponent implements OnInit {
   public album?: Album;
   public currentTrack?: Track;
 
-  constructor(private service: AlbumsService, private route: ActivatedRoute, private player: PlayerService) {
-    player.onTrackStart.subscribe((track: Track) => {
-      this.currentTrack = player.track;
-      this.album = player.album;
+  constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService) {
+    playerService.onStart.subscribe((track: Track) => {
+      this.currentTrack = playerService.track;
+      this.album = playerService.album;
     });
 
-    player.onStop.subscribe(() => {
-      this.currentTrack = player.track;
-      this.album = player.album;
+    playerService.onStop.subscribe(() => {
+      this.currentTrack = playerService.track;
+      this.album = playerService.album;
+    });
+
+    playerService.onPause.subscribe(() => {
+      //.isPaused = false;
+    });
+
+    playerService.onResume.subscribe(() => {
+      //this.isPaused = false;
     });
   }
 
   ngOnInit(): void {
-    this.currentTrack = this.player.track;
-    this.album = this.player.album;
+    this.currentTrack = this.playerService.track;
+    this.album = this.playerService.album;
 
     const id = this.route.snapshot.params['id'];
     this.getTracks(id);
@@ -43,8 +51,24 @@ export class AlbumDetailsComponent implements OnInit {
       })
 
       this.album = album;
-      this.player.album = this.album;
+      this.playerService.album = this.album;
     }
+  }
+
+  public isPlaying(id: number): boolean {
+    if (this.currentTrack && this.currentTrack.id === id && this.playerService.isPlaying) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public isPaused(id: number): boolean {
+    if (this.currentTrack && this.currentTrack.id === id && this.playerService.isPaused) {
+      return true;
+    }
+
+    return false;
   }
 
   public playTrack(id: number) {
@@ -53,11 +77,17 @@ export class AlbumDetailsComponent implements OnInit {
     })
 
     if (track) {
-      this.player.playTrack(track);
+      this.playerService.playTrack(track);
     }
   }
 
   public pauseTrack() {
-    this.player.pause();
+    console.log('pause');
+    this.playerService.pause();
+  }
+
+  public resumeTrack() {
+    console.log('pause');
+    this.playerService.resume();
   }
 }

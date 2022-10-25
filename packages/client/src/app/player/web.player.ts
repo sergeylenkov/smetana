@@ -55,7 +55,7 @@ export class WebPlayer implements IPlayer {
   }
 
   resume(track: Track): void {
-    this._sound && this._sound.play;
+    this._sound && this._sound.play();
   }
 
   onStart(track: Track) {
@@ -67,6 +67,14 @@ export class WebPlayer implements IPlayer {
   };
 
   onEnd(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onPause(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onResume(track: Track) {
     throw new Error('Method not implemented.');
   };
 }

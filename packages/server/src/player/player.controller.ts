@@ -15,8 +15,23 @@ export class PlayerController {
     this.playerService.play(track);
   }
 
+  @Get('track/:id/pause')
+  async pause(@Param('id') id) {
+    this.playerService.pause();
+  }
+
+  @Get('track/:id/resume')
+  async resume(@Param('id') id) {
+    this.playerService.resume();
+  }
+
   @Get('volume')
   volume(@Query('value') value) {
     this.playerService.volume = value;
+  }
+
+  @Get('seek')
+  seek(@Query('value') value) {
+    this.playerService.seek(value);
   }
 }

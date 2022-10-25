@@ -31,13 +31,13 @@ export class ApiPlayer implements IPlayer {
 
   pause(track: Track): void {
     this.api.pauseTrack(track.id).then(() => {
-      this.onStop(track);
+      this.onPause(track);
     });
   }
 
   resume(track: Track): void {
-    this.api.playTrack(track.id).then(() => {
-      this.onStart(track);
+    this.api.resumeTrack(track.id).then(() => {
+      this.onResume(track);
     });
   }
 
@@ -50,6 +50,14 @@ export class ApiPlayer implements IPlayer {
   };
 
   onEnd(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onPause(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onResume(track: Track) {
     throw new Error('Method not implemented.');
   };
 }

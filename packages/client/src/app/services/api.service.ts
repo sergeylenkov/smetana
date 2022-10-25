@@ -44,7 +44,16 @@ export class API {
     return id;
   }
 
+  @Get('player/track/:id/resume')
+  public async resumeTrack(@Param('id') id: number): Promise<number> {
+    return id;
+  }
+
   @Get('player/volume')
   public async volume(@Query() query?: JSONObject | string): Promise<void> {
+  }
+
+  @Get('player/seek')
+  public async seek(@Query() query?: JSONObject | string): Promise<void> {
   }
 }

@@ -13,29 +13,53 @@ import { environment } from '../../environments/environment';
 export class PlayerService {
   public track?: Track;
   public _album?: Album;
-  public onTrackStart: EventEmitter<Track>;
+  public onStart: EventEmitter<Track>;
   public onStop: EventEmitter<void>;
+  public onPause: EventEmitter<void>;
+  public onResume: EventEmitter<void>;
   private _playlist: Track[] = [];
   private _player: IPlayer;
+  private _isPlaying: boolean = false;
+  private _isPaused: boolean = false;
 
   constructor(private api: API) {
     this._player = environment.useWebPlayer ? new WebPlayer() : new ApiPlayer(api);
     this._player.volume = 0.1;
 
     this._player.onStart = (track: Track) => {
-      this.onTrackStart.emit(track);
+      this._isPlaying = true;
+
+      this.onStart.emit(track);
     }
 
-    this._player.onStop = (track: Track) => {
+    this._player.onStop = () => {
+      this._isPlaying = false;
+      this._isPaused = false;
+
       this.onStop.emit();
     }
 
-    this._player.onEnd = (track: Track) => {
+    this._player.onEnd = () => {
+      this._isPlaying = false;
+      this._isPaused = false;
+
       this.playNext();
     }
 
-    this.onTrackStart = new EventEmitter();
+    this._player.onPause = () => {
+      this._isPaused = true;
+      this.onPause.emit();
+    }
+
+    this._player.onResume = () => {
+      this._isPaused = false;
+      this.onResume.emit();
+    }
+
+    this.onStart = new EventEmitter();
     this.onStop = new EventEmitter();
+    this.onPause = new EventEmitter();
+    this.onResume = new EventEmitter();
   }
 
   public set album(album: Album | undefined) {
@@ -56,6 +80,14 @@ export class PlayerService {
 
   public get volume(): number {
     return this._player.volume;
+  }
+
+  public get isPlaying(): boolean {
+    return this._isPlaying;
+  }
+
+  public get isPaused(): boolean {
+    return this._isPaused;
   }
 
   public playTrack(track: Track) {
