@@ -5,8 +5,9 @@ import { IPlayer } from './player';
 export class ApiPlayer implements IPlayer {
   private _volume = 0.1;
   private _timer?: number;
-  private _remaining: number = 0;
   private _track?: Track;
+  private _lastTick: number = 0;
+  private _remaining: number = 0;
 
   constructor(private api: API) {
   }
@@ -23,8 +24,8 @@ export class ApiPlayer implements IPlayer {
     await this.api.volume({ value: this._volume });
     await this.api.playTrack(track.id);
 
-    this._remaining = track.duration;
     this._track = track;
+    this._remaining = track.duration * 1000;
 
     this.onStart(track);
     this.startTimer();
@@ -54,10 +55,16 @@ export class ApiPlayer implements IPlayer {
   private startTimer() {
     this.stopTimer();
 
-    this._timer = window.setInterval(() => {
-      this._remaining -= 1;
+    this._lastTick = Date.now();
 
-      if (this._remaining <= 0) {
+    this._timer = window.setInterval(() => {
+      const delta = Date.now() - this._lastTick;
+      this._lastTick = Date.now();
+
+      this._remaining -= delta;
+
+      if (this._remaining < 1000) {
+        this.stopTimer();
         this._track && this.onEnd(this._track);
       }
     }, 1000);

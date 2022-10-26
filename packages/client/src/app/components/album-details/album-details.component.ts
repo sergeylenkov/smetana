@@ -26,11 +26,11 @@ export class AlbumDetailsComponent implements OnInit {
     });
 
     playerService.onPause.subscribe(() => {
-      //.isPaused = false;
+      //
     });
 
     playerService.onResume.subscribe(() => {
-      //this.isPaused = false;
+      //
     });
   }
 
@@ -82,12 +82,10 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   public pauseTrack() {
-    console.log('pause');
     this.playerService.pause();
   }
 
   public resumeTrack() {
-    console.log('pause');
     this.playerService.resume();
   }
 }
