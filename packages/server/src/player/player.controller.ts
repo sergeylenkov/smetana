@@ -12,7 +12,12 @@ export class PlayerController {
   @Get('track/:id/play')
   async play(@Param('id') id) {
     const track = await this.tracksService.findById(id);
+    console.log('play', track);
     this.playerService.play(track);
+
+    if (track.isMultitrack) {
+      this.playerService.seek(track.start);
+    }
   }
 
   @Get('track/:id/pause')

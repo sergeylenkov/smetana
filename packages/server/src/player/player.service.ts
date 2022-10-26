@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { PowerShell } from 'node-powershell';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Track } from '../tracks/track.entity';
 
 @Injectable()
@@ -9,7 +9,6 @@ export class PlayerService {
   private _shell = new PowerShell();
 
   constructor() {
-    console.log('PlayerService');
     this._shell.invoke('Add-Type -AssemblyName presentationCore;');
     this._shell.invoke(
       '$player = New-Object system.windows.media.mediaplayer;',
@@ -22,23 +21,27 @@ export class PlayerService {
   }
 
   play(track: Track): void {
-    const path = join(track.path, track.fileName).replace("'", "''");
+    try {
+      const path = join(track.path, track.fileName).replace(/'/g, "''");
 
-    this._shell.invoke(`$player.Open('${path}')`);
-    this._shell.invoke('$player.Play();');
+      this._shell.invoke(`$player.Open('${path}');`);
+      this._shell.invoke('$player.Play();');
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   pause(): void {
-    this._shell.invoke('$player.Pause()');
+    this._shell.invoke('$player.Pause();');
   }
 
   resume(): void {
-    this._shell.invoke('$player.Play()');
+    this._shell.invoke('$player.Play();');
   }
 
   seek(seconds: number): void {
     this._shell.invoke(
-      `$player.Position=New-Object System.TimeSpan(0, 0, 0, ${seconds}, 0)`,
+      `$player.Position=New-Object System.TimeSpan(0, 0, 0, ${seconds}, 0);`,
     );
   }
 }
