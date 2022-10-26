@@ -1,16 +1,38 @@
 import { Track } from '../dto/track';
 
-export interface IPlayer {
-  volume: number;
+export abstract class Player {
+  protected _volume: number = 0;
 
-  play(track: Track): void;
-  stop(track: Track): void;
-  pause(track: Track): void;
-  resume(track: Track): void;
+  public set volume(value: number) {
+    this._volume = value;
+  }
 
-  onStart: (track: Track) => void;
-  onStop: (track: Track) => void;
-  onEnd: (track: Track) => void;
-  onPause: (track: Track) => void;
-  onResume: (track: Track) => void;
+  public get volume(): number {
+    return this._volume;
+  }
+
+  abstract play(track: Track): void;
+  abstract stop(track: Track): void;
+  abstract pause(track: Track): void;
+  abstract resume(track: Track): void;
+
+  onStart(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onStop(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onEnd(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onPause(track: Track) {
+    throw new Error('Method not implemented.');
+  };
+
+  onResume(track: Track) {
+    throw new Error('Method not implemented.');
+  };
 }

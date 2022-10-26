@@ -1,11 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { API } from './api.service';
 import { Album } from '../dto/album';
 import { Track } from '../dto/track';
-import { IPlayer } from '../player/player';
-import { WebPlayer } from '../player/web.player';
-import { ApiPlayer } from '../player/api.player';
-import { environment } from '../../environments/environment';
+import { Player } from '../player/player';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +14,12 @@ export class PlayerService {
   public onPause: EventEmitter<void>;
   public onResume: EventEmitter<void>;
   private _playlist: Track[] = [];
-  private _player: IPlayer;
+  private _player: Player;
   private _isPlaying: boolean = false;
   private _isPaused: boolean = false;
 
-  constructor(private api: API) {
-    this._player = environment.useWebPlayer ? new WebPlayer() : new ApiPlayer(api);
+  constructor(private player: Player) {
+    this._player = player;
     this._player.volume = 0.1;
 
     this._player.onStart = (track: Track) => {

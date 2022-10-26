@@ -1,23 +1,19 @@
+import { Injectable } from '@angular/core';
 import { Track } from '../dto/track';
 import { API } from '../services/api.service';
-import { IPlayer } from './player';
+import { Player } from './player';
 
-export class ApiPlayer implements IPlayer {
-  private _volume = 0.1;
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiPlayer extends Player {
   private _timer?: number;
   private _track?: Track;
   private _lastTick: number = 0;
   private _remaining: number = 0;
 
   constructor(private api: API) {
-  }
-
-  public set volume(value: number) {
-    this._volume = value;
-  }
-
-  public get volume(): number {
-    return this._volume;
+    super();
   }
 
   async play(track: Track): Promise<void> {
@@ -73,24 +69,4 @@ export class ApiPlayer implements IPlayer {
   private stopTimer() {
     this._timer && clearInterval(this._timer);
   }
-
-  onStart(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onStop(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onEnd(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onPause(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onResume(track: Track) {
-    throw new Error('Method not implemented.');
-  };
 }

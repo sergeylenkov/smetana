@@ -1,18 +1,17 @@
+import { Injectable } from '@angular/core';
 import { Howl } from 'howler';
 import { Track } from '../dto/track';
-import { IPlayer } from './player';
+import { Player } from './player';
 
-export class WebPlayer implements IPlayer {
+@Injectable({
+  providedIn: 'root'
+})
+export class WebPlayer extends Player {
   private _sound?: Howl;
-  private _volume = 0.1;
 
-  public set volume(value: number) {
-    this._volume = value;
+  public override set volume(value: number) {
+    super.volume = value;
     this._sound && this._sound.volume(value);
-  }
-
-  public get volume(): number {
-    return this._volume;
   }
 
   play(track: Track): void {
@@ -57,24 +56,4 @@ export class WebPlayer implements IPlayer {
   resume(track: Track): void {
     this._sound && this._sound.play();
   }
-
-  onStart(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onStop(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onEnd(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onPause(track: Track) {
-    throw new Error('Method not implemented.');
-  };
-
-  onResume(track: Track) {
-    throw new Error('Method not implemented.');
-  };
 }
