@@ -11,10 +11,8 @@ import { AlbumDetailsComponent } from './components/album-details/album-details.
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TimeComponent } from './components/time/time.component';
 import { PlayerComponent } from './components/player/player.component';
-import { ApiPlayer } from './player/api.player';
 import { Player } from './player/player';
-import { WebPlayer } from './player/web.player';
-import { environment } from '../environments/environment';
+import { PlayerFactory } from './player/player.factory';
 
 @NgModule({
   declarations: [
@@ -32,7 +30,7 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     AngularSvgIconModule.forRoot()
   ],
-  providers: [{ provide: Player, useExisting: environment.useWebPlayer ? WebPlayer : ApiPlayer }],
+  providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

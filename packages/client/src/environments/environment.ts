@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3010',
-  useWebPlayer: true
+  useWebPlayer: false
 };
 
 /*
