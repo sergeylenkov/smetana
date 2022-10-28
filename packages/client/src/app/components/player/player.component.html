@@ -5,6 +5,6 @@
   </div>
   <div class="player__title">
     <div class="player__track">{{track.title}}</div>
-    <div class="player__album" *ngIf="album">{{album.name}}</div>
+    <div class="player__album" *ngIf="album">{{album.name}}<span class="player__separator"></span>{{artists}}</div>
   </div>
 </div>

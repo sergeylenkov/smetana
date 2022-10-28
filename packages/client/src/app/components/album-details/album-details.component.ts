@@ -4,6 +4,7 @@ import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { Track } from '../../dto/track';
 import { PlayerService } from '../../services/player.service';
+import { PlayerState } from 'src/app/models/player';
 
 @Component({
   selector: 'app-album-details',
@@ -13,6 +14,7 @@ import { PlayerService } from '../../services/player.service';
 export class AlbumDetailsComponent implements OnInit {
   public album?: Album;
   public currentTrack?: Track;
+  public stateType = PlayerState;
 
   constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService) {
     playerService.onStart.subscribe((track: Track) => {
@@ -55,20 +57,12 @@ export class AlbumDetailsComponent implements OnInit {
     }
   }
 
-  public isPlaying(id: number): boolean {
-    if (this.currentTrack && this.currentTrack.id === id && this.playerService.isPlaying) {
-      return true;
+  public state(id: number): PlayerState {
+    if (this.currentTrack && this.currentTrack.id === id) {
+      return this.playerService.state;
     }
 
-    return false;
-  }
-
-  public isPaused(id: number): boolean {
-    if (this.currentTrack && this.currentTrack.id === id && this.playerService.isPaused) {
-      return true;
-    }
-
-    return false;
+    return PlayerState.Stopped;
   }
 
   public playTrack(id: number) {

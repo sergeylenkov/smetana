@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Album } from '../dto/album';
 import { Track } from '../dto/track';
+import { PlayerState } from '../models/player';
 import { Player } from '../player/player';
 
 @Injectable({
@@ -15,40 +16,39 @@ export class PlayerService {
   public onResume: EventEmitter<void>;
   private _playlist: Track[] = [];
   private _player: Player;
-  private _isPlaying: boolean = false;
-  private _isPaused: boolean = false;
+  private _state: PlayerState = PlayerState.Stopped;
 
   constructor(private player: Player) {
     this._player = player;
     this._player.volume = 0.1;
 
     this._player.onStart = (track: Track) => {
-      this._isPlaying = true;
+      this._state = PlayerState.Playing;
 
       this.onStart.emit(track);
     }
 
     this._player.onStop = () => {
-      this._isPlaying = false;
-      this._isPaused = false;
+      this._state = PlayerState.Stopped;
 
       this.onStop.emit();
     }
 
     this._player.onEnd = () => {
-      this._isPlaying = false;
-      this._isPaused = false;
+      this._state = PlayerState.Stopped;
 
       this.playNext();
     }
 
     this._player.onPause = () => {
-      this._isPaused = true;
+      this._state = PlayerState.Paused;
+
       this.onPause.emit();
     }
 
     this._player.onResume = () => {
-      this._isPaused = false;
+      this._state = PlayerState.Playing;
+
       this.onResume.emit();
     }
 
@@ -78,12 +78,8 @@ export class PlayerService {
     return this._player.volume;
   }
 
-  public get isPlaying(): boolean {
-    return this._isPlaying;
-  }
-
-  public get isPaused(): boolean {
-    return this._isPaused;
+  public get state(): PlayerState {
+    return this._state;
   }
 
   public playTrack(track: Track) {
