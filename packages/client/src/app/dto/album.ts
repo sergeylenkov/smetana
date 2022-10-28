@@ -23,8 +23,11 @@ export class Album {
   tracks: Track[] = [];
 
   getCoverUrl(): string | undefined {
-    if (this.covers.length > 0) {
+    if (this.covers.length == 1) {
       return this.covers[0].url;
+    } else if (this.covers.length > 1) {
+      const index = Math.floor(Math.random() * (this.covers.length - 1))
+      return this.covers[index].url;
     }
 
     return undefined;
