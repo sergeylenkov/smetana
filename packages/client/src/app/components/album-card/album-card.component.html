@@ -1,8 +1,8 @@
 <div class="album-card">
   <div class="album-card__cover">
     <a [routerLink]="['/album', album!.id]">
-      <img class="album-card__image" src="{{album!.getCoverUrl()}}" *ngIf="album?.getCoverUrl() != undefined" />
-      <svg-icon class="album-card__placeholder" src="assets/album.svg" *ngIf="album?.getCoverUrl() == undefined"></svg-icon>
+      <img class="album-card__image" src="{{album!.coverUrl}}" *ngIf="album?.coverUrl != undefined" />
+      <svg-icon class="album-card__placeholder" src="assets/album.svg" *ngIf="album?.coverUrl == undefined"></svg-icon>
     </a>
   </div>
   <div class="album-card__bottom">

@@ -22,14 +22,14 @@ export class Album {
   @JsonProperty({ className: Track, type: 'array', required: false })
   tracks: Track[] = [];
 
-  getCoverUrl(): string | undefined {
+  public coverUrl?: string;
+
+  public updateCoverUrl() {
     if (this.covers.length == 1) {
-      return this.covers[0].url;
+      this.coverUrl = this.covers[0].url;
     } else if (this.covers.length > 1) {
       const index = Math.floor(Math.random() * (this.covers.length - 1))
-      return this.covers[index].url;
+      this.coverUrl = this.covers[index].url;
     }
-
-    return undefined;
   }
 }

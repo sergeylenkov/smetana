@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Get, Http, HttpResponseType, JSONObject, Param, Query, Response } from '@serglenkov/http-client';
+import { Get, Http, HttpResponseType, JSONObject, Cache, Param, Query, Response } from '@serglenkov/http-client';
 import { JsonSerializer } from '@serglenkov/json-serializer';
 import { environment } from '../../environments/environment';
 import { Album } from '../dto/album';
@@ -10,10 +10,14 @@ import { Album } from '../dto/album';
 @Http(environment.apiUrl)
 export class API {
   @Get('albums')
+  @Cache(3600)
   public async getAlbums(@Response(HttpResponseType.Json) response?: JSONObject): Promise<Album[]> {
     if (Array.isArray(response)) {
       return response.map(obj => {
-        return JsonSerializer.Deserialize<Album>(Album, obj);
+        const album = JsonSerializer.Deserialize<Album>(Album, obj);
+        album.updateCoverUrl();
+
+        return album;
       })
     }
 
@@ -21,6 +25,7 @@ export class API {
   }
 
   @Get('albums/:id/tracks')
+  @Cache(3600)
   public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
     if (response) {
       return JsonSerializer.Deserialize<Album>(Album, response);
