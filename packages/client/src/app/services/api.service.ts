@@ -28,7 +28,10 @@ export class API {
   @Cache(3600)
   public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
     if (response) {
-      return JsonSerializer.Deserialize<Album>(Album, response);
+      const album = JsonSerializer.Deserialize<Album>(Album, response);
+      album.updateCoverUrl();
+
+      return album;
     }
 
     return undefined;
