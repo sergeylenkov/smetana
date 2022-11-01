@@ -7,6 +7,10 @@
   </div>
   <div class="album-card__bottom">
     <a class="album-card__title" [routerLink]="['/album', album!.id]">{{album!.name}}</a>
-    <a class="album-card__artist" *ngFor="let artist of album!.artists" [routerLink]="['/artist', artist!.id]">{{artist.name}}</a>
+    <div class="album-card__artists">
+      <ng-container *ngFor="let artist of album!.artists">
+        <a class="album-card__artist"  [routerLink]="['/artist', artist!.id]">{{artist.name}}</a><span class="album-card__separator"></span>
+      </ng-container>
+    </div>
   </div>
 </div>

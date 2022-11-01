@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { API } from './api.service';
 import { Album } from '../dto/album';
+import { AlbumsAPI } from '../api/albums.api';
 
 @Injectable({
   providedIn: 'root',
  })
 export class AlbumsService {
-  constructor(private api: API) {}
+  constructor(private api: AlbumsAPI) {}
 
   public async getAlbums(): Promise<Album[]> {
     return this.api.getAlbums();

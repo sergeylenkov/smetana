@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { PlayerAPI } from '../api/player.api';
 import { Track } from '../dto/track';
-import { API } from '../services/api.service';
 import { Player } from './player';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class ApiPlayer extends Player {
   private _lastTick: number = 0;
   private _remaining: number = 0;
 
-  constructor(private api: API) {
+  constructor(private api: PlayerAPI) {
     super();
   }
 
