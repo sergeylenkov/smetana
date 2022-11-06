@@ -7,6 +7,7 @@ export interface Track {
   genres: string[];
   year: number;
   album: string,
+  albumArtist: string;
   artists: string[];
   composers: string[];
   track: number;

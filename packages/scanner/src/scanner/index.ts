@@ -101,9 +101,7 @@ export class Scanner {
           this._albums.set(track.key, album);
         }
 
-        track.artists.forEach(artist => {
-          this._artists.add(artist);
-        })
+        track.artists.forEach(artist => this._artists.add(artist));
 
         track.genres.forEach(genre => {
           this._genres.add(genre);
@@ -254,19 +252,23 @@ export class Scanner {
   }
 
   private async metadataToTrack(metadata: IAudioMetadata, folder: string, fileName: string): Promise<Track> {
-    const artists = metadata.common.artist ? [metadata.common.artist] : [];
     const title = metadata.common.title ? trim(metadata.common.title, [' ', '"', '\'']) : '';
     const album = metadata.common.album ? trim(metadata.common.album, [' ', '"', '\'']) : '';
     const year = metadata.common.year || 0;
+    const albumArtist = metadata.common.albumartist ||  metadata.common.artist || '';
+
+    const artists = metadata.common.artists || [];
+    metadata.common.artist && artists.push(metadata.common.artist);
 
     const stats = await FS.stat(join(folder, fileName));
 
     const track: Track = {
-      key: `${artists.join('_')}_${album}_${year}`,
+      key: `${albumArtist}_${album}_${year}`,
       path: folder,
       fileName: fileName,
       title: title,
       album: album,
+      albumArtist: albumArtist,
       year: year,
       genres: metadata.common.genre || [],
       artists: [...new Set(artists)],
@@ -288,7 +290,7 @@ export class Scanner {
     const tracks: Track[] = [];
 
     const album = cuesheet.title || '';
-    const artist = cuesheet.performer;
+    const performer = cuesheet.performer;
     let year = 0;
     let genre = '';
 
@@ -317,7 +319,7 @@ export class Scanner {
 
       for (const cueTrack of cueFile.tracks) {
         const composer = cuesheet.songWriter || cueTrack.songWriter;
-        const artists = [artist || cueTrack.performer || '']
+        const artist = performer || cueTrack.performer || '';
         let start = 0;
         const time = cueTrack.indexes?.at(0)?.time;
 
@@ -343,14 +345,15 @@ export class Scanner {
         const stats = await FS.stat(join(folder, fileName));
 
         const track: Track = {
-          key: `${artists.join('_')}_${album}_${year}`,
+          key: `${artist}_${album}_${year}`,
           path: folder,
           fileName: file,
           title: cueTrack.title || '',
           album: trim(album, [' ', '"', '\'']),
+          albumArtist: artist,
           year: year,
           genres: [trim(genre, [' ', '"', '\''])],
-          artists: artists,
+          artists: [artist],
           composers: composer ? [composer] : [],
           track: cueTrack.number || 0,
           disk: 0,
@@ -417,8 +420,8 @@ export class Scanner {
       return track1;
     }
 
-    const genres = new Set([...track1.genres, ...track2.genres]);
     const artists = new Set([...track1.artists, ...track2.artists]);
+    const genres = new Set([...track1.genres, ...track2.genres]);
     const composers = new Set([...track1.composers, ...track2.composers]);
 
     const track: Track = {
@@ -429,6 +432,7 @@ export class Scanner {
       genres: [...genres],
       year: track1.year === 0 ? track2.year : track1.year,
       album: track1.album === '' ? track2.album : track1.album,
+      albumArtist: track1.albumArtist === '' ? track2.albumArtist : track1.albumArtist,
       artists: [...artists],
       composers: [...composers],
       track: track1.track === 0 ? track2.track : track1.track,
