@@ -4,6 +4,9 @@
   </button>
 
   <ng-container [ngSwitch]="state">
+    <button class="play-button" (click)="onPlayTrack()" *ngSwitchCase="stateType.Stopped">
+      <svg-icon class="play-button__icon" src="assets/play.svg"></svg-icon>
+    </button>
     <button class="play-button" (click)="onPauseTrack()" *ngSwitchCase="stateType.Playing">
       <svg-icon class="play-button__icon" src="assets/pause.svg"></svg-icon>
     </button>

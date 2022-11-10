@@ -39,6 +39,9 @@ export class WebPlayer extends Player {
       },
       onend: () => {
         this.onEnd(track);
+      },
+      onpause: () => {
+        this.onPause(track);
       }
     });
 

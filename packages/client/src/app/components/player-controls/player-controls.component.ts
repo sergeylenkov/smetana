@@ -30,6 +30,10 @@ export class PlayerControlsComponent implements OnInit {
     this.playerService.onResume.subscribe(() => {
       this.ref.detectChanges();
     });
+
+    this.playerService.onEnd.subscribe(() => {
+      this.ref.detectChanges();
+    });
   }
 
   ngOnInit(): void {
@@ -45,6 +49,10 @@ export class PlayerControlsComponent implements OnInit {
 
   public get isLastTrack(): boolean {
     return this.playerService.isLastTrack;
+  }
+
+  public onPlayTrack() {
+    this.track && this.playerService.playTrack(this.track);
   }
 
   public onPauseTrack() {

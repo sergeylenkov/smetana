@@ -39,6 +39,10 @@ export class AlbumDetailsComponent implements OnInit {
     this.playerService.onResume.subscribe(() => {
       this.ref.detectChanges();
     });
+
+    this.playerService.onEnd.subscribe(() => {
+      this.ref.detectChanges();
+    });
   }
 
   ngOnInit(): void {
