@@ -17,21 +17,21 @@ export class AlbumDetailsComponent implements OnInit {
   public stateType = PlayerState;
 
   constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService) {
-    playerService.onStart.subscribe((track: Track) => {
-      this.currentTrack = playerService.track;
-      this.album = playerService.album;
+    this.playerService.onStart.subscribe((track: Track) => {
+      this.currentTrack = this.playerService.track;
+      this.album = this.playerService.album;
     });
 
-    playerService.onStop.subscribe(() => {
-      this.currentTrack = playerService.track;
-      this.album = playerService.album;
+    this.playerService.onStop.subscribe(() => {
+      this.currentTrack = this.playerService.track;
+      this.album = this.playerService.album;
     });
 
-    playerService.onPause.subscribe(() => {
+    this.playerService.onPause.subscribe(() => {
       //
     });
 
-    playerService.onResume.subscribe(() => {
+    this.playerService.onResume.subscribe(() => {
       //
     });
   }

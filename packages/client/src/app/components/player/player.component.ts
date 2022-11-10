@@ -14,9 +14,9 @@ export class PlayerComponent implements OnInit {
   public artists: string = '';
 
   constructor(private playerService: PlayerService) {
-    playerService.onStart.subscribe((track: Track) => {
-      this.track = playerService.track;
-      this.album = playerService.album;
+    this.playerService.onStart.subscribe((track: Track) => {
+      this.track = this.playerService.track;
+      this.album = this.playerService.album;
       this.artists = this.album?.artists.map(artist => artist.name).join(', ') || '';
     });
   }

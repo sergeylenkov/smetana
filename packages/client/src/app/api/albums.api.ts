@@ -14,10 +14,7 @@ export class AlbumsAPI {
   public async getAlbums(@Response(HttpResponseType.Json) response?: JSONObject): Promise<Album[]> {
     if (Array.isArray(response)) {
       return response.map(obj => {
-        const album = JsonSerializer.Deserialize<Album>(Album, obj);
-        album.updateCoverUrl();
-
-        return album;
+        return JsonSerializer.Deserialize<Album>(Album, obj);
       })
     }
 
@@ -28,10 +25,7 @@ export class AlbumsAPI {
   @Cache(3600)
   public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
     if (response) {
-      const album = JsonSerializer.Deserialize<Album>(Album, response);
-      album.updateCoverUrl();
-
-      return album;
+      return JsonSerializer.Deserialize<Album>(Album, response);
     }
 
     return undefined;

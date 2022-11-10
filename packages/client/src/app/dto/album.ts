@@ -1,9 +1,9 @@
-import { JsonProperty } from '@serglenkov/json-serializer';
+import { JsonProperty, OnAfterDeserialize } from '@serglenkov/json-serializer';
 import { Artist } from './artist';
 import { Cover } from './cover';
 import { Track } from './track';
 
-export class Album {
+export class Album implements OnAfterDeserialize {
   @JsonProperty()
   id: number = -1;
 
@@ -24,7 +24,7 @@ export class Album {
 
   public coverUrl?: string;
 
-  public updateCoverUrl() {
+  public OnAfterDeserialize() {
     if (this.covers.length == 1) {
       this.coverUrl = this.covers[0].url;
     } else if (this.covers.length > 1) {
