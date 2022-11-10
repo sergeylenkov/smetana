@@ -63,7 +63,7 @@ export class ApiPlayer extends Player {
         this.stopTimer();
         this._track && this.onEnd(this._track);
       }
-    }, 1000);
+    }, 10000);
   }
 
   private stopTimer() {

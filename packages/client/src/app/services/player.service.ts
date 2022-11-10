@@ -37,7 +37,7 @@ export class PlayerService {
     this._player.onEnd = () => {
       this._state = PlayerState.Stopped;
 
-      this.playNext();
+      this.nextTrack();
     }
 
     this._player.onPause = () => {
@@ -78,6 +78,14 @@ export class PlayerService {
     return this._player.volume;
   }
 
+  public get isFirstTrack(): boolean {
+    return this.getCurrentTrackIndex() === 0;
+  }
+
+  public get isLastTrack(): boolean {
+    return this.getCurrentTrackIndex() === this._playlist.length - 1;
+  }
+
   public get state(): PlayerState {
     return this._state;
   }
@@ -101,16 +109,30 @@ export class PlayerService {
     this.track && this._player.resume(this.track);
   }
 
-  private playNext() {
-    if (this.track) {
-      let index = this._playlist.findIndex(item => item.id === this.track?.id);
+  public nextTrack() {
+    let index = this.getCurrentTrackIndex();
 
-      if (index !== -1 && index < this._playlist.length - 1) {
-        index = index + 1;
-        const nextTrack = this._playlist[index];
-
-        this.playTrack(nextTrack);
-      }
+    if (index !== undefined && index < this._playlist.length - 1) {
+      const nextTrack = this._playlist[++index];
+      this.playTrack(nextTrack);
     }
+  }
+
+  public previousTrack() {
+    let index = this.getCurrentTrackIndex();
+
+    if (index !== undefined && index > 0) {
+      const previousTrack = this._playlist[--index];
+      this.playTrack(previousTrack);
+    }
+  }
+
+  private getCurrentTrackIndex(): number | undefined {
+    if (this.track) {
+      const index = this._playlist.findIndex(item => item.id === this.track?.id);
+      return index === -1 ? undefined : index;
+    }
+
+    return undefined;
   }
 }

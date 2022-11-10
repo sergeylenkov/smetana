@@ -1,0 +1,45 @@
+@import '../../../styles/mixins.scss';
+
+:host {
+  margin: 0 0 0 20px;
+}
+
+.player-controls {
+  @include flex-row-center-vertical;
+  margin: auto 0;
+}
+
+.play-button {
+  margin: auto 10px;
+  width: 40px;
+  height: 40px;
+
+  color: var(--secondary-text-color);
+
+  cursor: pointer;
+
+  &__icon > svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.next-button,
+.previous-button {
+  width: 25px;
+  height: 25px;
+
+  color: var(--secondary-text-color);
+
+  cursor: pointer;
+
+  &__icon > svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  &__disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}

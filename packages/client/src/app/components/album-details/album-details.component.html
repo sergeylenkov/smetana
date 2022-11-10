@@ -7,14 +7,14 @@
   </div>
   <div class="tracks-list">
     <div class="track-item" *ngFor="let track of album!.tracks">
-      <ng-container [ngSwitch]="state(track.id)">
-        <button class="play-button play-button_active" (click)="pauseTrack()" *ngSwitchCase="stateType.Playing">
+      <ng-container [ngSwitch]="getTrackState(track.id)">
+        <button class="play-button play-button_active" (click)="onPauseTrack()" *ngSwitchCase="stateType.Playing">
           <svg-icon class="play-button__icon" src="assets/pause.svg"></svg-icon>
         </button>
-        <button class="play-button play-button_active" (click)="resumeTrack()" *ngSwitchCase="stateType.Paused">
+        <button class="play-button play-button_active" (click)="onResumeTrack()" *ngSwitchCase="stateType.Paused">
           <svg-icon class="play-button__icon" src="assets/play.svg"></svg-icon>
         </button>
-        <button class="play-button" (click)="playTrack(track.id)" *ngSwitchDefault>
+        <button class="play-button" (click)="onPlayTrack(track.id)" *ngSwitchDefault>
           <svg-icon class="play-button__icon" src="assets/play.svg"></svg-icon>
         </button>
       </ng-container>
