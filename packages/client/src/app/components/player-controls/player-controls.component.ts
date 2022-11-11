@@ -12,6 +12,7 @@ import { PlayerService } from '../../services/player.service';
 export class PlayerControlsComponent implements OnInit {
   public track?: Track;
   public stateType = PlayerState;
+  public progress = 100;
 
   constructor(private playerService: PlayerService, private ref: ChangeDetectorRef) {
     this.playerService.onStart.subscribe((track: Track) => {
@@ -34,6 +35,11 @@ export class PlayerControlsComponent implements OnInit {
     this.playerService.onEnd.subscribe(() => {
       this.ref.detectChanges();
     });
+
+    this.playerService.onProgress.subscribe((progress: number) => {
+      this.progress = progress;
+      this.ref.detectChanges();
+    })
   }
 
   ngOnInit(): void {
@@ -51,17 +57,20 @@ export class PlayerControlsComponent implements OnInit {
     return this.playerService.isLastTrack;
   }
 
-  public onPlayTrack() {
-    this.track && this.playerService.playTrack(this.track);
+  public onPlayClick() {
+    if (this.playerService.state == PlayerState.Stopped) {
+      this.track && this.playerService.playTrack(this.track);
+    }
+
+    if (this.playerService.state == PlayerState.Paused) {
+      this.playerService.resume();
+    }
+
+    if (this.playerService.state == PlayerState.Playing) {
+      this.playerService.pause();
+    }
   }
 
-  public onPauseTrack() {
-    this.playerService.pause();
-  }
-
-  public onResumeTrack() {
-    this.playerService.resume();
-  }
   public onNextTrack() {
     this.playerService.nextTrack();
   }

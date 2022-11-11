@@ -14,6 +14,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { Player } from './player/player';
 import { PlayerFactory } from './player/player.factory';
 import { PlayerControlsComponent } from './components/player-controls/player-controls.component';
+import { PlayButtonComponent } from './components/play-button/play-button.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PlayerControlsComponent } from './components/player-controls/player-con
     NavigationComponent,
     TimeComponent,
     PlayerComponent,
-    PlayerControlsComponent
+    PlayerControlsComponent,
+    PlayButtonComponent
   ],
   imports: [
     BrowserModule,

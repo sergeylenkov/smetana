@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-  <circle cx="16" cy="16" r="15.9155" class="progress-bar__background" />
-  <circle cx="16" cy="16" r="15.9155" class="progress-bar__progress" />
+<svg xmlns="http://www.w3.org/2000/svg" fill="none">
+  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-dashoffset="0" class="play-button__border" />
+  <circle cx="20" cy="20" r="18" class="play-button__progress" pathLength="100" />
 </svg>

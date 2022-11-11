@@ -1,0 +1,46 @@
+@import '../../../styles/mixins.scss';
+
+:host {
+  @include flex-row-center;
+  margin: 0;
+}
+
+.play-button {
+  position: relative;
+  margin: auto 10px;
+  width: 40px;
+  height: 40px;
+
+  color: var(--secondary-text-color);
+
+  cursor: pointer;
+
+  &__icon {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+
+    & > svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__circle > svg {
+    width: 40px;
+    height: 40px;
+    transform: rotate(-90deg);
+  }
+
+  &__border {
+    stroke-width: 3px;
+  }
+
+  &__progress {
+    stroke: var(--active-color);
+    stroke-dasharray: 100;
+    stroke-width: 3px;
+  }
+}

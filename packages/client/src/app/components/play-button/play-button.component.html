@@ -1,0 +1,5 @@
+<button class="play-button" (click)="click">
+  <svg-icon class="play-button__circle" [svgStyle]="{ strokeDashoffset: progress }" src="assets/progress.svg"></svg-icon>
+  <svg-icon class="play-button__icon" src="assets/play.svg" *ngIf="!isPlaying"></svg-icon>
+  <svg-icon class="play-button__icon" src="assets/pause.svg" *ngIf="isPlaying"></svg-icon>
+</button>

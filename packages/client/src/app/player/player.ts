@@ -35,4 +35,8 @@ export abstract class Player {
   onResume(track: Track) {
     throw new Error('Method not implemented.');
   };
+
+  onProgress(progress: number) {
+    throw new Error('Method not implemented.');
+  };
 }

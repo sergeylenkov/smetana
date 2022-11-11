@@ -15,6 +15,7 @@ export class PlayerService {
   public onPause: EventEmitter<void>;
   public onResume: EventEmitter<void>;
   public onEnd: EventEmitter<void>;
+  public onProgress: EventEmitter<number>;
   private _playlist: Track[] = [];
   private _player: Player;
   private _state: PlayerState = PlayerState.Stopped;
@@ -55,11 +56,16 @@ export class PlayerService {
       this.onResume.emit();
     }
 
+    this._player.onProgress = (progress) => {
+      this.onProgress.emit(progress);
+    }
+
     this.onStart = new EventEmitter();
     this.onStop = new EventEmitter();
     this.onPause = new EventEmitter();
     this.onResume = new EventEmitter();
     this.onEnd = new EventEmitter();
+    this.onProgress = new EventEmitter();
   }
 
   public set album(album: Album | undefined) {
