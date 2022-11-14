@@ -1,4 +1,3 @@
-import { Player } from './player';
 import { environment } from '../../environments/environment';
 import { WebPlayer } from './web.player';
 import { ApiPlayer } from './api.player';

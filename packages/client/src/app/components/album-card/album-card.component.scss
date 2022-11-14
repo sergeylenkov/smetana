@@ -3,7 +3,7 @@
 .album-card {
   @include flex-column;
 
-  width: 312px;
+  width: 282px;
   padding: 6px;
 
   border: 1px solid var(--card-border-color);
@@ -14,8 +14,8 @@
   &__cover {
     @include flex-row-center;
 
-    width: 300px;
-    height: 300px;
+    width: 270px;
+    height: 270px;
 
     border: 1px solid var(--card-border-color);
     border-radius: 2px;
@@ -33,8 +33,8 @@
     color: var(--card-placeholder-color);
 
     & > svg {
-      width: 250px;
-      height: 250px;
+      width: 220px;
+      height: 220px;
     }
   }
 

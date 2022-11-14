@@ -10,7 +10,7 @@ import { AlbumCardComponent } from './components/album-card/album-card.component
 import { AlbumDetailsComponent } from './components/album-details/album-details.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TimeComponent } from './components/time/time.component';
-import { PlayerComponent } from './components/player/player.component';
+import { PlayerInfoComponent } from './components/player-info/player-info.component';
 import { Player } from './player/player';
 import { PlayerFactory } from './player/player.factory';
 import { PlayerControlsComponent } from './components/player-controls/player-controls.component';
@@ -24,7 +24,7 @@ import { PlayButtonComponent } from './components/play-button/play-button.compon
     AlbumDetailsComponent,
     NavigationComponent,
     TimeComponent,
-    PlayerComponent,
+    PlayerInfoComponent,
     PlayerControlsComponent,
     PlayButtonComponent
   ],

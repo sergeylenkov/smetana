@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlayerState } from 'src/app/models/player';
 import { Track } from '../../dto/track';
 import { PlayerService } from '../../services/player.service';
@@ -7,38 +7,20 @@ import { PlayerService } from '../../services/player.service';
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
   styleUrls: ['./player-controls.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerControlsComponent implements OnInit {
   public track?: Track;
   public stateType = PlayerState;
   public progress = 100;
 
-  constructor(private playerService: PlayerService, private ref: ChangeDetectorRef) {
+  constructor(private playerService: PlayerService) {
     this.playerService.onStart.subscribe((track: Track) => {
       this.track = track;
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onStop.subscribe(() => {
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onPause.subscribe(() => {
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onResume.subscribe(() => {
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onEnd.subscribe(() => {
-      this.ref.detectChanges();
+      this.progress = 100;
     });
 
     this.playerService.onProgress.subscribe((progress: number) => {
       this.progress = progress;
-      this.ref.detectChanges();
     })
   }
 
