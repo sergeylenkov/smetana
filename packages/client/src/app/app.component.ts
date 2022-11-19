@@ -20,11 +20,11 @@ export class AppComponent implements OnInit {
       }
     })
 
-    this.hotkeysService.onKey('KeyK', undefined, () => {
+    this.hotkeysService.onKey('KeyP', undefined, () => {
       this.playerService.previousTrack();
     })
 
-    this.hotkeysService.onKey('KeyL', undefined, () => {
+    this.hotkeysService.onKey('KeyN', undefined, () => {
       this.playerService.nextTrack();
     })
   }

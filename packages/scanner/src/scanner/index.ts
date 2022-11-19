@@ -120,7 +120,7 @@ export class Scanner {
       const coversHash: Set<string> = new Set();
 
       for (const file of files) {
-        if (mp3Ext.includes(extname(file))) {
+        if (mp3Ext.includes(extname(file)) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}mp3: ${Colors.FgYellow}${file}${Colors.Reset}`);
           const filePath = join(folder, file);
 
@@ -177,7 +177,7 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (flacExt.includes(extname(file))) {
+        if (flacExt.includes(extname(file)) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}flac: ${Colors.FgYellow}${file}${Colors.Reset}`);
           const filePath = join(folder, file);
 
@@ -202,7 +202,7 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (cueExt.includes(extname(file))) {
+        if (cueExt.includes(extname(file)) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}cue: ${Colors.FgYellow}${file}${Colors.Reset}`);
           const filePath = join(folder, file);
 
@@ -230,7 +230,7 @@ export class Scanner {
       for (const file of files) {
         const filePath = join(folder, file);
 
-        if (imgExt.includes(extname(file))) {
+        if (imgExt.includes(extname(file)) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}image: ${Colors.FgYellow}${file}${Colors.Reset}`);
           images.push(filePath);
         } else {
@@ -446,5 +446,9 @@ export class Scanner {
     };
 
     return track;
+  }
+
+  private isIgnored(file: string): boolean {
+    return file.startsWith('._');
   }
 }

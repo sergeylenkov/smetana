@@ -1,4 +1,5 @@
 import sqlite3 from 'sqlite3';
+import { Colors } from '../utils/console';
 import { Album, Cover, Genre, Track, Artist } from './models';
 
 const CREATE_TRACKS = 'CREATE TABLE IF NOT EXISTS tracks (id INTEGER PRIMARY KEY,\
@@ -57,6 +58,9 @@ const SELECT_ALBUMS_ALRTISTS = 'SELECT alt.album_id, art.artist_id FROM tracks t
 const SELECT_ALBUMS_COVERS = 'SELECT alt.album_id, ct.cover_id FROM tracks t, covers_tracks ct, albums_tracks alt WHERE ct.track_id = t.id AND alt.track_id = t.id GROUP BY alt.album_id, ct.cover_id';
 const SELECT_ALBUMS_GENRES = 'SELECT alt.album_id, gt.genre_id FROM tracks t, genres_tracks gt, albums_tracks alt WHERE gt.track_id = t.id AND alt.track_id = t.id GROUP BY alt.album_id, gt.genre_id';
 
+const BEGIN_TRANSACTION = 'BEGIN TRANSACTION';
+const COMMIT = 'COMMIT';
+
 export class DatabaseException extends Error {}
 
 export class Database {
@@ -102,46 +106,65 @@ export class Database {
   }
 
   public async processArtists(artists: Artist[]) {
+    await this.exec(BEGIN_TRANSACTION);
+
     for (const artist of artists) {
       const id = await this.addArtist(artist);
       artist.id = id;
-
+      console.log(`${Colors.FgWhite}Process ${Colors.FgCyan}artist: ${Colors.FgYellow}${artist.id} - ${artist.name}${Colors.Reset}`);
       this._artistsMap.set(artist.name, artist);
     }
+
+    await this.exec(COMMIT);
   }
 
   public async processGenres(genres: Genre[]) {
+    await this.exec(BEGIN_TRANSACTION);
+
     for (const genre of genres) {
       const id = await this.addGenre(genre);
       genre.id = id;
-
+      console.log(`${Colors.FgWhite}Process ${Colors.FgCyan}genre: ${Colors.FgYellow}${genre.id} - ${genre.name}${Colors.Reset}`);
       this._genresMap.set(genre.name, genre);
     }
+
+    await this.exec(COMMIT);
   }
 
   public async processCovers(covers: Cover[]) {
+    await this.exec(BEGIN_TRANSACTION);
+
     this._covers = covers;
 
     for (const cover of covers) {
       const id = await this.addCover(cover);
       cover.id = id;
+      console.log(`${Colors.FgWhite}Process ${Colors.FgCyan}genre: ${Colors.FgYellow}${cover.id} - ${cover.file}${Colors.Reset}`);
     }
+
+    await this.exec(COMMIT);
   }
 
   public async processAlbums(albums: Album[]) {
+    await this.exec(BEGIN_TRANSACTION);
+
     for (const album of albums) {
       const id = await this.addAlbum(album);
       album.id = id;
-
+      console.log(`${Colors.FgWhite}Process ${Colors.FgCyan}album: ${Colors.FgYellow}${album.id} - ${album.name}${Colors.Reset}`);
       this._albumsMap.set(album.key, album);
     }
+
+    await this.exec(COMMIT);
   }
 
   public async processTracks(tracks: Track[]) {
+    await this.exec(BEGIN_TRANSACTION);
+
     for (const track of tracks) {
       const id = await this.addTrack(track);
       track.id = id;
-
+      console.log(`${Colors.FgWhite}Process ${Colors.FgCyan}track: ${Colors.FgYellow}${track.id} - ${track.fileName}${Colors.Reset}`);
       const album = this._albumsMap.get(track.key);
 
       if (album) {
@@ -170,9 +193,13 @@ export class Database {
         }
       }
     }
+
+    await this.exec(COMMIT);
   }
 
   public async processAlbumsMetaData() {
+    await this.exec(BEGIN_TRANSACTION);
+
     let rows = await this.getAlbumsArtists();
 
     for (const row of rows) {
@@ -190,6 +217,8 @@ export class Database {
     for (const row of rows) {
       await this.linkGenreWithAlbum(row['genre_id'], row['album_id']);
     }
+
+    await this.exec(COMMIT);
   }
 
   private async addTrack(track: Track): Promise<number> {
