@@ -3,7 +3,7 @@
     <svg-icon class="previous-button__icon" src="assets/previous.svg"></svg-icon>
   </button>
 
-  <app-play-button [progress]="progress" [isPlaying]="state == stateType.Playing" (click)="onPlayClick()"></app-play-button>
+  <app-play-button [progress]="progress" [isPlaying]="state == PlayerState.Playing" (click)="onPlayClick()"></app-play-button>
 
   <button class="next-button" [ngClass]="{'next-button__disabled': isLastTrack}" (click)="onNextTrack()">
     <svg-icon class="next-button__icon" src="assets/next.svg"></svg-icon>
