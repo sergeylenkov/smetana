@@ -1,0 +1,6 @@
+<div class="volume">
+  <div #track class="volume__track" (click)="onClick($event)">
+    <div class="volume__fill" [ngStyle]="{'width': getFillPosition()}"></div>
+    <div class="volume__knob" [ngStyle]="{'transform': getKnobPosition()}"></div>
+  </div>
+</div>

@@ -16,6 +16,15 @@ export class ApiPlayer extends Player {
     super();
   }
 
+  public override get volume(): number {
+    return this._volume;
+  }
+
+  public override set volume(volume: number) {
+    this._volume = volume;
+    this.api.volume({ value: volume });
+  }
+
   async play(track: Track): Promise<void> {
     await this.api.volume({ value: this._volume });
     await this.api.playTrack(track.id);

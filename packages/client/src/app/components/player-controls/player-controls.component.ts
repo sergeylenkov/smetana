@@ -19,6 +19,8 @@ export class PlayerControlsComponent implements OnInit {
     this.playerService.onStart.subscribe((track: Track) => {
       this.track = track;
       this.progress = 100;
+
+      ref.detectChanges();
     });
 
     this.playerService.onProgress.subscribe((progress: number) => {
@@ -42,6 +44,10 @@ export class PlayerControlsComponent implements OnInit {
     return this.playerService.isLastTrack;
   }
 
+  public get volume(): number {
+    return this.playerService.volume;
+  }
+
   public onPlayClick() {
     if (this.playerService.state == PlayerState.Stopped) {
       this.track && this.playerService.playTrack(this.track);
@@ -62,5 +68,9 @@ export class PlayerControlsComponent implements OnInit {
 
   public onPreviousTrack() {
     this.playerService.previousTrack();
+  }
+
+  public onVolumeChange(volume: number) {
+    this.playerService.volume = volume;
   }
 }

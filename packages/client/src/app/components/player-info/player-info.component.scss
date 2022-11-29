@@ -18,9 +18,13 @@
   }
 
   &__album {
+    max-width: 300px;
     margin-top: 2px;
     font-size: 12px;
     color: var(--secondary-text-color);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &__cover {

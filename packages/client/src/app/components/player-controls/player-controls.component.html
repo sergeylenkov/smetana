@@ -8,4 +8,6 @@
   <button class="next-button" [ngClass]="{'next-button__disabled': isLastTrack}" (click)="onNextTrack()">
     <svg-icon class="next-button__icon" src="assets/next.svg"></svg-icon>
   </button>
+
+  <app-volume [volume]="volume" (onChange)="onVolumeChange($event)"></app-volume>
 </div>

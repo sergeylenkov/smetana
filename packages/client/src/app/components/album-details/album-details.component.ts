@@ -10,7 +10,7 @@ import { PlayerState } from 'src/app/models/player';
   selector: 'app-album-details',
   templateUrl: './album-details.component.html',
   styleUrls: ['./album-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AlbumDetailsComponent implements OnInit {
   public album?: Album;
@@ -64,8 +64,6 @@ export class AlbumDetailsComponent implements OnInit {
       this.album = album;
       this.playerService.album = this.album;
     }
-
-    this.ref.detectChanges();
   }
 
   public getTrackState(id: number): PlayerState {

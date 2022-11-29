@@ -3,6 +3,7 @@ import { Album } from '../dto/album';
 import { Track } from '../dto/track';
 import { PlayerState } from '../models/player';
 import { Player } from '../player/player';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,26 +18,24 @@ export class PlayerService {
   public onEnd: EventEmitter<void>;
   public onProgress: EventEmitter<number>;
   private _playlist: Track[] = [];
-  private _player: Player;
   private _state: PlayerState = PlayerState.Stopped;
 
-  constructor(private player: Player) {
-    this._player = player;
-    this._player.volume = 0.1;
+  constructor(private player: Player, private settings: SettingsService) {
+    this.player.volume = settings.volume;
 
-    this._player.onStart = (track: Track) => {
+    this.player.onStart = (track: Track) => {
       this._state = PlayerState.Playing;
 
       this.onStart.emit(track);
     }
 
-    this._player.onStop = () => {
+    this.player.onStop = () => {
       this._state = PlayerState.Stopped;
 
       this.onStop.emit();
     }
 
-    this._player.onEnd = () => {
+    this.player.onEnd = () => {
       this._state = PlayerState.Stopped;
 
       this.nextTrack();
@@ -44,19 +43,19 @@ export class PlayerService {
       this.onEnd.emit();
     }
 
-    this._player.onPause = () => {
+    this.player.onPause = () => {
       this._state = PlayerState.Paused;
 
       this.onPause.emit();
     }
 
-    this._player.onResume = () => {
+    this.player.onResume = () => {
       this._state = PlayerState.Playing;
 
       this.onResume.emit();
     }
 
-    this._player.onProgress = (progress) => {
+    this.player.onProgress = (progress) => {
       this.onProgress.emit(progress);
     }
 
@@ -81,11 +80,12 @@ export class PlayerService {
   }
 
   public set volume(volume: number) {
-    this._player.volume = volume;
+    this.player.volume = volume;
+    this.settings.volume = volume;
   }
 
   public get volume(): number {
-    return this._player.volume;
+    return this.player.volume;
   }
 
   public get isFirstTrack(): boolean {
@@ -103,20 +103,20 @@ export class PlayerService {
   public playTrack(track: Track) {
     console.log(track);
     this.track = track;
-    this._player.play(track);
+    this.player.play(track);
   }
 
   public pause() {
-    this.track && this._player.pause(this.track);
+    this.track && this.player.pause(this.track);
   }
 
   public stop() {
-    this.track && this._player.stop(this.track);
+    this.track && this.player.stop(this.track);
     this.track = undefined;
   }
 
   public resume() {
-    this.track && this._player.resume(this.track);
+    this.track && this.player.resume(this.track);
   }
 
   public nextTrack() {
