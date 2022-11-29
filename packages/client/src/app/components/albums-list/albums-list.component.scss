@@ -1,18 +1,21 @@
 @import '../../../styles/mixins.scss';
+@import '../../../styles/vars.scss';
 
 .albums-list {
   @include grid;
 
   padding: 20px;
   width: 100%;
-  grid-gap: 15px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-gap: $gap-default;
+  grid-template-columns: repeat($columns-default, 1fr);
 
-  @media (min-width: 2000px) {
-    grid-template-columns: repeat(7, 1fr);
+  @media (min-width: $screen-size-1800) {
+    grid-gap: $gap-1800;
+    grid-template-columns: repeat($columns-1800, 1fr);
   }
 
-  @media (min-width: 2400px) {
-    grid-template-columns: repeat(8, 1fr);
+  @media (min-width: $screen-size-2400) {
+    grid-gap: $gap-2400;
+    grid-template-columns: repeat($columns-2400, 1fr);
   }
 }

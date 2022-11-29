@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
@@ -10,38 +10,21 @@ import { PlayerState } from 'src/app/models/player';
   selector: 'app-album-details',
   templateUrl: './album-details.component.html',
   styleUrls: ['./album-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AlbumDetailsComponent implements OnInit {
   public album?: Album;
   public currentTrack?: Track;
   public stateType = PlayerState;
 
-  constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService, private ref: ChangeDetectorRef) {
+  constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService) {
     this.playerService.onStart.subscribe((track: Track) => {
       this.currentTrack = this.playerService.track;
       this.album = this.playerService.album;
-
-      this.ref.detectChanges();
     });
 
     this.playerService.onStop.subscribe(() => {
       this.currentTrack = this.playerService.track;
       this.album = this.playerService.album;
-
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onPause.subscribe(() => {
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onResume.subscribe(() => {
-      this.ref.detectChanges();
-    });
-
-    this.playerService.onEnd.subscribe(() => {
-      this.ref.detectChanges();
     });
   }
 

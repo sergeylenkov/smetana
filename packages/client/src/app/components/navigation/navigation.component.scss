@@ -3,11 +3,15 @@
 .navigation {
   @include flex-row-center;
 
+  position: sticky;
+  top: 0;
+
   height: 50px;
   padding: 0 24px;
 
   justify-content: flex-start;
   border-bottom: 1px solid var(--nav-divider-color);
+  background-color: var(--background);
 
   &__logo {
     width: 25px;

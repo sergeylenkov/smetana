@@ -1,22 +1,21 @@
 @import '../../../styles/mixins.scss';
+@import '../../../styles/vars.scss';
 
 .album-card {
   @include flex-column;
 
-  width: 282px;
+  width: $card-size-default;
   padding: 6px;
 
   border: 1px solid var(--card-border-color);
   border-radius: 4px;
-
   background-color: var(--card-background);
 
   &__cover {
     @include flex-row-center;
 
-    width: 270px;
-    height: 270px;
-
+    width: $cover-size-default;
+    height: $cover-size-default;
     border: 1px solid var(--card-border-color);
     border-radius: 2px;
 
@@ -24,8 +23,8 @@
   }
 
   &__image {
-    width: 100%;
-    height: 100%;
+    width: $cover-size-default;
+    height: $cover-size-default;
     object-fit: cover;
   }
 
@@ -33,8 +32,8 @@
     color: var(--card-placeholder-color);
 
     & > svg {
-      width: 220px;
-      height: 220px;
+      width: $svg-size-default;
+      height: $svg-size-default;
     }
   }
 
@@ -80,5 +79,47 @@
 
   &__separator:last-of-type {
     display: none;
+  }
+
+  @media (min-width: $screen-size-1800) {
+    width: $card-size-1800;
+
+    &__cover {
+      width: $cover-size-1800;
+      height: $cover-size-1800;
+    }
+
+    &_image {
+      width: $cover-size-1800;
+      height: $cover-size-1800;
+    }
+
+    &__placeholder {
+      & > svg {
+        width: $svg-size-1800;
+        height: $svg-size-1800;
+      }
+    }
+  }
+
+  @media (min-width: $screen-size-2400) {
+    width: $card-size-2400;
+
+    &__cover {
+      width: $cover-size-2400;
+      height: $cover-size-2400;
+    }
+
+    &_image {
+      width: $cover-size-2400;
+      height: $cover-size-2400;
+    }
+
+    &__placeholder {
+      & > svg {
+        width: $svg-size-2400;
+        height: $svg-size-2400;
+      }
+    }
   }
 }
