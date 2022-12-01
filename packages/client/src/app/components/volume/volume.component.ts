@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { ComponentChanges } from 'src/app/utils/component-changes';
 
 @Component({
@@ -9,14 +9,13 @@ import { ComponentChanges } from 'src/app/utils/component-changes';
 export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() volume: number = 0;
   @Output() onChange = new EventEmitter<number>();
-  @ViewChild('track') trackElement?: ElementRef<HTMLDivElement>;
+  @ViewChild('track') trackElement!: ElementRef<HTMLDivElement>;
   private width = 0;
   private percent = 0;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: ComponentChanges<VolumeComponent>) {
     if (changes.volume) {
@@ -25,9 +24,9 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.trackElement) {
+    setTimeout(() => {
       this.width = this.trackElement.nativeElement.getBoundingClientRect().width;
-    }
+    }, 0);
   }
 
   public getFillPosition(): string {

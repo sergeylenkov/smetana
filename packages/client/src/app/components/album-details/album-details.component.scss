@@ -4,6 +4,7 @@
 .album-details {
   @include flex-column;
 
+  margin-top: 50px;
   padding: 24px;
 
   &__title {

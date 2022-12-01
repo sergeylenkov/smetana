@@ -23,7 +23,7 @@ export class PlayerService {
   play(track: Track): void {
     try {
       const path = join(track.path, track.fileName).replace(/'/g, "''");
-
+      console.log('Play', `$player.Open('${path}');`);
       this._shell.invoke(`$player.Open('${path}');`);
       this._shell.invoke('$player.Play();');
     } catch (error) {

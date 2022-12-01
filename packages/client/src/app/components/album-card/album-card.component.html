@@ -1,10 +1,12 @@
-<div class="album-card">
-  <div class="album-card__cover">
-    <a [routerLink]="['/album', album!.id]">
-      <img class="album-card__image" src="{{album!.coverUrl}}" *ngIf="album?.coverUrl != undefined" />
+<div #card class="album-card" [ngStyle]="{ 'width.px': cardSize }">
+  <a [routerLink]="['/album', album!.id]">
+  <div class="album-card__top" [ngStyle]="{ 'width.px': cardSize, 'height.px': cardSize }">
+    <div class="album-card__cover">
+      <img class="album-card__image" src="{{cover}}" *ngIf="cover != undefined" />
       <svg-icon class="album-card__placeholder" src="assets/album.svg" *ngIf="album?.coverUrl == undefined"></svg-icon>
-    </a>
+    </div>
   </div>
+  </a>
   <div class="album-card__bottom">
     <a class="album-card__title" [routerLink]="['/album', album!.id]">{{album!.name}}</a>
     <div class="album-card__artists">

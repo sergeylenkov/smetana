@@ -3,9 +3,11 @@
 .navigation {
   @include flex-row-center;
 
-  position: sticky;
+  position: fixed;
   top: 0;
+  z-index: 10;
 
+  width: 100vw;
   height: 50px;
   padding: 0 24px;
 

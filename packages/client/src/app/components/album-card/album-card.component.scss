@@ -1,21 +1,41 @@
 @import '../../../styles/mixins.scss';
 @import '../../../styles/vars.scss';
 
+:host {
+  @include flex-column;
+
+  margin: 0 auto 10px auto;
+}
+
 .album-card {
   @include flex-column;
 
-  width: $card-size-default;
-  padding: 6px;
+  position: relative;
+  width: 250px;
+  margin: 0 auto;
 
   border: 1px solid var(--card-border-color);
   border-radius: 4px;
   background-color: var(--card-background);
 
+  &__top {
+    width: 250px;
+    height: 250px;
+    padding: 5px;
+  }
+
+  &__bottom {
+    @include flex-column;
+
+    padding: 5px;
+  }
+
   &__cover {
     @include flex-row-center;
 
-    width: $cover-size-default;
-    height: $cover-size-default;
+    width: 100%;
+    height: 100%;
+
     border: 1px solid var(--card-border-color);
     border-radius: 2px;
 
@@ -23,23 +43,23 @@
   }
 
   &__image {
-    width: $cover-size-default;
-    height: $cover-size-default;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
   &__placeholder {
+    @include flex-row-center;
+    height: 100%;
+    width: 100%;
+
     color: var(--card-placeholder-color);
 
     & > svg {
-      width: $svg-size-default;
-      height: $svg-size-default;
+      width: 60%;
+      height: 60%;
+      margin: auto;
     }
-  }
-
-  &__bottom {
-    @include flex-column;
-    margin-top: 10px;
   }
 
   &__title {
@@ -54,7 +74,7 @@
   }
 
   &__artists {
-    margin-top: 5px;
+    margin-top: 2px;
   }
 
   &__artist {
@@ -79,47 +99,5 @@
 
   &__separator:last-of-type {
     display: none;
-  }
-
-  @media (min-width: $screen-size-1800) {
-    width: $card-size-1800;
-
-    &__cover {
-      width: $cover-size-1800;
-      height: $cover-size-1800;
-    }
-
-    &_image {
-      width: $cover-size-1800;
-      height: $cover-size-1800;
-    }
-
-    &__placeholder {
-      & > svg {
-        width: $svg-size-1800;
-        height: $svg-size-1800;
-      }
-    }
-  }
-
-  @media (min-width: $screen-size-2400) {
-    width: $card-size-2400;
-
-    &__cover {
-      width: $cover-size-2400;
-      height: $cover-size-2400;
-    }
-
-    &_image {
-      width: $cover-size-2400;
-      height: $cover-size-2400;
-    }
-
-    &__placeholder {
-      & > svg {
-        width: $svg-size-2400;
-        height: $svg-size-2400;
-      }
-    }
   }
 }

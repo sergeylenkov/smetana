@@ -2,20 +2,10 @@
 @import '../../../styles/vars.scss';
 
 .albums-list {
-  @include grid;
+  @include flex-row;
 
-  padding: 20px;
+  flex-wrap: wrap;
   width: 100%;
-  grid-gap: $gap-default;
-  grid-template-columns: repeat($columns-default, 1fr);
-
-  @media (min-width: $screen-size-1800) {
-    grid-gap: $gap-1800;
-    grid-template-columns: repeat($columns-1800, 1fr);
-  }
-
-  @media (min-width: $screen-size-2400) {
-    grid-gap: $gap-2400;
-    grid-template-columns: repeat($columns-2400, 1fr);
-  }
+  margin-top: 50px;
+  padding: 20px;
 }
