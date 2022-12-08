@@ -1,11 +1,18 @@
 @import '../../../styles/mixins.scss';
 @import '../../../styles/vars.scss';
 
+.scroll-container {
+  width: 100%;
+  max-height: calc(100vh - 70px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-top: 50px;
+  padding: 20px;
+}
+
 .albums-list {
   @include flex-row;
 
   flex-wrap: wrap;
   width: 100%;
-  margin-top: 50px;
-  padding: 20px;
 }
