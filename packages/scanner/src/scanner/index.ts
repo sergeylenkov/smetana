@@ -267,8 +267,8 @@ export class Scanner {
       path: folder,
       fileName: fileName,
       title: title,
-      album: album,
-      albumArtist: albumArtist,
+      album: this.clearAlbumTitle(album),
+      albumArtist: this.clearArtistTitle(albumArtist),
       year: year,
       genres: metadata.common.genre || [],
       artists: [...new Set(artists)],
@@ -349,8 +349,8 @@ export class Scanner {
           path: folder,
           fileName: file,
           title: cueTrack.title || '',
-          album: trim(album, [' ', '"', '\'']),
-          albumArtist: artist,
+          album: this.clearAlbumTitle(album),
+          albumArtist: this.clearArtistTitle(artist),
           year: year,
           genres: [trim(genre, [' ', '"', '\''])],
           artists: [artist],
@@ -450,5 +450,53 @@ export class Scanner {
 
   private isIgnored(file: string): boolean {
     return file.startsWith('._');
+  }
+
+  private clearAlbumTitle(title: string): string {
+    if (!title) {
+      return title;
+    }
+
+    let newTitle = title.trim();
+
+    newTitle = newTitle.replace('CD1', '');
+    newTitle = newTitle.replace('CD2', '');
+    newTitle = newTitle.trim();
+
+    let regexp = new RegExp('^.+(\\(.+\\))$');
+    let match = newTitle.match(regexp);
+
+    if (match) {
+      newTitle = newTitle.replace(match[1], '');
+    }
+
+    regexp = new RegExp('^.+(\\[.+\\])$');
+    match = newTitle.match(regexp);
+
+    if (match) {
+      newTitle = newTitle.replace(match[1], '');
+    }
+
+    return trim(newTitle, [' ', '"', '\'']);
+  }
+
+  private clearArtistTitle(title: string): string {
+    if (!title) {
+      return title;
+    }
+
+    let newTitle = title.trim();
+
+    newTitle = newTitle.replace('AC DC', 'AC/DC');
+    newTitle = newTitle.replace('ACDC', 'AC/DC');
+    newTitle = newTitle.replace('AC-DC', 'AC/DC');
+    newTitle = newTitle.replace('Blues Taveler', 'Blues Traveler');
+
+    newTitle = newTitle.split(' ').map(word => {
+      let lower = word.toLocaleLowerCase();
+      return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
+    }).join(' ');
+
+    return trim(newTitle, [' ', '"', '\'']);
   }
 }

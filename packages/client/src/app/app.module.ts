@@ -16,6 +16,7 @@ import { PlayerFactory } from './player/player.factory';
 import { PlayerControlsComponent } from './components/player-controls/player-controls.component';
 import { PlayButtonComponent } from './components/play-button/play-button.component';
 import { VolumeComponent } from './components/volume/volume.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { VolumeComponent } from './components/volume/volume.component';
     PlayerInfoComponent,
     PlayerControlsComponent,
     PlayButtonComponent,
-    VolumeComponent
+    VolumeComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,10 @@
+@import '../../../styles/mixins.scss';
+
+:host {
+  margin: auto;
+}
+
+.search {
+  @include flex-row-center;
+
+}

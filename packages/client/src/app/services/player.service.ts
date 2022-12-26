@@ -25,19 +25,16 @@ export class PlayerService {
 
     this.player.onStart = (track: Track) => {
       this._state = PlayerState.Playing;
-
       this.onStart.emit(track);
     }
 
     this.player.onStop = () => {
       this._state = PlayerState.Stopped;
-
       this.onStop.emit();
     }
 
     this.player.onEnd = () => {
       this._state = PlayerState.Stopped;
-
       this.nextTrack();
 
       this.onEnd.emit();

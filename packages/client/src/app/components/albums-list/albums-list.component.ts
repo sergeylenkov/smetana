@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -11,7 +11,7 @@ const DEFAULT_CARD_SIZE = 200;
   styleUrls: ['./albums-list.component.scss'],
   providers:  [ AlbumsService ]
 })
-export class AlbumsListComponent implements OnInit, AfterViewInit {
+export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
   albums: Album[] = [];
   cardSize: number = DEFAULT_CARD_SIZE;
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
@@ -36,7 +36,9 @@ export class AlbumsListComponent implements OnInit, AfterViewInit {
 
       this.cardSize = Math.floor(width / maxCount);
     }
+  }
 
+  ngAfterViewChecked() {
     requestAnimationFrame(() => {
       if (this.scrollContainer) {
         this.scrollContainer.nativeElement.scrollTo(0, this.settingsService.scrollPosition);

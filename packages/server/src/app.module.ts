@@ -13,6 +13,7 @@ import { CoversModule } from './cover/covers.module';
 import { Track } from './tracks/track.entity';
 import { TracksModule } from './tracks/tracks.module';
 import { PlayerModule } from './player/player.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PlayerModule } from './player/player.module';
     CoversModule,
     TracksModule,
     PlayerModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
