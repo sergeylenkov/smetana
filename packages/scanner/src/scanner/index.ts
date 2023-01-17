@@ -261,6 +261,8 @@ export class Scanner {
     metadata.common.artist && artists.push(metadata.common.artist);
 
     const stats = await FS.stat(join(folder, fileName));
+    const clearArtist = this.clearArtistTitle(albumArtist);
+    const clearArtists = artists.map(artist => this.clearArtistTitle(artist));
 
     const track: Track = {
       key: `${albumArtist}_${album}_${year}`,
@@ -268,10 +270,10 @@ export class Scanner {
       fileName: fileName,
       title: title,
       album: this.clearAlbumTitle(album),
-      albumArtist: this.clearArtistTitle(albumArtist),
+      albumArtist: clearArtist,
       year: year,
       genres: metadata.common.genre || [],
-      artists: [...new Set(artists)],
+      artists: [...new Set(clearArtists)],
       composers: metadata.common.composer || [],
       track: metadata.common.track.no || 0,
       disk: metadata.common.disk.no || 0,
@@ -343,17 +345,18 @@ export class Scanner {
         }
 
         const stats = await FS.stat(join(folder, fileName));
+        const clearArtist = this.clearArtistTitle(artist);
 
         const track: Track = {
-          key: `${artist}_${album}_${year}`,
+          key: `${clearArtist}_${album}_${year}`,
           path: folder,
           fileName: file,
           title: cueTrack.title || '',
           album: this.clearAlbumTitle(album),
-          albumArtist: this.clearArtistTitle(artist),
+          albumArtist: clearArtist,
           year: year,
           genres: [trim(genre, [' ', '"', '\''])],
-          artists: [artist],
+          artists: [clearArtist],
           composers: composer ? [composer] : [],
           track: cueTrack.number || 0,
           disk: 0,
@@ -491,6 +494,10 @@ export class Scanner {
     newTitle = newTitle.replace('ACDC', 'AC/DC');
     newTitle = newTitle.replace('AC-DC', 'AC/DC');
     newTitle = newTitle.replace('Blues Taveler', 'Blues Traveler');
+
+    if (newTitle == 'AC/DC') {
+      return newTitle;
+    }
 
     newTitle = newTitle.split(' ').map(word => {
       let lower = word.toLocaleLowerCase();
