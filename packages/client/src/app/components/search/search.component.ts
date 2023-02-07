@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { elementAt } from 'rxjs';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -18,6 +17,7 @@ export class SearchComponent implements OnInit {
       const element = event.target as HTMLInputElement;
 
       if (element.value.length > 2) {
+        console.log(element.value);
         this.searchService.search(element.value);
       }
     }

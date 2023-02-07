@@ -14,7 +14,7 @@ export class WebPlayer extends Player {
     this._sound && this._sound.volume(value);
   }
 
-  play(track: Track): void {
+  public play(track: Track): void {
     if (this._sound) {
       this._sound.stop();
       this._sound = undefined;
@@ -48,15 +48,19 @@ export class WebPlayer extends Player {
     this._sound.play();
   }
 
-  stop(track: Track): void {
+  public stop(track: Track): void {
     this._sound && this._sound.stop();
   }
 
-  pause(track: Track): void {
+  public pause(track: Track): void {
     this._sound && this._sound.pause();
   }
 
-  resume(track: Track): void {
+  public resume(track: Track): void {
     this._sound && this._sound.play();
+  }
+
+  public forceStop(): void {
+    this._sound && this._sound.stop();
   }
 }

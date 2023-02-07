@@ -57,6 +57,10 @@ export class ApiPlayer extends Player {
     });
   }
 
+  public forceStop(): void {
+    this.api.forceStop();
+  }
+
   private startTimer() {
     this.stopTimer();
 
@@ -70,7 +74,7 @@ export class ApiPlayer extends Player {
 
       const seconds = this._remaining / 1000;
       const progress = Math.floor(seconds / (this._track!.duration / 100));
-      console.log('progress', this._track!.duration, seconds);
+
       this.onProgress(progress);
 
       if (this._remaining < 1000) {

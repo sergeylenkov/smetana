@@ -5,6 +5,27 @@
 }
 
 .search {
-  @include flex-row-center;
+  @include flex-row-center-vertical;
 
+  min-width: 400px;
+  padding: 10px;
+  border: 1px solid var(--nav-divider-color);
+  border-radius: 20px;
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    color: var(--secondary-text-color);
+  }
+
+  &__input {
+    width: 100%;
+    font-size: 14px;
+    color: var(--main-text-color);
+
+    ::placeholder {
+      color: var(--secondary-text-color);
+    }
+  }
 }

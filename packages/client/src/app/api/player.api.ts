@@ -34,4 +34,8 @@ export class PlayerAPI {
   @Get('player/seek')
   public async seek(@Query() query?: JSONObject | string): Promise<void> {
   }
+
+  @Get('player/forceStop')
+  public async forceStop(): Promise<void> {
+  }
 }

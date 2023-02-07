@@ -20,6 +20,11 @@ export class PlayerController {
     }
   }
 
+  @Get('track/:id/stop')
+  async stop(@Param('id') id) {
+    this.playerService.pause();
+  }
+
   @Get('track/:id/pause')
   async pause(@Param('id') id) {
     this.playerService.pause();
@@ -38,5 +43,10 @@ export class PlayerController {
   @Get('seek')
   seek(@Query('value') value) {
     this.playerService.seek(value);
+  }
+
+  @Get('forceStop')
+  forceStop() {
+    this.playerService.pause();
   }
 }

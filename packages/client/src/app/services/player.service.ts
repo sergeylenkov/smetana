@@ -134,6 +134,10 @@ export class PlayerService {
     }
   }
 
+  public forceStop() {
+    this.player.forceStop();
+  }
+
   private getCurrentTrackIndex(): number | undefined {
     if (this.track) {
       const index = this._playlist.findIndex(item => item.id === this.track?.id);

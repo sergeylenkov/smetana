@@ -15,6 +15,7 @@ export abstract class Player {
   abstract stop(track: Track): void;
   abstract pause(track: Track): void;
   abstract resume(track: Track): void;
+  abstract forceStop(): void;
 
   onStart(track: Track) {
     throw new Error('Method not implemented.');
