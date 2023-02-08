@@ -4,7 +4,7 @@ import { Artist } from '../artists/artist.entity';
 import { Track } from '../tracks/track.entity';
 import { Album } from '../albums/album.entity';
 import { SearchController } from './search.controller';
-import { SearchService } from './serach.service';
+import { SearchService } from './search.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Album, Track, Artist])],

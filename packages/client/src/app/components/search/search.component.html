@@ -1,4 +1,10 @@
 <div class="search">
   <svg-icon class="search__icon" src="assets/search.svg"></svg-icon>
   <input class="search__input" type="text" placeholder="Album, track, artist..." (input)="onChange($event)"/>
+  <ul class="search__list" *ngIf="results.length > 0">
+    <li *ngFor="let result of results">
+      <span *ngIf="isAlbum(result)">{{result.name}}</span>
+      <span *ngIf="isTrack(result)">{{result.title}}</span>
+    </li>
+  </ul>
 </div>
