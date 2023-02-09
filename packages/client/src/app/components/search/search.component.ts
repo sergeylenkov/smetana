@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Artist } from 'src/app/dto/artist';
 import { Album } from '../../dto/album';
 import { Track } from '../../dto/track';
 import { SearchService } from '../../services/search.service';
@@ -9,8 +11,16 @@ import { SearchService } from '../../services/search.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  constructor(private searchService: SearchService) { }
-  results: Array<Album | Track> = [];
+  @ViewChild('searchInput') searchElement?: ElementRef<HTMLInputElement>;
+  results: Array<Album | Track | Artist> = [];
+
+  constructor(private searchService: SearchService, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.closeList();
+      }
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -20,20 +30,23 @@ export class SearchComponent implements OnInit {
       const element = event.target as HTMLInputElement;
 
       if (element.value.length >= 2) {
-        console.log(element.value);
         this.results = await this.searchService.search(element.value);
-        console.log(this.results);
       } else {
         this.results = [];
       }
     }
   }
 
-  public isAlbum(item: Album | Track): item is Album {
+  public closeList() {
+    this.searchElement!.nativeElement.value = '';
+    this.results = [];
+  }
+
+  public isAlbum(item: Album | Track | Artist): item is Album {
     return item instanceof Album;
   }
 
-  public isTrack(item: Album | Track): item is Track {
+  public isTrack(item: Album | Track | Artist): item is Track {
     return item instanceof Track;
   }
 }

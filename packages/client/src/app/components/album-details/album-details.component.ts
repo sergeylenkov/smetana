@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { Track } from '../../dto/track';
@@ -16,7 +16,7 @@ export class AlbumDetailsComponent implements OnInit {
   public currentTrack?: Track;
   public stateType = PlayerState;
 
-  constructor(private service: AlbumsService, private route: ActivatedRoute, private playerService: PlayerService) {
+  constructor(private service: AlbumsService, private route: ActivatedRoute, private router: Router, private playerService: PlayerService) {
     this.playerService.onStart.subscribe((track: Track) => {
       this.currentTrack = this.playerService.track;
       this.album = this.playerService.album;
@@ -26,13 +26,22 @@ export class AlbumDetailsComponent implements OnInit {
       this.currentTrack = this.playerService.track;
       this.album = this.playerService.album;
     });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const id = this.route.snapshot.params['id'];
+        this.loadAlbum(id);
+      }
+    });
   }
 
   ngOnInit(): void {
+  }
+
+  private loadAlbum(id: number) {
     this.currentTrack = this.playerService.track;
     this.album = this.playerService.album;
 
-    const id = this.route.snapshot.params['id'];
     this.getTracks(id);
   }
 

@@ -4,20 +4,24 @@
   margin: 0 0 0 auto;
 }
 
-.player {
+.search-album {
   @include flex-row-center-vertical;
-  margin: auto 0;
+  padding: 5px;
+
+  &:hover {
+    background-color: var(--hover-background);
+  }
 
   &__title {
     @include flex-column;
   }
 
-  &__track {
+  &__name {
     font-size: 14px;
     color: var(--main-text-color);
   }
 
-  &__album {
+  &__artists {
     max-width: 300px;
     margin-top: 2px;
     font-size: 12px;
@@ -55,15 +59,5 @@
       width: 250px;
       height: 250px;
     }
-  }
-
-  &__separator {
-    display: inline-block;
-    width: 2px;
-    height: 2px;
-    margin: -2px 6px 0;
-    vertical-align: middle;
-    background-color: var(--main-text-color);
-    border-radius: 50%;
   }
 }

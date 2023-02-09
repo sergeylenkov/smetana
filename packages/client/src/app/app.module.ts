@@ -17,6 +17,7 @@ import { PlayerControlsComponent } from './components/player-controls/player-con
 import { PlayButtonComponent } from './components/play-button/play-button.component';
 import { VolumeComponent } from './components/volume/volume.component';
 import { SearchComponent } from './components/search/search.component';
+import { SearchAlbumComponent } from './components/search-album/search-album.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SearchComponent } from './components/search/search.component';
     PlayerControlsComponent,
     PlayButtonComponent,
     VolumeComponent,
-    SearchComponent
+    SearchComponent,
+    SearchAlbumComponent
   ],
   imports: [
     BrowserModule,

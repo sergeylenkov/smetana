@@ -3,6 +3,7 @@ import { Get, Http, HttpResponseType, JSONObject, Response, Query } from '@sergl
 import { JsonSerializer } from '@serglenkov/json-serializer';
 import { environment } from '../../environments/environment';
 import { Album } from '../dto/album';
+import { Artist } from '../dto/artist';
 import { Track } from '../dto/track';
 
 @Injectable({
@@ -26,6 +27,17 @@ export class SearchAPI {
     if (Array.isArray(response)) {
       return response.map(obj => {
         return JsonSerializer.Deserialize<Track>(Track, obj);
+      })
+    }
+
+    return [];
+  }
+
+  @Get('search/artists')
+  public async searchArtists(@Query() query?: JSONObject | string, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Artist[]> {
+    if (Array.isArray(response)) {
+      return response.map(obj => {
+        return JsonSerializer.Deserialize<Artist>(Artist, obj);
       })
     }
 
