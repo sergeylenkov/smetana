@@ -37,6 +37,10 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  public onClickOutside() {
+    this.closeList();
+  }
+
   public closeList() {
     this.searchElement!.nativeElement.value = '';
     this.results = [];

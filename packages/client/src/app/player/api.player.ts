@@ -72,14 +72,18 @@ export class ApiPlayer extends Player {
 
       this._remaining -= delta;
 
-      const seconds = this._remaining / 1000;
-      const progress = Math.floor(seconds / (this._track!.duration / 100));
+      if (this._remaining >= 1000) {
+        const seconds = this._remaining / 1000;
+        const progress = Math.floor(seconds / (this._track!.duration / 100));
 
-      this.onProgress(progress);
-
-      if (this._remaining < 1000) {
+        this.onProgress(progress);
+      } else {
         this.stopTimer();
-        this._track && this.onEnd(this._track);
+
+        if (this._track) {
+          this.stop(this._track);
+          this.onEnd(this._track);
+        }
       }
     }, 1000);
   }

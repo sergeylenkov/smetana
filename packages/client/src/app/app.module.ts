@@ -18,6 +18,7 @@ import { PlayButtonComponent } from './components/play-button/play-button.compon
 import { VolumeComponent } from './components/volume/volume.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchAlbumComponent } from './components/search-album/search-album.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SearchAlbumComponent } from './components/search-album/search-album.com
     PlayButtonComponent,
     VolumeComponent,
     SearchComponent,
-    SearchAlbumComponent
+    SearchAlbumComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

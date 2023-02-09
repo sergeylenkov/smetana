@@ -1,7 +1,7 @@
 <div class="search">
   <svg-icon class="search__icon" src="assets/search.svg"></svg-icon>
   <input #searchInput class="search__input" type="text" placeholder="Album, track, artist..." (input)="onChange($event)"/>
-  <ul class="search__list" *ngIf="results.length > 0">
+  <ul class="search__list" *ngIf="results.length > 0" (clickOutside)="onClickOutside()">
     <li *ngFor="let result of results">
       <app-search-album *ngIf="isAlbum(result)" [album]="result" (click)="closeList"></app-search-album>
     </li>
