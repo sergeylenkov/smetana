@@ -4,6 +4,9 @@ import { Album } from '../albums/album.entity';
 import { Track } from '../tracks/track.entity';
 import { Like, Repository } from 'typeorm';
 import { Artist } from '../artists/artist.entity';
+import { SearchArtistDto } from './search-artist.dto';
+import { SearchAlbumDto } from './search-album.dto';
+import { SearchTrackDto } from './search-track.dto';
 
 @Injectable()
 export class SearchService {
@@ -16,21 +19,89 @@ export class SearchService {
     private artistsRepository: Repository<Artist>,
   ) {}
 
-  searchAlbums(query: string): Promise<Album[]> {
-    return this.albumsRepository.findBy({
-      name: Like(`%${query.toLocaleLowerCase()}%`),
+  public async searchAlbums(query: string): Promise<SearchAlbumDto[]> {
+    const results = await this.albumsRepository.find({
+      where: { name: Like(`%${query.toLocaleLowerCase()}%`) },
+      relations: {
+        artists: true,
+        covers: true,
+      },
+    });
+
+    return results.map((result) => {
+      const dto: SearchAlbumDto = {
+        id: result.id,
+        name: result.name,
+        artists: result.artists.map((artist) => artist.name),
+      };
+
+      const cover = result.covers[0];
+
+      if (cover) {
+        dto.cover = cover.id;
+      }
+
+      return dto;
     });
   }
 
-  searchTracks(query: string): Promise<Track[]> {
-    return this.tracksRepository.findBy({
-      title: Like(`%${query.toLocaleLowerCase()}%`),
+  public async searchTracks(query: string): Promise<SearchTrackDto[]> {
+    const results = await this.tracksRepository.find({
+      where: { title: Like(`%${query.toLocaleLowerCase()}%`) },
+      relations: {
+        albums: {
+          covers: true,
+          artists: true,
+        },
+      },
+    });
+
+    return results.map((result) => {
+      const album = result.albums[0];
+
+      const dto: SearchTrackDto = {
+        id: result.id,
+        name: result.title,
+        album: {
+          id: album.id,
+          name: album.name,
+          artists: album.artists.map((artist) => artist.name),
+        },
+      };
+
+      const cover = result.albums[0].covers[0];
+
+      if (cover) {
+        dto.cover = cover.id;
+      }
+
+      return dto;
     });
   }
 
-  searchArtists(query: string): Promise<Artist[]> {
-    return this.artistsRepository.findBy({
-      name: Like(`%${query.toLocaleLowerCase()}%`),
+  public async searchArtists(query: string): Promise<SearchArtistDto[]> {
+    const results = await this.artistsRepository.find({
+      where: { name: Like(`%${query.toLocaleLowerCase()}%`) },
+      relations: {
+        albums: {
+          covers: true,
+        },
+      },
+    });
+
+    return results.map((result) => {
+      const dto: SearchArtistDto = {
+        id: result.id,
+        name: result.name,
+      };
+
+      const cover = result.albums[0].covers[0];
+
+      if (cover) {
+        dto.cover = cover.id;
+      }
+
+      return dto;
     });
   }
 }

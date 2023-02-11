@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Album } from '../albums/album.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity({ name: 'tracks', synchronize: false })
 export class Track {
@@ -25,4 +32,16 @@ export class Track {
 
   @Column({ name: 'multitrack' })
   isMultitrack: boolean;
+
+  @ManyToMany(() => Album)
+  @JoinTable({
+    name: 'albums_tracks',
+    joinColumn: {
+      name: 'track_id',
+    },
+    inverseJoinColumn: {
+      name: 'album_id',
+    },
+  })
+  albums: Album[];
 }

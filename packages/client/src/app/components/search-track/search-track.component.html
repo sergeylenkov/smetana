@@ -1,0 +1,12 @@
+<a [routerLink]="['/album', track?.album?.id]">
+  <div class="search-track">
+      <div class="search-track__cover">
+        <img class="search-track__image" src="{{track!.coverUrl}}" *ngIf="track?.coverUrl != undefined" />
+        <svg-icon class="search-track__placeholder" src="assets/album.svg" *ngIf="track?.coverUrl == undefined"></svg-icon>
+      </div>
+      <div class="search-track__title">
+        <div class="search-track__name">{{track?.name}}</div>
+        <div class="search-track__album">{{track?.album?.name}}<span class="search-track__separator"></span>{{artists}}</div>
+      </div>
+  </div>
+</a>

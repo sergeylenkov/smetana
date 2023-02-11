@@ -4,7 +4,7 @@
   margin: 0 0 0 auto;
 }
 
-.search-album {
+.search-artist {
   @include flex-row-center-vertical;
   padding: 5px;
 
@@ -13,22 +13,10 @@
   }
 
   &__title {
-    @include flex-column;
-  }
+    @include flex-row-center-vertical;
 
-  &__name {
     font-size: 14px;
     color: var(--main-text-color);
-  }
-
-  &__artists {
-    max-width: 300px;
-    margin-top: 2px;
-    font-size: 12px;
-    color: var(--secondary-text-color);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
 
   &__cover {

@@ -71,7 +71,7 @@ export class ApiPlayer extends Player {
       this._lastTick = Date.now();
 
       this._remaining -= delta;
-
+      console.log('timer', this._remaining, delta);
       if (this._remaining >= 1000) {
         const seconds = this._remaining / 1000;
         const progress = Math.floor(seconds / (this._track!.duration / 100));
@@ -79,7 +79,7 @@ export class ApiPlayer extends Player {
         this.onProgress(progress);
       } else {
         this.stopTimer();
-
+        console.log('end', this._track);
         if (this._track) {
           this.stop(this._track);
           this.onEnd(this._track);

@@ -19,6 +19,9 @@ import { VolumeComponent } from './components/volume/volume.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchAlbumComponent } from './components/search-album/search-album.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { FormsModule } from '@angular/forms';
+import { SearchArtistComponent } from './components/search-artist/search-artist.component';
+import { SearchTrackComponent } from './components/search-track/search-track.component';
 
 @NgModule({
   declarations: [
@@ -34,13 +37,16 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     VolumeComponent,
     SearchComponent,
     SearchAlbumComponent,
+    SearchArtistComponent,
+    SearchTrackComponent,
     ClickOutsideDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    AngularSvgIconModule.forRoot()
+    AngularSvgIconModule.forRoot(),
+    FormsModule
   ],
   providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }],
   bootstrap: [AppComponent]

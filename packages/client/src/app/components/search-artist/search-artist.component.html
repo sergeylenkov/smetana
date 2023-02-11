@@ -1,0 +1,11 @@
+<a [routerLink]="['/artist', artist?.id]">
+  <div class="search-artist">
+      <div class="search-artist__cover">
+        <img class="search-artist__image" src="{{artist!.coverUrl}}" *ngIf="artist?.coverUrl != undefined" />
+        <svg-icon class="search-artist__placeholder" src="assets/album.svg" *ngIf="artist?.coverUrl == undefined"></svg-icon>
+      </div>
+      <div class="search-artist__title">
+        {{artist?.name}}
+      </div>
+  </div>
+</a>

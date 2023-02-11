@@ -25,9 +25,25 @@
     font-size: 14px;
     color: var(--main-text-color);
 
-    ::placeholder {
+    &::placeholder {
       color: var(--secondary-text-color);
     }
+
+    &:placeholder-shown ~ .search__clear-button {
+      display: none;
+    }
+  }
+
+  &__clear-button {
+    @include flex-row-center-vertical;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__clear-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--secondary-text-color);
   }
 
   &__list {
@@ -41,5 +57,11 @@
     background-color: var(--background);
     box-shadow: 0 10px 20px -5px var(--dropdown-shadow);
     overflow: auto;
+  }
+
+  &__group {
+    padding: 10px 5px 5px 5px;
+    font-size: 14px;
+    color: var(--secondary-text-color);
   }
 }

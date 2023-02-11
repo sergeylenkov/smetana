@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Album } from '../../dto/album';
+import { SearchAlbum } from '../../dto/search-album';
 
 @Component({
   selector: 'app-search-album',
@@ -7,14 +7,12 @@ import { Album } from '../../dto/album';
   styleUrls: ['./search-album.component.scss']
 })
 export class SearchAlbumComponent implements OnInit {
-  @Input() album?: Album;
-  public name: string = '';
+  @Input() album?: SearchAlbum;
   public artists: string = '';
 
   ngOnInit(): void {
     if (this.album) {
-      this.name = this.album.name;
-      this.artists = this.album?.artists.map(artist => artist.name).join(', ') || '';
+      this.artists = this.album.artists.join(', ');
     }
   }
 }
