@@ -22,6 +22,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { FormsModule } from '@angular/forms';
 import { SearchArtistComponent } from './components/search-artist/search-artist.component';
 import { SearchTrackComponent } from './components/search-track/search-track.component';
+import { ArtistDetailsComponent } from './components/artist-details/artist-details.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SearchTrackComponent } from './components/search-track/search-track.com
     SearchAlbumComponent,
     SearchArtistComponent,
     SearchTrackComponent,
+    ArtistDetailsComponent,
     ClickOutsideDirective
   ],
   imports: [

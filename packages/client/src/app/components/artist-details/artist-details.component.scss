@@ -1,0 +1,25 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/animations.scss';
+
+.artist-details {
+  @include flex-column;
+
+  margin-top: 50px;
+  padding: 24px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--main-text-color);
+  }
+}
+
+.albums-list {
+  @include flex-row;
+
+  margin-top: 30px;
+
+  flex-wrap: wrap;
+  width: 100%;
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Album } from '../dto/album';
 import { AlbumsAPI } from '../api/albums.api';
+import { Track } from '../dto/track';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,11 @@ export class AlbumsService {
     return this.api.getAlbums();
   }
 
-  public async getTracks(id: number): Promise<Album | undefined> {
+  public async getAlbum(id: number): Promise<Album | undefined> {
+    return this.api.getAlbum(id);
+  }
+
+  public async getTracks(id: number): Promise<Track[]> {
     return this.api.getTracks(id);
   }
 }

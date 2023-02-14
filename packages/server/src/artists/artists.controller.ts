@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { Album } from '../albums/album.entity';
 import { Artist } from './artist.entity';
 import { ArtistsService } from './artists.service';
 
@@ -7,12 +8,17 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Get()
-  getAll(): Promise<Artist[]> {
+  public getAll(): Promise<Artist[]> {
     return this.artistsService.findAll();
   }
 
   @Get(':id')
-  getById(@Param('id') id): Promise<Artist> {
+  public getById(@Param('id') id): Promise<Artist> {
     return this.artistsService.findById(id);
+  }
+
+  @Get(':id/albums')
+  public getAlbums(@Param('id') id): Promise<Album[]> {
+    return this.artistsService.getAlbums(id);
   }
 }

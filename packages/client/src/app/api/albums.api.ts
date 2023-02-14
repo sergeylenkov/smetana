@@ -3,6 +3,7 @@ import { Get, Http, HttpResponseType, JSONObject, Cache, Param, Response } from 
 import { JsonSerializer } from '@serglenkov/json-serializer';
 import { environment } from '../../environments/environment';
 import { Album } from '../dto/album';
+import { Track } from '../dto/track';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +22,25 @@ export class AlbumsAPI {
     return [];
   }
 
-  @Get('albums/:id/tracks')
+  @Get('albums/:id')
   @Cache(3600)
-  public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
+  public async getAlbum(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Album | undefined> {
     if (response) {
       return JsonSerializer.Deserialize<Album>(Album, response);
     }
 
     return undefined;
+  }
+
+  @Get('albums/:id/tracks')
+  @Cache(3600)
+  public async getTracks(@Param('id') id: number, @Response(HttpResponseType.Json) response?: JSONObject): Promise<Track[]> {
+    if (Array.isArray(response)) {
+      return response.map(obj => {
+        return JsonSerializer.Deserialize<Track>(Track, obj);
+      })
+    }
+
+    return [];
   }
 }

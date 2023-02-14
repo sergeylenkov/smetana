@@ -7,12 +7,12 @@ export class GenresController {
   constructor(private readonly genresService: GenresService) {}
 
   @Get()
-  getAll(): Promise<Genre[]> {
+  public getAll(): Promise<Genre[]> {
     return this.genresService.findAll();
   }
 
   @Get(':id')
-  getById(@Param('id') id): Promise<Genre> {
+  public getById(@Param('id') id): Promise<Genre> {
     return this.genresService.findById(id);
   }
 }

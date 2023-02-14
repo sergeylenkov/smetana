@@ -1,0 +1,6 @@
+<div class="artist-details" *ngIf="artist">
+  <div class="artist-details__title">{{artist.name}}</div>
+  <div class="albums-list">
+    <app-album-card *ngFor="let album of albums" [album]="album"></app-album-card>
+  </div>
+</div>

@@ -10,11 +10,11 @@ export class GenresService {
     private genresRepository: Repository<Genre>,
   ) {}
 
-  findAll(): Promise<Genre[]> {
+  public findAll(): Promise<Genre[]> {
     return this.genresRepository.find();
   }
 
-  findById(id: number): Promise<Genre> {
+  public findById(id: number): Promise<Genre> {
     return this.genresRepository.findOneBy({ id });
   }
 }

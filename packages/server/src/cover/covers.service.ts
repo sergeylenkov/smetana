@@ -10,11 +10,11 @@ export class CoversService {
     private coversRepository: Repository<Cover>,
   ) {}
 
-  findAll(): Promise<Cover[]> {
+  public findAll(): Promise<Cover[]> {
     return this.coversRepository.find();
   }
 
-  findById(id: number): Promise<Cover> {
+  public findById(id: number): Promise<Cover> {
     return this.coversRepository.findOneBy({ id });
   }
 }

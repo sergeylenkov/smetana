@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Track } from '../tracks/track.entity';
 import { Repository } from 'typeorm';
 import { Album } from './album.entity';
 
@@ -10,7 +11,7 @@ export class AlbumsService {
     private albumsRepository: Repository<Album>,
   ) {}
 
-  findAll(): Promise<Album[]> {
+  public findAll(): Promise<Album[]> {
     return this.albumsRepository.find({
       relations: {
         artists: true,
@@ -20,7 +21,7 @@ export class AlbumsService {
     });
   }
 
-  findById(id: number): Promise<Album> {
+  public findById(id: number): Promise<Album> {
     return this.albumsRepository.findOne({
       where: { id: id },
       relations: {
@@ -31,15 +32,14 @@ export class AlbumsService {
     });
   }
 
-  getWithTracks(id: number): Promise<Album> {
-    return this.albumsRepository.findOne({
+  public async getTracks(id: number): Promise<Track[]> {
+    const album = await this.albumsRepository.findOne({
       where: { id: id },
       relations: {
-        artists: true,
-        genres: true,
-        covers: true,
         tracks: true,
       },
     });
+
+    return album.tracks;
   }
 }

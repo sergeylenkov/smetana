@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Album } from '../albums/album.entity';
 import { Repository } from 'typeorm';
 import { Artist } from './artist.entity';
 
@@ -10,11 +11,24 @@ export class ArtistsService {
     private artistsRepository: Repository<Artist>,
   ) {}
 
-  findAll(): Promise<Artist[]> {
+  public findAll(): Promise<Artist[]> {
     return this.artistsRepository.find();
   }
 
-  findById(id: number): Promise<Artist> {
+  public findById(id: number): Promise<Artist> {
     return this.artistsRepository.findOneBy({ id });
+  }
+
+  public async getAlbums(id: number): Promise<Album[]> {
+    const album = await this.artistsRepository.findOne({
+      where: { id: id },
+      relations: {
+        albums: {
+          covers: true,
+        },
+      },
+    });
+
+    return album.albums;
   }
 }

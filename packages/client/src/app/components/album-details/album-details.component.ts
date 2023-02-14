@@ -4,7 +4,7 @@ import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { Track } from '../../dto/track';
 import { PlayerService } from '../../services/player.service';
-import { PlayerState } from 'src/app/models/player';
+import { PlayerState } from '../../models/player';
 
 @Component({
   selector: 'app-album-details',
@@ -13,6 +13,7 @@ import { PlayerState } from 'src/app/models/player';
 })
 export class AlbumDetailsComponent implements OnInit {
   public album?: Album;
+  public tracks: Track[] = [];
   public currentTrack?: Track;
   public stateType = PlayerState;
 
@@ -38,24 +39,20 @@ export class AlbumDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private loadAlbum(id: number) {
+  private async loadAlbum(id: number) {
     this.currentTrack = this.playerService.track;
     this.album = this.playerService.album;
 
-    this.getTracks(id);
-  }
+    const album = await this.service.getAlbum(id);
 
-  private async getTracks(id: number) {
-    const album = await this.service.getTracks(id);
+    this.album = album;
+    this.playerService.album = this.album;
 
-    if (album) {
-      album.tracks.sort((a, b) => {
-        return a.track - b.track;
-      })
+    const tracks = await this.service.getTracks(id);
 
-      this.album = album;
-      this.playerService.album = this.album;
-    }
+    this.tracks = tracks.sort((a, b) => {
+      return a.track - b.track;
+    });
   }
 
   public getTrackState(id: number): PlayerState {

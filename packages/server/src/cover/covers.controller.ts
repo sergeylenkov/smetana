@@ -15,17 +15,17 @@ export class CoversController {
   constructor(private readonly coversService: CoversService) {}
 
   @Get()
-  getAll(): Promise<Cover[]> {
+  public getAll(): Promise<Cover[]> {
     return this.coversService.findAll();
   }
 
   @Get(':id')
-  getById(@Param('id') id): Promise<Cover> {
+  public getById(@Param('id') id): Promise<Cover> {
     return this.coversService.findById(id);
   }
 
   @Get(':id/file')
-  async getFile(@Param('id') id): Promise<StreamableFile> {
+  public async getFile(@Param('id') id): Promise<StreamableFile> {
     try {
       const cover = await this.coversService.findById(id);
 

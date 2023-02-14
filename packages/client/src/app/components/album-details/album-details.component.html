@@ -1,12 +1,12 @@
 <div class="album-details" *ngIf="album">
   <div class="album-details__title">{{album.name}}</div>
-  <a class="album-details__artist" *ngFor="let artist of album!.artists" [routerLink]="['/artist', artist!.id]">{{artist.name}}</a>
+  <a class="album-details__artist" *ngFor="let artist of album!.artists" [routerLink]="['/artist', artist.id]">{{artist.name}}</a>
   <div class="album-details__cover">
-    <img class="album-details__image" src="{{album!.coverUrl}}" *ngIf="album?.coverUrl != undefined" />
+    <img class="album-details__image" src="{{album.coverUrl}}" *ngIf="album.coverUrl != undefined" />
     <svg-icon class="album-details__placeholder" src="assets/album.svg" *ngIf="album?.coverUrl == undefined"></svg-icon>
   </div>
   <div class="tracks-list">
-    <div class="track-item" *ngFor="let track of album!.tracks">
+    <div class="track-item" *ngFor="let track of tracks">
       <ng-container [ngSwitch]="getTrackState(track.id)">
         <button class="play-button play-button_active" (click)="onPauseTrack()" *ngSwitchCase="stateType.Playing">
           <svg-icon class="play-button__icon" src="assets/pause-circle.svg"></svg-icon>
