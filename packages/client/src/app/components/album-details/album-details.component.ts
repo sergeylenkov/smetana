@@ -64,7 +64,7 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   public onPlayTrack(id: number) {
-    const track = this.album?.tracks.find((item) => {
+    const track = this.tracks.find((item) => {
       return item.id === id;
     })
 

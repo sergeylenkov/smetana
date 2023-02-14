@@ -66,14 +66,14 @@ export class PlayerService {
 
   public set album(album: Album | undefined) {
     this._album = album;
-
-    if (album) {
-      this._playlist.push(...album.tracks);
-    }
   }
 
   public get album(): Album | undefined {
     return this._album;
+  }
+
+  public set tracks(tracks: Track[]) {
+    this._playlist.push(...tracks);
   }
 
   public set volume(volume: number) {

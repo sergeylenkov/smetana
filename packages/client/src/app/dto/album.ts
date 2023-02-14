@@ -19,9 +19,6 @@ export class Album implements OnAfterDeserialize {
   @JsonProperty({ className: Cover, type: 'array' })
   covers: Cover[] = [];
 
-  @JsonProperty({ className: Track, type: 'array', required: false })
-  tracks: Track[] = [];
-
   public coverUrl?: string;
 
   public OnAfterDeserialize() {
