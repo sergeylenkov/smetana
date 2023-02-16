@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { PlayerAPI } from '../api/player.api';
 import { Track } from '../dto/track';
 import { Player } from './player';
@@ -12,7 +12,7 @@ export class ApiPlayer extends Player {
   private _lastTick: number = 0;
   private _remaining: number = 0;
 
-  constructor(private api: PlayerAPI) {
+  constructor(private api: PlayerAPI, private ngZone: NgZone) {
     super();
   }
 
@@ -66,26 +66,33 @@ export class ApiPlayer extends Player {
 
     this._lastTick = Date.now();
 
-    this._timer = window.setInterval(() => {
-      const delta = Date.now() - this._lastTick;
-      this._lastTick = Date.now();
+    this.ngZone.runOutsideAngular(() => {
+      this._timer = window.setInterval(() => {
+        const delta = Date.now() - this._lastTick;
+        this._lastTick = Date.now();
 
-      this._remaining -= delta;
-      console.log('timer', this._remaining, delta);
-      if (this._remaining >= 1000) {
-        const seconds = this._remaining / 1000;
-        const progress = Math.floor(seconds / (this._track!.duration / 100));
+        this._remaining -= delta;
 
-        this.onProgress(progress);
-      } else {
-        this.stopTimer();
-        console.log('end', this._track);
-        if (this._track) {
-          this.stop(this._track);
-          this.onEnd(this._track);
+        if (this._remaining >= 1000) {
+          const seconds = this._remaining / 1000;
+          const progress = Math.floor(seconds / (this._track!.duration / 100));
+
+          this.ngZone.run(() => {
+            this.onProgress(progress);
+          });
+        } else {
+          this.stopTimer();
+
+          if (this._track) {
+            this.stop(this._track);
+
+            this.ngZone.run(() => {
+              this._track && this.onEnd(this._track);
+            });
+          }
         }
-      }
-    }, 1000);
+      }, 1000);
+    });
   }
 
   private stopTimer() {

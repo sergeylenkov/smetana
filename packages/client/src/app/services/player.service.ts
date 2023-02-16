@@ -98,7 +98,6 @@ export class PlayerService {
   }
 
   public playTrack(track: Track) {
-    console.log(track);
     this.track = track;
     this.player.play(track);
   }

@@ -46,11 +46,15 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
     });
   }
 
-  async getAlbums() {
+  public async getAlbums() {
     this.albums = await this.service.getAlbums();
   }
 
-  onScroll(e: Event): void {
+  public onScroll(e: Event): void {
     this.settingsService.scrollPosition = (e.target as HTMLDivElement)?.scrollTop || 0;
+  }
+
+  public albumTrackBy(index: number, album: Album) {
+    return album.id;
   }
 }

@@ -46,11 +46,15 @@ export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChe
     });
   }
 
-  async getArtists() {
+  public async getArtists() {
     this.artists = await this.service.getArtists();
   }
 
-  onScroll(e: Event): void {
+  public onScroll(e: Event): void {
     this.settingsService.scrollPosition = (e.target as HTMLDivElement)?.scrollTop || 0;
+  }
+
+  public artistTrackBy(index: number, artist: Artist) {
+    return artist.id;
   }
 }
