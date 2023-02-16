@@ -41,4 +41,10 @@ export interface Cover {
   id?: number;
   key: string;
   file: string;
+  isMain: boolean;
+}
+
+export interface CoverWeight {
+  cover: Cover;
+  weight: number;
 }

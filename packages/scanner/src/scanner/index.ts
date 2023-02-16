@@ -3,9 +3,10 @@ import { parse } from 'cue-parser';
 import { ICueSheet } from 'cue-parser/lib/types';
 import { IAudioMetadata, IPicture, parseFile } from 'music-metadata';
 import hasha from 'hasha';
+import sizeOf from 'image-size';
 import { Colors } from '../utils/console';
 import { FS, PathStats } from './fs';
-import { Track, Artist, Album, Cover, Genre } from './models';
+import { Track, Artist, Album, Cover, Genre, CoverWeight } from './models';
 import { trim } from '../utils/string';
 
 const flacExt = ['.flac', '.ape', '.wav', '.aiff'];
@@ -80,14 +81,31 @@ export class Scanner {
       if (tracksMp3.length > 0 || tracksFlac.length > 0 || tracksCue.length > 0) {
         const files = await this.searchCovers(folder);
 
-        files.forEach(file => {
-          const cover: Cover = {
-            key: folder,
-            file: file
-          }
+        if (files.length > 0) {
+          const albumCovers: Cover[] = [];
+          let mainIndex = 0;
+          let maxWeight = 0;
 
-          this._covers.push(cover);
-        });
+          files.forEach((file, index) => {
+            const cover: Cover = {
+              key: folder,
+              file: file,
+              isMain: false
+            }
+
+            const weight = this.getCoverWeight(file);
+
+            if (weight > maxWeight) {
+              mainIndex = index;
+            }
+
+            albumCovers.push(cover);
+          });
+
+          albumCovers[mainIndex].isMain = true;
+
+          this._covers.push(...albumCovers);
+        }
       }
 
       this.tracks.forEach(track => {
@@ -165,7 +183,7 @@ export class Scanner {
 
       return tracks;
     } catch (error: any) {
-      console.log(`${Colors.FgRed}${error.message}`);
+      console.log(`${Colors.FgRed}Parse mp3 error: ${error.message}`);
     }
 
     return [];
@@ -177,7 +195,9 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (flacExt.includes(extname(file)) && !this.isIgnored(file)) {
+        const ext = extname(file).toLowerCase();
+
+        if (flacExt.includes(ext) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}flac: ${Colors.FgYellow}${file}${Colors.Reset}`);
           const filePath = join(folder, file);
 
@@ -190,7 +210,7 @@ export class Scanner {
 
       return tracks;
     } catch (error: any) {
-      console.log(`${Colors.FgRed}${error.message}`);
+      console.log(`${Colors.FgRed}Parse flac error: ${error.message}`);
     }
 
     return [];
@@ -202,7 +222,9 @@ export class Scanner {
       const tracks: Track[] = [];
 
       for (const file of files) {
-        if (cueExt.includes(extname(file)) && !this.isIgnored(file)) {
+        const ext = extname(file).toLowerCase();
+
+        if (cueExt.includes(ext) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}cue: ${Colors.FgYellow}${file}${Colors.Reset}`);
           const filePath = join(folder, file);
 
@@ -216,21 +238,23 @@ export class Scanner {
       console.log(`${Colors.FgWhite}Found files in ${Colors.FgCyan}cue: ${Colors.FgYellow}${tracks.length}${Colors.Reset}`);
       return tracks;
     } catch (error: any) {
-      console.log(`${Colors.FgRed}${error.message}`);
+      console.log(`${Colors.FgRed}Parse cue error: ${error.message}`);
     }
 
     return [];
   }
 
   private async searchCovers(folder: string): Promise<string[]> {
+    console.log(`${Colors.FgWhite}Searching for covers in ${Colors.FgGreen}${folder}${Colors.Reset}`);
     try {
       const files = await FS.readDir(folder);
       const images: string[] = [];
 
       for (const file of files) {
         const filePath = join(folder, file);
+        const ext = extname(file).toLocaleLowerCase();
 
-        if (imgExt.includes(extname(file)) && !this.isIgnored(file)) {
+        if (imgExt.includes(ext) && !this.isIgnored(file)) {
           console.log(`${Colors.FgWhite}Read ${Colors.FgCyan}image: ${Colors.FgYellow}${file}${Colors.Reset}`);
           images.push(filePath);
         } else {
@@ -245,7 +269,7 @@ export class Scanner {
 
       return images;
     } catch (error: any) {
-      console.log(`${Colors.FgRed}${error.message}`);
+      console.log(`${Colors.FgRed}Read cover error: ${error.message}`);
     }
 
     return [];
@@ -505,5 +529,36 @@ export class Scanner {
     }).join(' ');
 
     return trim(newTitle, [' ', '"', '\'']);
+  }
+
+  private getCoverWeight(file: string) {
+    let weight = 0;
+
+    const coverFile = basename(file).toLowerCase();
+
+    if (coverFile.startsWith('folder')) {
+      weight = 1;
+    } else if (coverFile.startsWith('cover')) {
+      weight = coverFile.includes('front') ? 1 : 0.8;
+    } else if (coverFile.startsWith('front')) {
+      weight = 0.5;
+    } else if (coverFile.startsWith('f')) {
+      weight = 0.2;
+    }
+
+    try {
+      const dimensions = sizeOf(file);
+      const ratio = (dimensions.width || 1) / (dimensions.height || 1);
+
+      if (ratio > 0.6 && ratio <= 1.0) {
+        weight = weight * ratio;
+      } else {
+        weight = weight * 0.5;
+      }
+    } catch (error: any) {
+      console.log(`${Colors.FgRed}Read image error: ${error.message} (${file})`);
+    }
+
+    return weight;
   }
 }

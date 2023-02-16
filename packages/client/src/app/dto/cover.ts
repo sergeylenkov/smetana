@@ -8,6 +8,9 @@ export class Cover {
   @JsonProperty()
   file: string = '';
 
+  @JsonProperty('main')
+  isMain: boolean = true;
+
   get url(): string {
     return `${environment.apiUrl}/covers/${this.id}/file`;
   }

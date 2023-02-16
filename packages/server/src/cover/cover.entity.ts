@@ -7,4 +7,7 @@ export class Cover {
 
   @Column()
   file: string;
+
+  @Column()
+  main: boolean;
 }

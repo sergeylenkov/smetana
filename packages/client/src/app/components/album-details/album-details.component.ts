@@ -41,18 +41,16 @@ export class AlbumDetailsComponent implements OnInit {
 
   private async loadAlbum(id: number) {
     this.currentTrack = this.playerService.track;
-    this.album = this.playerService.album;
 
-    const album = await this.service.getAlbum(id);
-
-    this.album = album;
-    this.playerService.album = this.album;
-
+    this.album = await this.service.getAlbum(id);
     const tracks = await this.service.getTracks(id);
 
     this.tracks = tracks.sort((a, b) => {
       return a.track - b.track;
     });
+
+    this.playerService.album = this.album;
+    this.playerService.tracks = tracks;
   }
 
   public getTrackState(id: number): PlayerState {

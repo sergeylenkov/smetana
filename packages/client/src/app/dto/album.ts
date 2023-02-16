@@ -1,7 +1,6 @@
 import { JsonProperty, OnAfterDeserialize } from '@serglenkov/json-serializer';
 import { Artist } from './artist';
 import { Cover } from './cover';
-import { Track } from './track';
 
 export class Album implements OnAfterDeserialize {
   @JsonProperty()
@@ -25,8 +24,14 @@ export class Album implements OnAfterDeserialize {
     if (this.covers.length == 1) {
       this.coverUrl = this.covers[0].url;
     } else if (this.covers.length > 1) {
-      const index = Math.floor(Math.random() * (this.covers.length - 1))
-      this.coverUrl = this.covers[index].url;
+      const mainCover = this.covers.find(c => c.isMain);
+
+      if (mainCover) {
+        this.coverUrl = mainCover.url;
+      } else {
+        const index = Math.floor(Math.random() * (this.covers.length - 1));
+        this.coverUrl = this.covers[index].url;
+      }
     }
   }
 }
