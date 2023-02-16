@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms';
 import { SearchArtistComponent } from './components/search-artist/search-artist.component';
 import { SearchTrackComponent } from './components/search-track/search-track.component';
 import { ArtistDetailsComponent } from './components/artist-details/artist-details.component';
+import { ArtistsListComponent } from './components/artists-list/artists-list.component';
+import { ArtistCardComponent } from './components/artist-card/artist-card.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { ArtistDetailsComponent } from './components/artist-details/artist-detai
     SearchAlbumComponent,
     SearchArtistComponent,
     SearchTrackComponent,
+    ArtistsListComponent,
+    ArtistCardComponent,
     ArtistDetailsComponent,
     ClickOutsideDirective
   ],

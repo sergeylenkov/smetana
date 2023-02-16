@@ -35,7 +35,7 @@ export class SearchService {
         artists: result.artists.map((artist) => artist.name),
       };
 
-      const cover = result.covers[0];
+      const cover = result.covers.find((c) => c.main);
 
       if (cover) {
         dto.cover = cover.id;
@@ -69,7 +69,7 @@ export class SearchService {
         },
       };
 
-      const cover = result.albums[0].covers[0];
+      const cover = result.albums[0].covers.find((c) => c.main);
 
       if (cover) {
         dto.cover = cover.id;
@@ -95,7 +95,7 @@ export class SearchService {
         name: result.name,
       };
 
-      const cover = result.albums[0].covers[0];
+      const cover = result.albums[0].covers.find((c) => c.main);
 
       if (cover) {
         dto.cover = cover.id;

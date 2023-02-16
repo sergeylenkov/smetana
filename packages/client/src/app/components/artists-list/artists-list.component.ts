@@ -1,26 +1,26 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlbumsService } from '../../services/albums.service';
-import { Album } from '../../dto/album';
 import { SettingsService } from '../../services/settings.service';
+import { ArtistsService } from '../../services/artists.service';
+import { Artist } from '../../dto/artist';
 
-const DEFAULT_CARD_SIZE = 200;
+const DEFAULT_CARD_SIZE = 180;
 
 @Component({
-  selector: 'app-albums-list',
-  templateUrl: './albums-list.component.html',
-  styleUrls: ['./albums-list.component.scss'],
-  providers:  [ AlbumsService ]
+  selector: 'app-artists-list',
+  templateUrl: './artists-list.component.html',
+  styleUrls: ['./artists-list.component.scss'],
+  providers:  [ ArtistsService ]
 })
-export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  albums: Album[] = [];
+export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
+  artists: Artist[] = [];
   cardSize: number = DEFAULT_CARD_SIZE;
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
 
-  constructor(private service: AlbumsService, private settingsService: SettingsService) { }
+  constructor(private service: ArtistsService, private settingsService: SettingsService) { }
 
   ngOnInit(): void {
-    this.getAlbums();
+    this.getArtists();
   }
 
   ngAfterViewInit() {
@@ -46,8 +46,8 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
     });
   }
 
-  async getAlbums() {
-    this.albums = await this.service.getAlbums();
+  async getArtists() {
+    this.artists = await this.service.getArtists();
   }
 
   onScroll(e: Event): void {

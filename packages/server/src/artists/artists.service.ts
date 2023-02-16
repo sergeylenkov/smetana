@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Album } from '../albums/album.entity';
 import { Repository } from 'typeorm';
 import { Artist } from './artist.entity';
+import { ArtistDto } from './artist.dto';
 
 @Injectable()
 export class ArtistsService {
@@ -11,8 +12,29 @@ export class ArtistsService {
     private artistsRepository: Repository<Artist>,
   ) {}
 
-  public findAll(): Promise<Artist[]> {
-    return this.artistsRepository.find();
+  public async findAll(): Promise<ArtistDto[]> {
+    const results = await this.artistsRepository.find({
+      relations: {
+        albums: {
+          covers: true,
+        },
+      },
+    });
+
+    return results.map((result) => {
+      const dto: ArtistDto = {
+        id: result.id,
+        name: result.name,
+      };
+
+      const cover = result.albums[0].covers.find((c) => c.main);
+
+      if (cover) {
+        dto.cover = cover.id;
+      }
+
+      return dto;
+    });
   }
 
   public findById(id: number): Promise<Artist> {

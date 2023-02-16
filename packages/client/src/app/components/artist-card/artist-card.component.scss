@@ -1,0 +1,73 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/vars.scss';
+
+:host {
+  @include flex-column;
+
+  margin: 0 auto 10px auto;
+}
+
+.artist-card {
+  @include flex-column;
+
+  position: relative;
+  width: 230px;
+  margin: 0 auto;
+
+  &__top {
+    width: 230px;
+    height: 230px;
+    padding: 5px;
+  }
+
+  &__bottom {
+    @include flex-row-center;
+
+    padding: 5px;
+  }
+
+  &__cover {
+    @include flex-row-center;
+
+    width: 100%;
+    height: 100%;
+
+    border: 1px solid var(--card-border-color);
+    border-radius: 50%;
+
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__placeholder {
+    @include flex-row-center;
+    height: 100%;
+    width: 100%;
+
+    color: var(--card-placeholder-color);
+
+    & > svg {
+      width: 60%;
+      height: 60%;
+      margin: auto;
+    }
+  }
+
+  &__title {
+    padding-bottom: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    color: var(--main-text-color);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

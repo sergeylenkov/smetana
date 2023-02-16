@@ -1,0 +1,5 @@
+<div #scrollContainer class="scroll-container" (scroll)="onScroll($event)">
+  <div #list class="artists-list">
+    <app-artist-card *ngFor="let artist of artists" [artist]="artist"></app-artist-card>
+  </div>
+</div>

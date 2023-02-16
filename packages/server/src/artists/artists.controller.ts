@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { Album } from '../albums/album.entity';
+import { ArtistDto } from './artist.dto';
 import { Artist } from './artist.entity';
 import { ArtistsService } from './artists.service';
 
@@ -8,7 +9,7 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Get()
-  public getAll(): Promise<Artist[]> {
+  public getAll(): Promise<ArtistDto[]> {
     return this.artistsService.findAll();
   }
 

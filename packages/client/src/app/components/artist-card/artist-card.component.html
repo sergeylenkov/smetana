@@ -1,0 +1,13 @@
+<div #card class="artist-card" [ngStyle]="{ 'width.px': cardSize }">
+  <a [routerLink]="['/artist', artist!.id]">
+  <div class="artist-card__top" [ngStyle]="{ 'width.px': cardSize, 'height.px': cardSize }">
+    <div class="artist-card__cover">
+      <img class="artist-card__image" src="{{cover}}" *ngIf="cover != undefined" />
+      <svg-icon class="artist-card__placeholder" src="assets/album.svg" *ngIf="cover == undefined"></svg-icon>
+    </div>
+  </div>
+  </a>
+  <div class="artist-card__bottom">
+    <span class="artist-card__title" >{{artist!.name}}</span>
+  </div>
+</div>
