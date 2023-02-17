@@ -14,11 +14,11 @@ const CREATE_TRACKS = 'CREATE TABLE IF NOT EXISTS tracks (id INTEGER PRIMARY KEY
                                                           multitrack INTEGER,\
                                                           created_at TEXT,\
                                                           modified_at TEXT)';
-const CREATE_ALBUMS = 'CREATE TABLE IF NOT EXISTS albums (id INTEGER PRIMARY KEY, name TEXT NOT NULL, year INTEGER)';
+const CREATE_ALBUMS = 'CREATE TABLE IF NOT EXISTS albums (id INTEGER PRIMARY KEY, name TEXT NOT NULL, year INTEGER, created_at TEXT, modified_at TEXT)';
 const CREATE_ARTISTS = 'CREATE TABLE IF NOT EXISTS artists (id INTEGER PRIMARY KEY, name TEXT NOT NULL)';
 const CREATE_GENRES = 'CREATE TABLE IF NOT EXISTS genres (id INTEGER PRIMARY KEY, name TEXT NOT NULL)';
 const CREATE_COVERS = 'CREATE TABLE IF NOT EXISTS covers (id INTEGER PRIMARY KEY, file TEXT NOT NULL, main INTEGER)';
-const CREATE_STATISTICS = 'CREATE TABLE IF NOT EXISTS staticstics (id INTEGER PRIMARY KEY, track_id INTEGER NOT NULL, favorite INTEGER, plays_count INTEGER, last_played_time TEXT)';
+const CREATE_STATISTICS = 'CREATE TABLE IF NOT EXISTS staticstics (id INTEGER PRIMARY KEY, album_id, track_id INTEGER NOT NULL, favorite INTEGER, plays_count INTEGER, last_played_time TEXT)';
 const CREATE_ALBUMS_TRACKS = 'CREATE TABLE IF NOT EXISTS albums_tracks (id INTEGER PRIMARY KEY, album_id INTEGER, track_id INTEGER NOT NULL)';
 const CREATE_ARTISTS_TRACKS = 'CREATE TABLE IF NOT EXISTS artists_tracks (id INTEGER PRIMARY KEY, artist_id INTEGER, track_id INTEGER NOT NULL)';
 const CREATE_ARTISTS_ALBUMS = 'CREATE TABLE IF NOT EXISTS artists_albums (id INTEGER PRIMARY KEY, artist_id INTEGER, album_id INTEGER NOT NULL)';
@@ -41,7 +41,7 @@ const CLEAR_GENRES_ALBUMS = 'DELETE from genres_albums';
 const CLEAR_ARTISTS_ALBUM = 'DELETE from artists_albums';
 
 const INSERT_TRACK = 'INSERT INTO tracks (path, file_name, title, track, disk, start, duration, codec, multitrack, created_at, modified_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-const INSERT_ALBUM = 'INSERT INTO albums (name, year) VALUES (?, ?)';
+const INSERT_ALBUM = 'INSERT INTO albums (name, year, created_at, modified_at) VALUES (?, ?, ?, ?)';
 const INSERT_COVER = 'INSERT INTO covers (file, main) VALUES (?, ?)';
 const INSERT_GENRE = 'INSERT INTO genres (name) VALUES (?)';
 const INSERT_ARTIST = 'INSERT INTO artists (name) VALUES (?)';
@@ -222,7 +222,7 @@ export class Database {
   }
 
   private async addTrack(track: Track): Promise<number> {
-    return this.insert(INSERT_TRACK, [track.path, track.fileName, track.title, track.track, track.disk, track.start, track.duration, track.codec, track.multitrack, track.created_at.toISOString(), track.modified_at.toISOString()]);
+    return this.insert(INSERT_TRACK, [track.path, track.fileName, track.title, track.track, track.disk, track.start, track.duration, track.codec, track.multitrack, track.created.toISOString(), track.modified.toISOString()]);
   }
 
   private async addCover(cover: Cover): Promise<number> {
@@ -230,7 +230,7 @@ export class Database {
   }
 
   private async addAlbum(album: Album): Promise<number> {
-    return this.insert(INSERT_ALBUM, [album.name, album.year]);
+    return this.insert(INSERT_ALBUM, [album.name, album.year, album.created.toISOString(), album.modified.toISOString()]);
   }
 
   private async addGenre(genre: Genre): Promise<number> {

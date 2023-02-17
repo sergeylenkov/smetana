@@ -33,6 +33,12 @@ export class Track {
   @Column({ name: 'multitrack' })
   isMultitrack: boolean;
 
+  @Column({ name: 'created_at', type: 'date' })
+  created: string;
+
+  @Column({ name: 'modified_at', type: 'date' })
+  modified: string;
+
   @ManyToMany(() => Album)
   @JoinTable({
     name: 'albums_tracks',

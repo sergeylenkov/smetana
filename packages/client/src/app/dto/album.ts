@@ -12,6 +12,12 @@ export class Album implements OnAfterDeserialize {
   @JsonProperty()
   year: number = 0;
 
+  @JsonProperty({ type: 'date' })
+  created: Date = new Date();
+
+  @JsonProperty({ type: 'date' })
+  modified: Date = new Date();
+
   @JsonProperty({ className: Artist, type: 'array' })
   artists: Artist[] = [];
 

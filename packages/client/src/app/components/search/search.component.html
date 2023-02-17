@@ -7,19 +7,19 @@
   <ul class="search__list" *ngIf="isListVisible" (clickOutside)="onClickOutside()">
     <ng-container *ngIf="artists.length > 0">
       <div class="search__group">ARTISTS</div>
-      <li *ngFor="let artist of artists">
+      <li *ngFor="let artist of artists; trackBy: artistTrackBy">
         <app-search-artist [artist]="artist"></app-search-artist>
       </li>
     </ng-container>
     <ng-container *ngIf="albums.length > 0">
       <div class="search__group">ALBUMS</div>
-      <li *ngFor="let album of albums">
+      <li *ngFor="let album of albums; trackBy: albumTrackBy">
         <app-search-album [album]="album"></app-search-album>
       </li>
     </ng-container>
     <ng-container *ngIf="tracks.length > 0">
       <div class="search__group">TRACKS</div>
-      <li *ngFor="let track of tracks">
+      <li *ngFor="let track of tracks; trackBy: trackTrackBy">
         <app-search-track [track]="track"></app-search-track>
       </li>
     </ng-container>

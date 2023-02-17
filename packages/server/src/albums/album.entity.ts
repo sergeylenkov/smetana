@@ -21,6 +21,12 @@ export class Album {
   @Column()
   year: number;
 
+  @Column({ name: 'created_at', type: 'date' })
+  created: string;
+
+  @Column({ name: 'modified_at', type: 'date' })
+  modified: string;
+
   @ManyToMany(() => Artist)
   @JoinTable({
     name: 'artists_albums',

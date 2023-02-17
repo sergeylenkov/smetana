@@ -24,9 +24,9 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.width = this.trackElement.nativeElement.getBoundingClientRect().width;
-    }, 0);
+    });
   }
 
   public getFillPosition(): string {
@@ -38,9 +38,10 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onClick(event: MouseEvent) {
-    this.percent = Math.floor(event.offsetX / (this.width / 100));
-
-    this.onChange && this.onChange.emit(this.percent / 100);
+    if (event.target === this.trackElement.nativeElement) {
+      this.percent = Math.floor(event.offsetX / (this.width / 100));
+      this.onChange && this.onChange.emit(this.percent / 100);
+    }
   }
 
   private getPosition(): number {

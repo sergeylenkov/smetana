@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { SearchArtist } from '../../dto/search-artist';
-import { Track } from '../../dto/track';
 import { SearchService } from '../../services/search.service';
 import { SearchAlbum } from '../../dto/search-album';
 import { SearchTrack } from 'src/app/dto/search-track';
@@ -63,6 +62,10 @@ export class SearchComponent implements OnInit {
     this.isListVisible = false;
   }
 
+  public isArtist(item: unknown): item is SearchArtist {
+    return item instanceof SearchArtist;
+  }
+
   public isAlbum(item: unknown): item is SearchAlbum {
     return item instanceof SearchAlbum;
   }
@@ -71,7 +74,15 @@ export class SearchComponent implements OnInit {
     return item instanceof SearchTrack;
   }
 
-  public isArtist(item: unknown): item is SearchArtist {
-    return item instanceof SearchArtist;
+  public artistTrackBy(index: number, artist: SearchArtist) {
+    return artist.id;
+  }
+
+  public albumTrackBy(index: number, album: SearchAlbum) {
+    return album.id;
+  }
+
+  public trackTrackBy(index: number, track: SearchTrack) {
+    return track.id;
   }
 }

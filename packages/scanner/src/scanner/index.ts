@@ -113,7 +113,9 @@ export class Scanner {
           const album: Album = {
             key: track.key,
             name: track.album,
-            year: track.year
+            year: track.year,
+            created: track.created,
+            modified: track.modified
           }
 
           this._albums.set(track.key, album);
@@ -276,7 +278,7 @@ export class Scanner {
   }
 
   private async metadataToTrack(metadata: IAudioMetadata, folder: string, fileName: string): Promise<Track> {
-    const title = metadata.common.title ? trim(metadata.common.title, [' ', '"', '\'']) : '';
+    let title = metadata.common.title ? trim(metadata.common.title, [' ', '"', '\'']) : '';
     const album = metadata.common.album ? trim(metadata.common.album, [' ', '"', '\'']) : '';
     const year = metadata.common.year || 0;
     const albumArtist = metadata.common.albumartist ||  metadata.common.artist || '';
@@ -287,6 +289,10 @@ export class Scanner {
     const stats = await FS.stat(join(folder, fileName));
     const clearArtist = this.clearArtistTitle(albumArtist);
     const clearArtists = artists.map(artist => this.clearArtistTitle(artist));
+
+    if (title == '') {
+      title = this.getTrackTitleFromFile(fileName);
+    }
 
     const track: Track = {
       key: `${albumArtist}_${album}_${year}`,
@@ -305,8 +311,8 @@ export class Scanner {
       duration: metadata.format.duration || 0,
       codec: metadata.format.codec || '',
       multitrack: false,
-      created_at: stats.ctime,
-      modified_at: stats.mtime
+      created: stats.ctime,
+      modified: stats.mtime
     }
 
     return track;
@@ -388,8 +394,8 @@ export class Scanner {
           duration: 0,
           codec: '',
           multitrack: false,
-          created_at: stats.ctime,
-          modified_at: stats.mtime
+          created: stats.ctime,
+          modified: stats.mtime
         }
 
         tracks.push(track);
@@ -468,8 +474,8 @@ export class Scanner {
       duration: track1.duration === 0 ? track2.duration : track1.duration,
       codec: track1.codec === '' ? track2.codec : track1.codec,
       multitrack: track1.multitrack,
-      created_at: track1.created_at,
-      modified_at: track1.modified_at,
+      created: track1.created,
+      modified: track1.modified,
     };
 
     return track;
@@ -529,6 +535,19 @@ export class Scanner {
     }).join(' ');
 
     return trim(newTitle, [' ', '"', '\'']);
+  }
+
+  private getTrackTitleFromFile(file: string): string {
+    const fileName = basename(file).trim();
+
+    let regexp = new RegExp('^.*[0-9]\\.(.*)\\..+$');
+    let match = fileName.match(regexp);
+
+    if (match) {
+      return match[1].trim();
+    }
+
+    return fileName;
   }
 
   private getCoverWeight(file: string) {

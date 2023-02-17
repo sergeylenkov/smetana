@@ -16,8 +16,8 @@ export interface Track {
   duration: number;
   codec: string;
   multitrack: boolean;
-  created_at: Date;
-  modified_at: Date;
+  created: Date;
+  modified: Date;
 }
 
 export interface Artist {
@@ -30,6 +30,8 @@ export interface Album {
   key: string;
   name: string;
   year: number;
+  created: Date;
+  modified: Date;
 }
 
 export interface Genre {
