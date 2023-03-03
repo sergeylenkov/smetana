@@ -25,6 +25,7 @@ import { SearchTrackComponent } from './components/search-track/search-track.com
 import { ArtistDetailsComponent } from './components/artist-details/artist-details.component';
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { ArtistCardComponent } from './components/artist-card/artist-card.component';
+import { LocalePipe } from './pipes/locale.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ArtistCardComponent } from './components/artist-card/artist-card.compon
     ArtistsListComponent,
     ArtistCardComponent,
     ArtistDetailsComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    LocalePipe,
   ],
   imports: [
     BrowserModule,

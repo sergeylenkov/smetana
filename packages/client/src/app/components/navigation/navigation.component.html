@@ -1,16 +1,16 @@
 <nav class="navigation">
   <ul class="navigation__list">
     <li class="navigation__item">
-      <a [routerLink]="['/']"><h1 class="navigation__header">Smetana</h1></a>
+      <a [routerLink]="['/']"><h1 class="navigation__header">{{ 'Smetana' | locale }}</h1></a>
     </li>
     <li class="navigation__item">
-      <a class="navigation__link" [routerLink]="['/albums']" routerLinkActive="navigation__link_active">Albums</a>
+      <a class="navigation__link" [routerLink]="['/albums']" routerLinkActive="navigation__link_active">{{ 'Albums' | locale }}</a>
     </li>
     <li class="navigation__item">
-      <a class="navigation__link" [routerLink]="['/artists']">Artists</a>
+      <a class="navigation__link" [routerLink]="['/artists']">{{ 'Artists' | locale }}</a>
     </li>
     <li class="navigation__item">
-      <a class="navigation__link" [routerLink]="['/genres']">Genres</a>
+      <a class="navigation__link" [routerLink]="['/genres']">{{ 'Genres' | locale }}</a>
     </li>
   </ul>
   <app-search></app-search>

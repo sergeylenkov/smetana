@@ -1,24 +1,24 @@
 <div class="search">
   <svg-icon class="search__icon" src="assets/search.svg"></svg-icon>
-  <input #searchInput class="search__input" type="text" placeholder="Album, track, artist..." [(ngModel)]="searchString" (ngModelChange)="this.searchUpdate.next($event)"/>
+  <input #searchInput class="search__input" type="text" placeholder="{{ 'Search' | locale }}" [(ngModel)]="searchString" (ngModelChange)="this.searchUpdate.next($event)"/>
   <button class="search__clear-button" (click)="onClear()">
     <svg-icon class="search__clear-icon" src="assets/close.svg"></svg-icon>
   </button>
   <ul class="search__list" *ngIf="isListVisible" (clickOutside)="onClickOutside()">
     <ng-container *ngIf="artists.length > 0">
-      <div class="search__group">ARTISTS</div>
+      <div class="search__group">{{ 'Artists' | locale }}</div>
       <li *ngFor="let artist of artists; trackBy: artistTrackBy">
         <app-search-artist [artist]="artist"></app-search-artist>
       </li>
     </ng-container>
     <ng-container *ngIf="albums.length > 0">
-      <div class="search__group">ALBUMS</div>
+      <div class="search__group">{{ 'Albums' | locale }}</div>
       <li *ngFor="let album of albums; trackBy: albumTrackBy">
         <app-search-album [album]="album"></app-search-album>
       </li>
     </ng-container>
     <ng-container *ngIf="tracks.length > 0">
-      <div class="search__group">TRACKS</div>
+      <div class="search__group">{{ 'Tracks' | locale }}</div>
       <li *ngFor="let track of tracks; trackBy: trackTrackBy">
         <app-search-track [track]="track"></app-search-track>
       </li>

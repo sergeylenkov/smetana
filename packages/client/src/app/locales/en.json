@@ -1,6 +1,8 @@
 {
-  "title": "Smetana",
-  "albums": "Albums",
-  "artists": "Artists",
-  "genres": "Genres"
+  "Smetana": "Smetana",
+  "Albums": "Albums",
+  "Artists": "Artists",
+  "Genres": "Genres",
+  "Tracks": "Tracks",
+  "Search": "Album, track, artist..."
 }

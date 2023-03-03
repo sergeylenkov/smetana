@@ -22,6 +22,7 @@
     "@serglenkov/json-serializer": "^0.1.6",
     "angular-svg-icon": "^13.0.0",
     "howler": "^2.2.3",
+    "i18next": "^22.4.10",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

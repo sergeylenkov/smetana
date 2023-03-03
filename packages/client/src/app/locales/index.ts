@@ -1,4 +1,4 @@
-import i18n, { TOptions } from 'i18next';
+import i18n from 'i18next';
 import en from './en.json';
 import ru from './ru.json';
 
@@ -30,6 +30,6 @@ void i18n.init({
   }
 });
 
-export const t = (key: string, options?: TOptions): string => i18n.t(key, options);
+export const t = (key: string): string => i18n.t(key);
 
 export default i18n;
