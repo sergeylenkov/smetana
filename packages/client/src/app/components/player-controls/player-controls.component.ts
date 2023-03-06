@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { PlayerState } from 'src/app/models/player';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { PlayerState } from '../../models/player';
 import { Track } from '../../dto/track';
 import { PlayerService } from '../../services/player.service';
 
@@ -8,23 +9,30 @@ import { PlayerService } from '../../services/player.service';
   templateUrl: './player-controls.component.html',
   styleUrls: ['./player-controls.component.scss'],
 })
-export class PlayerControlsComponent implements OnInit {
+export class PlayerControlsComponent implements OnInit, OnDestroy {
   public track?: Track;
   public PlayerState = PlayerState;
   public progress = 100;
+  private _onStart?: Subscription;
+  private _onProgress?: Subscription;
 
   constructor(private playerService: PlayerService) {
-    this.playerService.onStart.subscribe((track: Track) => {
+  }
+
+  ngOnInit(): void {
+    this._onStart = this.playerService.onStart.subscribe((track: Track) => {
       this.track = track;
       this.progress = 100;
     });
 
-    this.playerService.onProgress.subscribe((progress: number) => {
+    this._onProgress = this.playerService.onProgress.subscribe((progress: number) => {
       this.progress = progress;
     })
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this._onStart && this._onStart.unsubscribe();
+    this._onProgress && this._onProgress.unsubscribe();
   }
 
   public get state(): PlayerState {

@@ -13,6 +13,7 @@
 .albums-list {
   @include flex-row;
 
+  justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
 }

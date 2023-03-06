@@ -290,7 +290,7 @@ export class Scanner {
     const clearArtist = this.clearArtistTitle(albumArtist);
     const clearArtists = artists.map(artist => this.clearArtistTitle(artist));
 
-    if (title == '') {
+    if (title === '') {
       title = this.getTrackTitleFromFile(fileName);
     }
 
