@@ -15,8 +15,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.hotkeysService.onKey('Space', undefined, () => {
+      if (document.activeElement && document.activeElement instanceof HTMLButtonElement) {
+        document.activeElement.blur();
+      }
+
       if (this.playerService.track) {
-        this.playerService.state === PlayerState.Playing ? this.playerService.pause() : this.playerService.resume();
+        if (this.playerService.state == PlayerState.Paused) {
+          this.playerService.resume();
+        }
+
+        if (this.playerService.state == PlayerState.Playing) {
+          this.playerService.pause();
+        }
       }
     })
 
