@@ -23,5 +23,8 @@
         <app-search-track [track]="track"></app-search-track>
       </li>
     </ng-container>
+    <ng-container *ngIf="error">
+      <span class="search__error">{{error}}</span>
+    </ng-container>
   </ul>
 </div>

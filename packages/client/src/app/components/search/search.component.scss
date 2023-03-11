@@ -47,10 +47,13 @@
   }
 
   &__list {
+    @include flex-column;
+
     position: absolute;
     top: 48px;
     left: 0;
     width: 100%;
+    min-height: 40px;
     max-height: calc(100vh - 200px);
     border: 1px solid var(--nav-divider-color);
     border-radius: 10px;
@@ -64,5 +67,11 @@
     font-size: 14px;
     color: var(--secondary-text-color);
     text-transform: uppercase;
+  }
+
+  &__error {
+    margin: auto;
+    font-size: 14px;
+    color: var(--error);
   }
 }

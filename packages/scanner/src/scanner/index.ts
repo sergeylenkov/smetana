@@ -8,6 +8,7 @@ import { Colors } from '../utils/console';
 import { FS, PathStats } from './fs';
 import { Track, Artist, Album, Cover, Genre, CoverWeight } from './models';
 import { trim } from '../utils/string';
+import { titlesToReplace, upperExeptions } from './titles';
 
 const flacExt = ['.flac', '.ape', '.wav', '.aiff'];
 const cueExt = ['.cue'];
@@ -496,14 +497,14 @@ export class Scanner {
     newTitle = newTitle.replace('CD2', '');
     newTitle = newTitle.trim();
 
-    let regexp = new RegExp('^.+(\\(.+\\))$');
+    let regexp = new RegExp(/^.+(\(.+\))$/);
     let match = newTitle.match(regexp);
 
     if (match) {
       newTitle = newTitle.replace(match[1], '');
     }
 
-    regexp = new RegExp('^.+(\\[.+\\])$');
+    regexp = new RegExp(/^.+(\[.+\])$/);
     match = newTitle.match(regexp);
 
     if (match) {
@@ -520,19 +521,25 @@ export class Scanner {
 
     let newTitle = title.trim();
 
-    newTitle = newTitle.replace('AC DC', 'AC/DC');
-    newTitle = newTitle.replace('ACDC', 'AC/DC');
-    newTitle = newTitle.replace('AC-DC', 'AC/DC');
-    newTitle = newTitle.replace('Blues Taveler', 'Blues Traveler');
+    titlesToReplace.forEach((title) => {
+      title.replace.forEach(replace => {
+        newTitle = newTitle.replace(replace, title.original);
+      });
+    });
 
-    if (newTitle == 'AC/DC') {
-      return newTitle;
+    let regexp = new RegExp(/^.*(feat.*).*$/i);
+    let match = newTitle.match(regexp);
+
+    if (match) {
+      newTitle = newTitle.replace(match[1], '');
     }
 
-    newTitle = newTitle.split(' ').map(word => {
-      let lower = word.toLocaleLowerCase();
-      return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
-    }).join(' ');
+    if (!upperExeptions.includes(newTitle)) {
+      newTitle = newTitle.split(' ').map(word => {
+        let lower = word.toLocaleLowerCase();
+        return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
+      }).join(' ');
+    }
 
     return trim(newTitle, [' ', '"', '\'']);
   }
@@ -540,7 +547,7 @@ export class Scanner {
   private getTrackTitleFromFile(file: string): string {
     const fileName = basename(file).trim();
 
-    let regexp = new RegExp('^.*[0-9]\\.(.*)\\..+$');
+    let regexp = new RegExp(/^.*[0-9]\.(.*)\..+$/i);
     let match = fileName.match(regexp);
 
     if (match) {

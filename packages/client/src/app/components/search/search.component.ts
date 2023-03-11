@@ -5,6 +5,7 @@ import { SearchArtist } from '../../dto/search-artist';
 import { SearchService } from '../../services/search.service';
 import { SearchAlbum } from '../../dto/search-album';
 import { SearchTrack } from 'src/app/dto/search-track';
+import { HttpException } from '@serglenkov/http-client';
 
 @Component({
   selector: 'app-search',
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
   artists: SearchArtist[] = [];
   tracks: SearchTrack[] = [];
   isListVisible = false;
+  error?: string;
 
   constructor(private searchService: SearchService, private router: Router) {
     this.router.events.subscribe((event) => {
@@ -37,13 +39,22 @@ export class SearchComponent implements OnInit {
 
   public async onInputChange(value: string): Promise<void> {
     if (value.length >= 2) {
-      const results = await this.searchService.search(value);
+      this.error = undefined;
 
-      this.albums = results.filter(result => this.isAlbum(result)) as SearchAlbum[];
-      this.artists = results.filter(result => this.isArtist(result)) as SearchArtist[];
-      this.tracks = results.filter(result => this.isTrack(result)) as SearchTrack[];
+      try {
+        const results = await this.searchService.search(value);
 
-      this.isListVisible = true;
+        this.albums = results.filter(result => this.isAlbum(result)) as SearchAlbum[];
+        this.artists = results.filter(result => this.isArtist(result)) as SearchArtist[];
+        this.tracks = results.filter(result => this.isTrack(result)) as SearchTrack[];
+
+        this.isListVisible = true;
+      } catch (error) {
+        if (error instanceof HttpException) {
+          this.error = error.message;
+          this.isListVisible = true;
+        }
+      }
     } else {
       this.isListVisible = false;
     }
@@ -59,6 +70,7 @@ export class SearchComponent implements OnInit {
 
   public closeList() {
     this.searchString = '';
+    this.error = undefined;
     this.isListVisible = false;
   }
 

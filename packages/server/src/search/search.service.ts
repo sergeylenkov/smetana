@@ -57,22 +57,25 @@ export class SearchService {
     });
 
     return results.map((result) => {
-      const album = result.albums[0];
-
       const dto: SearchTrackDto = {
         id: result.id,
         name: result.title,
-        album: {
+      };
+
+      if (result.albums.length > 0) {
+        const album = result.albums[0];
+
+        dto.album = {
           id: album.id,
           name: album.name,
           artists: album.artists.map((artist) => artist.name),
-        },
-      };
+        };
 
-      const cover = result.albums[0].covers.find((c) => c.main);
+        const cover = album.covers.find((c) => c.main);
 
-      if (cover) {
-        dto.cover = cover.id;
+        if (cover) {
+          dto.cover = cover.id;
+        }
       }
 
       return dto;
