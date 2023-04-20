@@ -6,6 +6,7 @@ import { Database } from './scanner/db';
 async function scan(path: string, dbPath: string) {
   try {
     let startTime = Date.now();
+    const totalStartTime = Date.now();
 
     const scanner = new Scanner();
     await scanner.scan(path);
@@ -57,6 +58,7 @@ async function scan(path: string, dbPath: string) {
     endTime = Date.now();
 
     console.log(`All data written to database in ${(endTime - startTime) / 1000}s`);
+    console.log(`Total scan time: ${(endTime - totalStartTime) / 1000}s`);
   } catch (error) {
     console.log(`${Colors.FgRed}${error}${Colors.Reset}`);
   }
