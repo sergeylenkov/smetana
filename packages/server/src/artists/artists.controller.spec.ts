@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppModule } from '../app.module';
 import { ArtistsController } from './artists.controller';
 import { ArtistsService } from './artists.service';
 import { Artist } from './artist.entity';
+import { TestModule } from '../test.module';
 
 describe('ArtistsController', () => {
   let controller: ArtistsController;
@@ -12,7 +12,7 @@ describe('ArtistsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ArtistsController],
       providers: [ArtistsService],
-      imports: [TypeOrmModule.forFeature([Artist]), AppModule],
+      imports: [TypeOrmModule.forFeature([Artist]), TestModule],
     }).compile();
 
     controller = module.get<ArtistsController>(ArtistsController);
@@ -25,7 +25,7 @@ describe('ArtistsController', () => {
   it('should get all', async () => {
     const artists = await controller.getAll();
 
-    expect(artists.length).toBe(577);
+    expect(artists.length).toBe(575);
   });
 
   it('should get artist by id', async () => {

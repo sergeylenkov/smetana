@@ -3,7 +3,7 @@ import { AlbumsController } from './albums.controller';
 import { AlbumsService } from './albums.service';
 import { Album } from './album.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppModule } from '../app.module';
+import { TestModule } from '../test.module';
 
 describe('AlbumsController', () => {
   let controller: AlbumsController;
@@ -12,7 +12,7 @@ describe('AlbumsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AlbumsController],
       providers: [AlbumsService],
-      imports: [TypeOrmModule.forFeature([Album]), AppModule],
+      imports: [TestModule, TypeOrmModule.forFeature([Album])],
     }).compile();
 
     controller = module.get<AlbumsController>(AlbumsController);
@@ -25,7 +25,7 @@ describe('AlbumsController', () => {
   it('should get all', async () => {
     const albums = await controller.getAll();
 
-    expect(albums.length).toBe(1411);
+    expect(albums.length).toBe(1410);
   });
 
   it('should get album by id', async () => {

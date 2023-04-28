@@ -527,7 +527,7 @@ export class Scanner {
       });
     });
 
-    let regexp = new RegExp(/^.*(feat.*).*$/i);
+    let regexp = new RegExp(/^.+(\(feat.*)$/i);
     let match = newTitle.match(regexp);
 
     if (match) {
