@@ -7,12 +7,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
         with:
-          working-directory: server
+          working-directory: packages/server
 
       - name: Build server
         run: npm run build
-        working-directory: server
+        working-directory: packages/server
 
       - name: Test server
         run: npm run test
-        working-directory: server
+        working-directory: packages/server
