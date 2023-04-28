@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { TracksService } from 'src/tracks/tracks.service';
+import { TracksService } from '../tracks/tracks.service';
 import { PlayerService } from '../player/player.service';
 
 @Controller('player')

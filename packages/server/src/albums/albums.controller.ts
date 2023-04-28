@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Track } from 'src/tracks/track.entity';
+import { Track } from '../tracks/track.entity';
 import { Album } from './album.entity';
 import { AlbumsService } from './albums.service';
 

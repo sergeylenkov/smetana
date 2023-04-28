@@ -27,7 +27,11 @@ export class ArtistsService {
         name: result.name,
       };
 
-      const cover = result.albums[0].covers.find((c) => c.main);
+      let cover;
+
+      if (result.albums.length > 0 && result.albums[0].covers.length > 0) {
+        cover = result.albums[0].covers.find((c) => c.main);
+      }
 
       if (cover) {
         dto.cover = cover.id;

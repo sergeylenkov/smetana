@@ -6,4 +6,4 @@ export const titlesToReplace = [
   { original: 'O\'funk\'illo', replace: ['O\'funh\'illo-no_te_cabe_na', 'Ofunkillo'] }
 ];
 
-export const upperExeptions = ['AD/DC'];
+export const upperExeptions = ['AC/DC'];

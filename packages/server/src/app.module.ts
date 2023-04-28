@@ -20,7 +20,7 @@ import { SearchModule } from './search/search.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: '..\\..\\library.db',
-      logging: true,
+      logging: false,
       entities: [Album, Artist, Genre, Cover, Track],
     }),
     AlbumsModule,

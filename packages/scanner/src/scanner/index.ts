@@ -6,7 +6,7 @@ import hasha from 'hasha';
 import sizeOf from 'image-size';
 import { Colors } from '../utils/console';
 import { FS, PathStats } from './fs';
-import { Track, Artist, Album, Cover, Genre, CoverWeight } from './models';
+import { Track, Artist, Album, Cover, Genre } from './models';
 import { trim } from '../utils/string';
 import { titlesToReplace, upperExeptions } from './titles';
 
