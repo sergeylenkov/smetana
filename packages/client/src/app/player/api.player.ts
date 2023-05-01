@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { PlayerAPI } from '../api/player.api';
 import { Track } from '../dto/track';
 import { Player } from './player';
+import { StatisticsAPI } from '../api/statistics.api';
 
 @Injectable({
   providedIn: 'root'

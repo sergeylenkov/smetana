@@ -14,6 +14,8 @@ import { Track } from './tracks/track.entity';
 import { TracksModule } from './tracks/tracks.module';
 import { PlayerModule } from './player/player.module';
 import { SearchModule } from './search/search.module';
+import { StatisticsModule } from './statistics/statistics.module';
+import { Statistics } from './statistics/statistics.entity';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { SearchModule } from './search/search.module';
       type: 'sqlite',
       database: '..\\..\\library\\library.db',
       logging: false,
-      entities: [Album, Artist, Genre, Cover, Track],
+      entities: [Album, Artist, Genre, Cover, Track, Statistics],
     }),
     AlbumsModule,
     ArtistsModule,
@@ -30,6 +32,7 @@ import { SearchModule } from './search/search.module';
     TracksModule,
     PlayerModule,
     SearchModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

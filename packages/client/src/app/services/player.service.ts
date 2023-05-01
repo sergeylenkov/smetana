@@ -4,6 +4,7 @@ import { Track } from '../dto/track';
 import { PlayerState } from '../models/player';
 import { Player } from '../player/player';
 import { SettingsService } from './settings.service';
+import { StatisticsService } from './statistics.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class PlayerService {
   private _playlist: Track[] = [];
   private _state: PlayerState = PlayerState.Stopped;
 
-  constructor(private player: Player, private settings: SettingsService) {
+  constructor(private player: Player, private settings: SettingsService, private statistics: StatisticsService) {
     this.player.volume = settings.volume;
 
     this.player.onStart = (track: Track) => {
@@ -100,6 +101,12 @@ export class PlayerService {
   public playTrack(track: Track) {
     this.track = track;
     this.player.play(track);
+
+    if (this.track && this.album) {
+      this.album.artists.forEach(artist => {
+        this.statistics.add(this.track!, this.album!, artist);
+      });      
+    }
   }
 
   public pause() {

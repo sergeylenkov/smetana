@@ -26,6 +26,7 @@ import { ArtistDetailsComponent } from './components/artist-details/artist-detai
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { ArtistCardComponent } from './components/artist-card/artist-card.component';
 import { LocalePipe } from './pipes/locale.pipe';
+import { StatisticsService } from './services/statistics.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { LocalePipe } from './pipes/locale.pipe';
     ArtistCardComponent,
     ArtistDetailsComponent,
     ClickOutsideDirective,
-    LocalePipe,
+    LocalePipe
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,7 @@ import { LocalePipe } from './pipes/locale.pipe';
     AngularSvgIconModule.forRoot(),
     FormsModule
   ],
-  providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }],
+  providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }, StatisticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -18,7 +18,7 @@ const CREATE_ALBUMS = 'CREATE TABLE IF NOT EXISTS albums (id INTEGER PRIMARY KEY
 const CREATE_ARTISTS = 'CREATE TABLE IF NOT EXISTS artists (id INTEGER PRIMARY KEY, name TEXT NOT NULL)';
 const CREATE_GENRES = 'CREATE TABLE IF NOT EXISTS genres (id INTEGER PRIMARY KEY, name TEXT NOT NULL)';
 const CREATE_COVERS = 'CREATE TABLE IF NOT EXISTS covers (id INTEGER PRIMARY KEY, file TEXT NOT NULL, main INTEGER)';
-const CREATE_STATISTICS = 'CREATE TABLE IF NOT EXISTS staticstics (id INTEGER PRIMARY KEY, album_id, track_id INTEGER NOT NULL, favorite INTEGER, plays_count INTEGER, last_played_time TEXT)';
+const CREATE_STATISTICS = 'CREATE TABLE IF NOT EXISTS statistics (id INTEGER PRIMARY KEY, album_id INTEGER NOT NULL, track_id INTEGER NOT NULL, artist_id INTEGER NOT NULL, favorite INTEGER, plays_count INTEGER, last_played_time TEXT)';
 const CREATE_ALBUMS_TRACKS = 'CREATE TABLE IF NOT EXISTS albums_tracks (id INTEGER PRIMARY KEY, album_id INTEGER, track_id INTEGER NOT NULL)';
 const CREATE_ARTISTS_TRACKS = 'CREATE TABLE IF NOT EXISTS artists_tracks (id INTEGER PRIMARY KEY, artist_id INTEGER, track_id INTEGER NOT NULL)';
 const CREATE_ARTISTS_ALBUMS = 'CREATE TABLE IF NOT EXISTS artists_albums (id INTEGER PRIMARY KEY, artist_id INTEGER, album_id INTEGER NOT NULL)';
@@ -58,6 +58,8 @@ const SELECT_ALBUMS_ALRTISTS = 'SELECT alt.album_id, art.artist_id FROM tracks t
 const SELECT_ALBUMS_COVERS = 'SELECT alt.album_id, ct.cover_id FROM tracks t, covers_tracks ct, albums_tracks alt WHERE ct.track_id = t.id AND alt.track_id = t.id GROUP BY alt.album_id, ct.cover_id';
 const SELECT_ALBUMS_GENRES = 'SELECT alt.album_id, gt.genre_id FROM tracks t, genres_tracks gt, albums_tracks alt WHERE gt.track_id = t.id AND alt.track_id = t.id GROUP BY alt.album_id, gt.genre_id';
 
+const CREATE_ALBUMS_INDEX = 'CREATE UNIQUE INDEX albums_id_idx ON albums(id ASC)';
+const CLEAR_ALBUMS_INDEX = 'DROP INDEX IF EXISTS albums_id_idx'
 const BEGIN_TRANSACTION = 'BEGIN TRANSACTION';
 const COMMIT = 'COMMIT';
 
@@ -87,7 +89,7 @@ export class Database {
     await this.exec(CREATE_ARTISTS_TRACKS);
     await this.exec(CREATE_ARTISTS_ALBUMS);
     await this.exec(CREATE_GENRES_TRACKS);
-    await this.exec(CREATE_GENRES_ALBUMS);
+    await this.exec(CREATE_GENRES_ALBUMS);    
   }
 
   public async clear() {
@@ -103,6 +105,11 @@ export class Database {
     await this.exec(CLEAR_GENRES_ALBUMS);
     await this.exec(CLEAR_ARTISTS_ALBUM);
     await this.exec(CLEAR_GENRES_TRACKS);
+    await this.exec(CLEAR_ALBUMS_INDEX);
+  }
+
+  public async createIndexes() {
+    await this.exec(CREATE_ALBUMS_INDEX);
   }
 
   public async processArtists(artists: Artist[]) {

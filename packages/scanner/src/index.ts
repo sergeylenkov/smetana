@@ -53,6 +53,9 @@ async function scan(path: string, dbPath: string) {
     console.log(`Processing ${Colors.FgYellow}albums metadata${Colors.Reset}`);
     await db.processAlbumsMetaData();
 
+    console.log(`Creating indexes${Colors.Reset}`);
+    await db.createIndexes();
+
     db.close();
 
     endTime = Date.now();
