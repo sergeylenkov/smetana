@@ -23,4 +23,7 @@
       <div class="track-item__duration"><app-time [time]="track.duration"></app-time></div>
     </div>
   </div>
+  <button class="album-details__close-button" (click)="onClose()">
+    <svg-icon class="album-details__close-icon" src="assets/close.svg"></svg-icon>
+  </button>
 </div>

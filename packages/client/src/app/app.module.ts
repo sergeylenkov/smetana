@@ -27,10 +27,12 @@ import { ArtistsListComponent } from './components/artists-list/artists-list.com
 import { ArtistCardComponent } from './components/artist-card/artist-card.component';
 import { LocalePipe } from './pipes/locale.pipe';
 import { StatisticsService } from './services/statistics.service';
+import { AlbumsComponent } from './components/albums/albums.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AlbumsComponent,
     AlbumsListComponent,
     AlbumCardComponent,
     AlbumDetailsComponent,

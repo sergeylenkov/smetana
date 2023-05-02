@@ -85,4 +85,8 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   public onResumeTrack() {
     this.playerService.resume();
   }
+
+  public onClose() {
+    this.router.navigateByUrl('/albums');
+  }
 }

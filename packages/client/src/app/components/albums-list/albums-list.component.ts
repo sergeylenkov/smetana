@@ -17,7 +17,7 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
 
-  constructor(private service: AlbumsService, private settingsService: SettingsService) { }
+  constructor(private service: AlbumsService, private settingsService: SettingsService) {}
 
   ngOnInit(): void {
     this.getAlbums();

@@ -4,6 +4,7 @@
 .album-details {
   @include flex-column;
 
+  position: relative;
   margin-top: 50px;
   padding: 24px;
 
@@ -53,6 +54,22 @@
       width: 250px;
       height: 250px;
     }
+  }
+
+  &__close-button {
+    @include flex-row-center-vertical;
+    position: absolute;
+    top: 24px;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  &__close-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--secondary-text-color);
   }
 }
 
