@@ -23,8 +23,8 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   constructor(private service: AlbumsService, private route: ActivatedRoute, private router: Router, private playerService: PlayerService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const id = this.route.snapshot.params['id'];
-        this.loadAlbum(id);
+        const id = this.route.snapshot.params['id'];        
+        id && this.loadAlbum(id);
       }
     });
   }

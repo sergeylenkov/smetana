@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.2.11",
     "@angular/platform-browser-dynamic": "^16.2.11",
     "@angular/router": "^16.2.11",
+    "@iharbeck/ngx-virtual-scroller": "^17.0.0",
     "@serglenkov/http-client": "^0.1.6",
     "@serglenkov/json-serializer": "^0.1.6",
     "angular-svg-icon": "^13.0.0",

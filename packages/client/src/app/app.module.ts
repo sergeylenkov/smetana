@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { VirtualScrollerModule } from '@iharbeck/ngx-virtual-scroller';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,7 +58,8 @@ import { AlbumsComponent } from './components/albums/albums.component';
     AppRoutingModule,
     HttpClientModule,
     AngularSvgIconModule.forRoot(),
-    FormsModule
+    FormsModule,
+    VirtualScrollerModule
   ],
   providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }, StatisticsService],
   bootstrap: [AppComponent]

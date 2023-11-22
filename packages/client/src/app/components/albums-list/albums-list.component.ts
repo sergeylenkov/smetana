@@ -2,8 +2,12 @@ import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChi
 import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { SettingsService } from '../../services/settings.service';
+import { DEFAULT_CARD_SIZE } from '../album-card/album-card.component';
 
-const DEFAULT_CARD_SIZE = 200;
+type AlbumsRow = {
+  id: number;
+  albums: Album[];
+}
 
 @Component({
   selector: 'app-albums-list',
@@ -13,7 +17,10 @@ const DEFAULT_CARD_SIZE = 200;
 })
 export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
   albums: Album[] = [];
+  rows: AlbumsRow[] = [];
   cardSize: number = DEFAULT_CARD_SIZE;
+  columnsCount: number =  0;
+
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
 
@@ -26,15 +33,15 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
   ngAfterViewInit() {
     if (this.listElement) {
       const width = this.listElement.nativeElement.getBoundingClientRect().width;
-      let maxCount = Math.floor(width / DEFAULT_CARD_SIZE);
-
-      const freeSpace = width - maxCount * DEFAULT_CARD_SIZE;
+      this.columnsCount = Math.floor(width / DEFAULT_CARD_SIZE);
+      console.log(width, this.columnsCount);
+      const freeSpace = width - this.columnsCount * DEFAULT_CARD_SIZE;
 
       if (freeSpace < 100) {
-        maxCount = maxCount - 1;
+        this.columnsCount = this.columnsCount - 1;
       }
 
-      this.cardSize = Math.floor(width / maxCount);
+      this.cardSize = Math.floor(width / this.columnsCount);
     }
   }
 
@@ -48,6 +55,19 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
 
   public async getAlbums() {
     this.albums = await this.service.getAlbums();
+    this.rows = [];
+    
+    const rowsCount = Math.floor(this.albums.length / this.columnsCount);    
+    console.log(this.cardSize, this.columnsCount, rowsCount);
+    for (let i = 0; i < rowsCount; i++) {
+      const index = i * this.columnsCount;
+      const row: AlbumsRow = {
+        id: i,
+        albums: this.albums.slice(index, index + this.columnsCount)
+      }
+
+      this.rows.push(row);
+    }
   }
 
   public onScroll(e: Event): void {

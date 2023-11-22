@@ -1,5 +1,7 @@
-<div #scrollContainer class="scroll-container" (scroll)="onScroll($event)">
-  <div #list class="albums-list">
-    <app-album-card *ngFor="let album of albums; trackBy: albumTrackBy" [album]="album"></app-album-card>
-  </div>  
-</div>
+<div #list class="albums-list">
+  <virtual-scroller #scroll [items]="rows" [childHeight]="350" class="scroll-container">
+    <div *ngFor="let row of scroll.viewPortItems" class="albums-row">
+      <app-album-card *ngFor="let album of row.albums; trackBy: albumTrackBy" [album]="album"></app-album-card>      
+    </div>
+  </virtual-scroller>    
+</div> 
