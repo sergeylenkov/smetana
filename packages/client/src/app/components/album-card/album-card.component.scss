@@ -4,7 +4,6 @@
 :host {
   @include flex-column;
 
-  width: 200px;
   margin: 0 10px 10px 0;
 }
 
@@ -12,7 +11,7 @@
   @include flex-column;
 
   position: relative;
-  width: 250px;
+  width: 200px;
   margin: 0 auto;
 
   border: 1px solid var(--card-border-color);
@@ -20,8 +19,8 @@
   background-color: var(--card-background);
 
   &__top {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     padding: 5px;
   }
 

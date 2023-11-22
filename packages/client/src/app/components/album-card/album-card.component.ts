@@ -3,7 +3,7 @@ import { IntersectionService } from '../../services/intersection.service';
 import { Album } from '../../dto/album';
 
 export const DEFAULT_CARD_SIZE = 200;
-
+export const CARD_MARGIN = 10;
 @Component({
   selector: 'app-album-card',
   templateUrl: './album-card.component.html',
@@ -11,7 +11,7 @@ export const DEFAULT_CARD_SIZE = 200;
 })
 export class AlbumCardComponent implements OnInit, AfterViewInit {
   @Input() album?: Album;
-  @Input() cardSize: number = DEFAULT_CARD_SIZE;
+  @Input() cardSize?: number;
   @ViewChild('card') element?: ElementRef<HTMLDivElement>;
   cover?: string;
 
