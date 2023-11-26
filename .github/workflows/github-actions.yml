@@ -12,3 +12,14 @@ jobs:
       - name: Build server
         run: npm run build
         working-directory: packages/server
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: packages/client
+
+      - name: Build client
+        run: npm run build
+        working-directory: packages/client
