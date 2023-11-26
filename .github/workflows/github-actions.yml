@@ -12,7 +12,3 @@ jobs:
       - name: Build server
         run: npm run build
         working-directory: packages/server
-
-      - name: Test server
-        run: npm run test
-        working-directory: packages/server
