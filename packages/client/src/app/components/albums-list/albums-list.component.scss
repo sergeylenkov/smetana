@@ -1,13 +1,16 @@
 @import '../../../styles/mixins.scss';
 @import '../../../styles/vars.scss';
 
+:host {
+  flex-grow: 1;
+}
+
 .scroll-container {
   width: 100%;
   height: 100%;
 }
 
 .albums-list {
-  width: 100vw;
   height: calc(100vh - 70px);
   margin-top: 50px;
 }

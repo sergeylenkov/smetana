@@ -1,62 +1,76 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AlbumsService } from '../../services/albums.service';
 import { Album } from '../../dto/album';
 import { SettingsService } from '../../services/settings.service';
 import { CARD_MARGIN, DEFAULT_CARD_SIZE } from '../album-card/album-card.component';
-
-type AlbumsRow = {
-  id: number;
-  albums: Album[];
-}
+import { IPageInfo, VirtualScrollerComponent } from '@iharbeck/ngx-virtual-scroller';
+import { AlbumsRow } from './types';
 
 @Component({
   selector: 'app-albums-list',
   templateUrl: './albums-list.component.html',
   styleUrls: ['./albums-list.component.scss'],
-  providers:  [ AlbumsService ]
+  providers:  [AlbumsService]
 })
-export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AlbumsListComponent implements OnInit, AfterViewInit {
   albums: Album[] = [];
   rows: AlbumsRow[] = [];
   cardSize: number = DEFAULT_CARD_SIZE;
   columnsCount: number =  0;
 
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
-  @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
+  @ViewChild('scroll') virtualScroll?: VirtualScrollerComponent;
 
   constructor(private service: AlbumsService, private settingsService: SettingsService) {}
 
   ngOnInit(): void {
-    this.getAlbums();
+    this.getAlbums().then(() => {
+      this.calculateColumns();
+			this.calculateRows();
+    })
   }
 
   ngAfterViewInit() {
-    if (this.listElement) {
-      const width = this.listElement.nativeElement.getBoundingClientRect().width;
-      this.columnsCount = Math.floor(width / (DEFAULT_CARD_SIZE + CARD_MARGIN));
-
-      const freeSpace = width - this.columnsCount * (DEFAULT_CARD_SIZE + CARD_MARGIN);
-
-      if (freeSpace < 100) {
-        this.columnsCount = this.columnsCount - 1;
-      }
-
-      this.cardSize = Math.floor(width / this.columnsCount) - CARD_MARGIN;
+    if (this.virtualScroll) {
+      this.virtualScroll.scrollToPosition(this.settingsService.scrollPosition);
     }
-  }
 
-  ngAfterViewChecked() {
-    requestAnimationFrame(() => {
-      if (this.scrollContainer) {
-        this.scrollContainer.nativeElement.scrollTo(0, this.settingsService.scrollPosition);
-      }
-    });
+		requestAnimationFrame(() => {
+			this.calculateColumns();
+			this.calculateRows();
+		});    
   }
 
   public async getAlbums() {
-    this.albums = await this.service.getAlbums();
+    this.albums = await this.service.getAlbums();    
+  }
+
+  public onScroll(e: IPageInfo): void {
+    this.settingsService.scrollPosition = e.scrollStartPosition;
+  }
+
+  public albumTrackBy(index: number, album: Album) {
+    return album.id;
+  }
+
+  private calculateColumns() {
+    if (this.listElement) {
+        const width = this.listElement.nativeElement.getBoundingClientRect().width - 20;
+        this.columnsCount = Math.floor(width / (DEFAULT_CARD_SIZE + CARD_MARGIN));
+  
+        const freeSpace = width - this.columnsCount * (DEFAULT_CARD_SIZE + CARD_MARGIN);
+  
+        if (freeSpace < 100) {
+          this.columnsCount = this.columnsCount - 1;
+        }
+  
+        this.cardSize = Math.floor(width / this.columnsCount) - CARD_MARGIN;
+      }
+  }
+
+  private calculateRows() {
     this.rows = [];
-    
+
     const rowsCount = Math.floor(this.albums.length / this.columnsCount);    
 
     for (let i = 0; i < rowsCount; i++) {
@@ -68,13 +82,5 @@ export class AlbumsListComponent implements OnInit, AfterViewInit, AfterViewChec
 
       this.rows.push(row);
     }
-  }
-
-  public onScroll(e: Event): void {
-    this.settingsService.scrollPosition = (e.target as HTMLDivElement)?.scrollTop || 0;
-  }
-
-  public albumTrackBy(index: number, album: Album) {
-    return album.id;
   }
 }

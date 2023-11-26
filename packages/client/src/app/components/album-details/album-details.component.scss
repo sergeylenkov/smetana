@@ -1,6 +1,10 @@
 @import '../../../styles/mixins.scss';
 @import '../../../styles/animations.scss';
 
+:host {
+  flex-shrink: 0;
+}
+
 .album-details {
   @include flex-column;
 
