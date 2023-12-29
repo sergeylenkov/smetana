@@ -21,9 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^10.2.7",
-    "@nestjs/core": "^10.2.7",
-    "@nestjs/platform-express": "^10.2.7",
+    "@nestjs/common": "^10.3.0",
+    "@nestjs/core": "^10.3.0",
+    "@nestjs/platform-express": "^10.3.0",
     "@nestjs/typeorm": "^10.0.0",
     "node-powershell": "^5.0.1",
     "reflect-metadata": "^0.1.13",
@@ -53,7 +53,7 @@
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -24,6 +24,9 @@ export class PlayerService {
     try {
       const path = join(track.path, track.fileName).replace(/'/g, "''");
       console.log('Play', `$player.Open('${path}');`);
+      this._shell.invoke(
+        '$player = New-Object system.windows.media.mediaplayer;',
+      );
       this._shell.invoke(`$player.Open('${path}');`);
       this._shell.invoke('$player.Play();');
     } catch (error) {
