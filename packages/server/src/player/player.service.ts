@@ -9,24 +9,21 @@ export class PlayerService {
   private _shell = new PowerShell();
 
   constructor() {
-    this._shell.invoke('Add-Type -AssemblyName presentationCore;');
-    this._shell.invoke(
-      '$player = New-Object system.windows.media.mediaplayer;',
-    );
+    this.initPlayer();
   }
 
-  set volume(value: number) {
+  public set volume(value: number) {
     this._volume = value;
     this._shell.invoke(`$player.Volume = ${this._volume};`);
   }
 
-  play(track: Track): void {
+  public play(track: Track): void {
     try {
       const path = join(track.path, track.fileName).replace(/'/g, "''");
       console.log('Play', `$player.Open('${path}');`);
-      this._shell.invoke(
-        '$player = New-Object system.windows.media.mediaplayer;',
-      );
+
+      this.initPlayer();
+
       this._shell.invoke(`$player.Open('${path}');`);
       this._shell.invoke('$player.Play();');
     } catch (error) {
@@ -34,17 +31,24 @@ export class PlayerService {
     }
   }
 
-  pause(): void {
+  public pause(): void {
     this._shell.invoke('$player.Pause();');
   }
 
-  resume(): void {
+  public resume(): void {
     this._shell.invoke('$player.Play();');
   }
 
-  seek(seconds: number): void {
+  public seek(seconds: number): void {
     this._shell.invoke(
       `$player.Position=New-Object System.TimeSpan(0, 0, 0, ${seconds}, 0);`,
+    );
+  }
+
+  private initPlayer() {
+    this._shell.invoke('Add-Type -AssemblyName presentationCore;');
+    this._shell.invoke(
+      '$player = New-Object system.windows.media.mediaplayer;',
     );
   }
 }
