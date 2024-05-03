@@ -13,7 +13,7 @@ export class ApiPlayer extends Player {
   private _lastTick: number = 0;
   private _remaining: number = 0;
 
-  constructor(private api: PlayerAPI, private ngZone: NgZone) {
+  constructor(private api: PlayerAPI, private statisticsAPI: StatisticsAPI, private ngZone: NgZone) {
     super();
   }
 
@@ -29,7 +29,9 @@ export class ApiPlayer extends Player {
   async play(track: Track): Promise<void> {
     await this.api.volume({ value: this._volume });
     await this.api.playTrack(track.id);
-
+    
+    this.statisticsAPI.add({ trackId: track.id });
+    
     this._track = track;
     this._remaining = track.duration * 1000;
 

@@ -1,5 +1,3 @@
-import { Artist } from 'src/artists/artist.entity';
-import { Album } from '../albums/album.entity';
 import { Track } from '../tracks/track.entity';
 import {
   Entity,
@@ -17,14 +15,6 @@ export class Statistics {
   @OneToOne(() => Track)
   @JoinColumn({ name: 'track_id' })
   track: Track;
-
-  @OneToOne(() => Album)
-  @JoinColumn({ name: 'album_id' })
-  album: Album;
-
-  @OneToOne(() => Artist)
-  @JoinColumn({ name: 'artist_id' })
-  artist: Artist;
 
   @Column({ name: 'favorite', default: false })
   isFavorite: boolean;
