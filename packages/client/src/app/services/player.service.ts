@@ -102,11 +102,7 @@ export class PlayerService {
     this.track = track;
     this.player.play(track);
 
-    if (this.track && this.album) {
-      this.album.artists.forEach(artist => {
-        this.statistics.add(this.track!, this.album!, artist);
-      });      
-    }
+    this.statistics.add(this.track);
   }
 
   public pause() {
