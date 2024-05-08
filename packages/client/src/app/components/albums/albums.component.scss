@@ -3,5 +3,6 @@
 :host {
   @include flex-row;
 
+  position: relative;
   max-width: 100vw;
 }

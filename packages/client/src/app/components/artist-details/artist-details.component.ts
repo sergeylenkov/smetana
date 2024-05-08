@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Album } from 'src/app/dto/album';
+import { Album } from '../../dto/album';
 import { Artist } from '../../dto/artist';
 import { ArtistsService } from '../../services/artists.service';
 

@@ -1,7 +1,9 @@
 <div class="player" *ngIf="track">
   <div class="player__cover" *ngIf="album">
-    <img class="player__image" src="{{album!.coverUrl}}" *ngIf="album?.coverUrl != undefined" />
-    <svg-icon class="player__placeholder" src="assets/album.svg" *ngIf="album?.coverUrl == undefined"></svg-icon>
+    <a [routerLink]="['/album', album.id]">
+      <img class="player__image" src="{{album!.coverUrl}}" *ngIf="album?.coverUrl != undefined" />
+      <svg-icon class="player__placeholder" src="assets/album.svg" *ngIf="album?.coverUrl == undefined"></svg-icon>
+    </a>
   </div>
   <div class="player__title">
     <div class="player__track">{{track.title}}</div>
