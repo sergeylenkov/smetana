@@ -10,17 +10,20 @@ export class AlbumsComponent implements OnInit {
   public isAlbumVisible = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
-    const id = this.route.snapshot.params['id']; 
-    this.isAlbumVisible = id != undefined;
+    this.checkAlbumVisibility();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const id = this.route.snapshot.params['id'];
-        this.isAlbumVisible = id != undefined;
+        this.checkAlbumVisibility();
       }
     });
   }
 
   ngOnInit(): void {
+  }
+
+  private checkAlbumVisibility() {
+    const id = this.route.snapshot.params['id']; 
+    this.isAlbumVisible = id != undefined;
   }
 }

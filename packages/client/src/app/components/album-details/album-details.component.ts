@@ -21,13 +21,11 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   private _onStop?: Subscription;
 
   constructor(private service: AlbumsService, private route: ActivatedRoute, private router: Router, private playerService: PlayerService) {
-    const id = this.route.snapshot.params['id']; 
-    id && this.loadAlbum(id);
+    this.loadCurrentAlbum();
     
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const id = this.route.snapshot.params['id'];
-        id && this.loadAlbum(id);
+        this.loadCurrentAlbum();
       }
     });
   }
@@ -47,6 +45,13 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._onStart && this._onStart.unsubscribe();
     this._onStop && this._onStop.unsubscribe();
+  }
+
+  private loadCurrentAlbum() {
+    const id = this.route.snapshot.params['id']; 
+    if (id) {
+      this.loadAlbum(id);
+    }
   }
 
   private async loadAlbum(id: number) {

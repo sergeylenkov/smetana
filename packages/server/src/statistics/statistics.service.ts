@@ -10,28 +10,29 @@ export class StatisticsService {
     @InjectRepository(Statistics)
     private statisticsRepository: Repository<Statistics>,
     @InjectRepository(Track)
-    private tracksRepository: Repository<Track>
+    private tracksRepository: Repository<Track>,
   ) {}
 
   async create(trackId: number) {
     const today = new Date();
-    const track = await this.tracksRepository.findOneBy({ id: trackId });
 
     let statistics = await this.statisticsRepository.findOneBy({
-      track: track,
+      track: { id: trackId },
     });
 
     if (statistics) {
-      statistics.lastPlayedTime = today.toISOString();
       statistics.playsCount = statistics.playsCount + 1;
     } else {
+      const track = await this.tracksRepository.findOneBy({ id: trackId });
+
       statistics = new Statistics();
 
       statistics.track = track;
       statistics.isFavorite = false;
       statistics.playsCount = 1;
-      statistics.lastPlayedTime = today.toISOString();
     }
+
+    statistics.lastPlayedTime = today.toISOString();
 
     this.statisticsRepository.save(statistics);
   }
@@ -39,7 +40,7 @@ export class StatisticsService {
   async setFavorite(trackId: number, favorite: boolean) {
     const track = await this.tracksRepository.findOneBy({ id: trackId });
 
-    let statistics = await this.statisticsRepository.findOneBy({
+    const statistics = await this.statisticsRepository.findOneBy({
       track: track,
     });
 
