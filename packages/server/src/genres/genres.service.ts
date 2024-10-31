@@ -11,7 +11,13 @@ export class GenresService {
   ) {}
 
   public findAll(): Promise<Genre[]> {
-    return this.genresRepository.find();
+    return this.genresRepository
+      .createQueryBuilder('genres')
+      .leftJoin('genres.tracks', 'tracks')
+      .loadRelationCountAndMap('genres.tracksCount', 'genres.tracks')
+      .groupBy('genres.id')
+      .addGroupBy('genres.name')
+      .getMany();
   }
 
   public findById(id: number): Promise<Genre> {

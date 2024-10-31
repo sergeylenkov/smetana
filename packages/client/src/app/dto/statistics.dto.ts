@@ -1,3 +1,3 @@
 export class StatisticsDto {
-    trackId: number = -1;
+  trackId: number = -1;
 }

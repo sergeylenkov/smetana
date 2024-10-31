@@ -4,7 +4,7 @@ import { Track } from '../dto/track';
 import { Player } from './player';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebPlayer extends Player {
   private _sound?: Howl;
@@ -42,7 +42,7 @@ export class WebPlayer extends Player {
       },
       onpause: () => {
         this.onPause(track);
-      }
+      },
     });
 
     this._sound.play();

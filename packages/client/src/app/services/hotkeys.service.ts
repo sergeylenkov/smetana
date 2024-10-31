@@ -4,7 +4,7 @@ export enum KeyboardModifier {
   Alt = 'Alt',
   Shift = 'Shift',
   Ctrl = 'Ctrl',
-  Meta = 'Meta'
+  Meta = 'Meta',
 }
 
 interface KeyboardListener {
@@ -22,22 +22,29 @@ export class HotkeysService {
   constructor() {
     window.addEventListener('keypress', (event: KeyboardEvent) => {
       this.onKeyPress(event);
-    })
+    });
   }
 
-  public onKey(key: string, modifier: KeyboardModifier | undefined, listener: () => void) {
+  public onKey(
+    key: string,
+    modifier: KeyboardModifier | undefined,
+    listener: () => void
+  ) {
     const subscriber = {
       key: key,
       modifier: modifier,
       listener: listener,
-    }
+    };
 
     this._subscribers.push(subscriber);
   }
 
   private onKeyPress(event: KeyboardEvent) {
-    this._subscribers.forEach(subscriber => {
-      if (subscriber.key == event.code && subscriber.modifier === this.getModifier(event)) {
+    this._subscribers.forEach((subscriber) => {
+      if (
+        subscriber.key == event.code &&
+        subscriber.modifier === this.getModifier(event)
+      ) {
         subscriber.listener();
       }
     });

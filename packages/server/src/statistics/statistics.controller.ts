@@ -9,16 +9,14 @@ export class StatisticsController {
 
   @Post()
   create(@Body() statistics: StatisticsDto): Promise<void> {
-    return this.statisticsService.create(
-      statistics.trackId
-    );
+    return this.statisticsService.create(statistics.trackId);
   }
 
   @Post('favorite')
   favorite(@Body() favorite: FavoriteDto): Promise<void> {
     return this.statisticsService.setFavorite(
       favorite.trackId,
-      favorite.favorite
+      favorite.favorite,
     );
   }
 }

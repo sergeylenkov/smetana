@@ -5,7 +5,7 @@ import { Track } from '../dto/track';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 export class AlbumsService {
   constructor(private api: AlbumsAPI) {}
 

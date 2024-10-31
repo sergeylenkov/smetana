@@ -29,6 +29,7 @@ import { ArtistCardComponent } from './components/artist-card/artist-card.compon
 import { LocalePipe } from './pipes/locale.pipe';
 import { StatisticsService } from './services/statistics.service';
 import { AlbumsComponent } from './components/albums/albums.component';
+import { GenresComponent } from './components/genres/genres.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +51,9 @@ import { AlbumsComponent } from './components/albums/albums.component';
     ArtistsListComponent,
     ArtistCardComponent,
     ArtistDetailsComponent,
+    GenresComponent,
     ClickOutsideDirective,
-    LocalePipe
+    LocalePipe,
   ],
   imports: [
     BrowserModule,
@@ -59,9 +61,12 @@ import { AlbumsComponent } from './components/albums/albums.component';
     HttpClientModule,
     AngularSvgIconModule.forRoot(),
     FormsModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
   ],
-  providers: [{ provide: Player, useExisting: PlayerFactory.createPlayer() }, StatisticsService],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: Player, useExisting: PlayerFactory.createPlayer() },
+    StatisticsService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

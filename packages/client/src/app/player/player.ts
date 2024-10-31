@@ -19,25 +19,25 @@ export abstract class Player {
 
   onStart(track: Track) {
     throw new Error('Method not implemented.');
-  };
+  }
 
   onStop(track: Track) {
     throw new Error('Method not implemented.');
-  };
+  }
 
   onEnd(track: Track) {
     throw new Error('Method not implemented.');
-  };
+  }
 
   onPause(track: Track) {
     throw new Error('Method not implemented.');
-  };
+  }
 
   onResume(track: Track) {
     throw new Error('Method not implemented.');
-  };
+  }
 
   onProgress(progress: number) {
     throw new Error('Method not implemented.');
-  };
+  }
 }

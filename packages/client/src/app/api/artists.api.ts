@@ -7,7 +7,7 @@ import { Artist } from '../dto/artist';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 @Http(environment.apiUrl)
 export class ArtistsAPI {
   @Get('artists')

@@ -12,17 +12,19 @@ export class IntersectionService {
   constructor() {
     this.observers = new Map();
 
-    this.observer = new IntersectionObserver((elements) => {
-      elements.forEach(element => {
-        if (element.isIntersecting) {
-          const callback = this.observers.get(element.target);
-          callback &&  callback(element.target);
-        }
-      })
-    },
-    {
-      threshold: 0.5
-    });
+    this.observer = new IntersectionObserver(
+      (elements) => {
+        elements.forEach((element) => {
+          if (element.isIntersecting) {
+            const callback = this.observers.get(element.target);
+            callback && callback(element.target);
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+      }
+    );
   }
 
   public add(element: Element, callback: IntersectionCallback) {
@@ -30,7 +32,7 @@ export class IntersectionService {
     this.observers.set(element, callback);
   }
 
-  public remove(element:Element) {
+  public remove(element: Element) {
     this.observer.unobserve(element);
     this.observers.delete(element);
   }

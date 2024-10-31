@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 @Http(environment.apiUrl)
 export class PlayerAPI {
   @Get('player/track/:id/play')

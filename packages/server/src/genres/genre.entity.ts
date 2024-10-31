@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Track } from '../tracks/track.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity({ name: 'genres', synchronize: false })
 export class Genre {
@@ -7,4 +14,18 @@ export class Genre {
 
   @Column()
   name: string;
+
+  @ManyToMany(() => Track)
+  @JoinTable({
+    name: 'genres_tracks',
+    joinColumn: {
+      name: 'genre_id',
+    },
+    inverseJoinColumn: {
+      name: 'track_id',
+    },
+  })
+  tracks: Track[];
+
+  tracksCount: number;
 }

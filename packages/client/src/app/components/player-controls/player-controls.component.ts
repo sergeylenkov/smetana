@@ -16,8 +16,7 @@ export class PlayerControlsComponent implements OnInit, OnDestroy {
   private _onStart?: Subscription;
   private _onProgress?: Subscription;
 
-  constructor(private playerService: PlayerService) {
-  }
+  constructor(private playerService: PlayerService) {}
 
   ngOnInit(): void {
     this._onStart = this.playerService.onStart.subscribe((track: Track) => {
@@ -25,9 +24,11 @@ export class PlayerControlsComponent implements OnInit, OnDestroy {
       this.progress = 100;
     });
 
-    this._onProgress = this.playerService.onProgress.subscribe((progress: number) => {
-      this.progress = progress;
-    })
+    this._onProgress = this.playerService.onProgress.subscribe(
+      (progress: number) => {
+        this.progress = progress;
+      }
+    );
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,7 @@ import { FavoriteDto } from '../dto/favorite.dto';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 @Http(environment.apiUrl)
 @Header(HttpHeader.ContentType, 'application/json')
 export class StatisticsAPI {

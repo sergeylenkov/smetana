@@ -4,7 +4,7 @@ import { SearchAlbum } from '../../dto/search-album';
 @Component({
   selector: 'app-search-album',
   templateUrl: './search-album.component.html',
-  styleUrls: ['./search-album.component.scss']
+  styleUrls: ['./search-album.component.scss'],
 })
 export class SearchAlbumComponent implements OnInit {
   @Input() album?: SearchAlbum;

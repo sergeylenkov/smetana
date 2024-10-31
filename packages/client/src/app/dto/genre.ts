@@ -6,4 +6,7 @@ export class Genre {
 
   @JsonProperty()
   name: string = '';
+
+  @JsonProperty()
+  tracksCount: number = 0;
 }

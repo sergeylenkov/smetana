@@ -10,7 +10,7 @@ import { HttpException } from '@serglenkov/http-client';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
   @ViewChild('searchInput') searchElement?: ElementRef<HTMLInputElement>;
@@ -29,13 +29,14 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.searchUpdate.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
-      this.onInputChange(value);
-    });
+    this.searchUpdate
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value) => {
+        this.onInputChange(value);
+      });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public async onInputChange(value: string): Promise<void> {
     if (value.length >= 2) {
@@ -44,9 +45,15 @@ export class SearchComponent implements OnInit {
       try {
         const results = await this.searchService.search(value);
 
-        this.albums = results.filter(result => this.isAlbum(result)) as SearchAlbum[];
-        this.artists = results.filter(result => this.isArtist(result)) as SearchArtist[];
-        this.tracks = results.filter(result => this.isTrack(result)) as SearchTrack[];
+        this.albums = results.filter((result) =>
+          this.isAlbum(result)
+        ) as SearchAlbum[];
+        this.artists = results.filter((result) =>
+          this.isArtist(result)
+        ) as SearchArtist[];
+        this.tracks = results.filter((result) =>
+          this.isTrack(result)
+        ) as SearchTrack[];
 
         this.isListVisible = true;
       } catch (error) {

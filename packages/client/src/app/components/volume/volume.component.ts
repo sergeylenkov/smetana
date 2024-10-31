@@ -1,10 +1,20 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ComponentChanges } from 'src/app/utils/component-changes';
 
 @Component({
   selector: 'app-volume',
   templateUrl: './volume.component.html',
-  styleUrls: ['./volume.component.scss']
+  styleUrls: ['./volume.component.scss'],
 })
 export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() volume: number = 0;
@@ -13,9 +23,9 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   private width = 0;
   private percent = 0;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnChanges(changes: ComponentChanges<VolumeComponent>) {
     if (changes.volume) {
@@ -25,7 +35,8 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     requestAnimationFrame(() => {
-      this.width = this.trackElement.nativeElement.getBoundingClientRect().width;
+      this.width =
+        this.trackElement.nativeElement.getBoundingClientRect().width;
     });
   }
 
@@ -45,6 +56,6 @@ export class VolumeComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private getPosition(): number {
-    return this.width / 100 * this.percent;
+    return (this.width / 100) * this.percent;
   }
 }

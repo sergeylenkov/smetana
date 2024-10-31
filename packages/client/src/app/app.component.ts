@@ -6,16 +6,22 @@ import { PlayerService } from './services/player.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'client';
 
-  constructor(private playerService: PlayerService, private hotkeysService: HotkeysService) {}
+  constructor(
+    private playerService: PlayerService,
+    private hotkeysService: HotkeysService
+  ) {}
 
   ngOnInit(): void {
     this.hotkeysService.onKey('Space', undefined, () => {
-      if (document.activeElement && document.activeElement instanceof HTMLButtonElement) {
+      if (
+        document.activeElement &&
+        document.activeElement instanceof HTMLButtonElement
+      ) {
         document.activeElement.blur();
       }
 
@@ -28,15 +34,15 @@ export class AppComponent implements OnInit, OnDestroy {
           this.playerService.pause();
         }
       }
-    })
+    });
 
     this.hotkeysService.onKey('KeyP', undefined, () => {
       this.playerService.previousTrack();
-    })
+    });
 
     this.hotkeysService.onKey('KeyN', undefined, () => {
       this.playerService.nextTrack();
-    })
+    });
   }
 
   @HostListener('window:beforeunload')

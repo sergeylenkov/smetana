@@ -7,10 +7,13 @@
       <a class="navigation__link" [routerLink]="['/albums']" routerLinkActive="navigation__link_active">{{ 'Albums' | locale }}</a>
     </li>
     <li class="navigation__item">
-      <a class="navigation__link" [routerLink]="['/artists']">{{ 'Artists' | locale }}</a>
+      <a class="navigation__link" [routerLink]="['/artists']" routerLinkActive="navigation__link_active">{{ 'Artists' | locale }}</a>
     </li>
     <li class="navigation__item">
-      <a class="navigation__link" [routerLink]="['/genres']">{{ 'Genres' | locale }}</a>
+      <a class="navigation__link" [routerLink]="['/genres']" routerLinkActive="navigation__link_active">{{ 'Genres' | locale }}</a>
+    </li>
+    <li class="navigation__item">
+      <a class="navigation__link" [routerLink]="['/radio']">{{ 'Radio' | locale }}</a>
     </li>
   </ul>
   <app-search></app-search>

@@ -8,7 +8,7 @@ import { SearchTrack } from '../dto/search-track';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 @Http(environment.apiUrl)
 export class SearchAPI {
   @Get('search/albums')

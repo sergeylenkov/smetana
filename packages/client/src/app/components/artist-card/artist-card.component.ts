@@ -1,11 +1,18 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { IntersectionService } from '../../services/intersection.service';
 import { Artist } from '../../dto/artist';
 
 @Component({
   selector: 'app-artist-card',
   templateUrl: './artist-card.component.html',
-  styleUrls: ['./artist-card.component.scss']
+  styleUrls: ['./artist-card.component.scss'],
 })
 export class ArtistCardComponent implements OnInit, AfterViewInit {
   @Input() artist?: Artist;
@@ -15,14 +22,16 @@ export class ArtistCardComponent implements OnInit, AfterViewInit {
 
   constructor(private intersectionService: IntersectionService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     if (this.element) {
-      this.intersectionService.add(this.element.nativeElement, (element: Element) => {
-        this.loadImage();
-      });
+      this.intersectionService.add(
+        this.element.nativeElement,
+        (element: Element) => {
+          this.loadImage();
+        }
+      );
     }
   }
 
@@ -32,7 +41,7 @@ export class ArtistCardComponent implements OnInit, AfterViewInit {
 
       image.onload = () => {
         this.cover = image.src;
-      }
+      };
 
       image.src = this.artist?.coverUrl;
 

@@ -1,4 +1,11 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { ArtistsService } from '../../services/artists.service';
 import { Artist } from '../../dto/artist';
@@ -9,15 +16,20 @@ const DEFAULT_CARD_SIZE = 180;
   selector: 'app-artists-list',
   templateUrl: './artists-list.component.html',
   styleUrls: ['./artists-list.component.scss'],
-  providers:  [ ArtistsService ]
+  providers: [ArtistsService],
 })
-export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class ArtistsListComponent
+  implements OnInit, AfterViewInit, AfterViewChecked
+{
   artists: Artist[] = [];
   cardSize: number = DEFAULT_CARD_SIZE;
   @ViewChild('list') listElement?: ElementRef<HTMLDivElement>;
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
 
-  constructor(private service: ArtistsService, private settingsService: SettingsService) { }
+  constructor(
+    private service: ArtistsService,
+    private settingsService: SettingsService
+  ) {}
 
   ngOnInit(): void {
     this.getArtists();
@@ -25,7 +37,8 @@ export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChe
 
   ngAfterViewInit() {
     if (this.listElement) {
-      const width = this.listElement.nativeElement.getBoundingClientRect().width;
+      const width =
+        this.listElement.nativeElement.getBoundingClientRect().width;
       let maxCount = Math.floor(width / DEFAULT_CARD_SIZE);
 
       const freeSpace = width - maxCount * DEFAULT_CARD_SIZE;
@@ -41,7 +54,10 @@ export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChe
   ngAfterViewChecked() {
     requestAnimationFrame(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.nativeElement.scrollTo(0, this.settingsService.scrollPosition);
+        this.scrollContainer.nativeElement.scrollTo(
+          0,
+          this.settingsService.scrollPosition
+        );
       }
     });
   }
@@ -51,7 +67,8 @@ export class ArtistsListComponent implements OnInit, AfterViewInit, AfterViewChe
   }
 
   public onScroll(e: Event): void {
-    this.settingsService.scrollPosition = (e.target as HTMLDivElement)?.scrollTop || 0;
+    this.settingsService.scrollPosition =
+      (e.target as HTMLDivElement)?.scrollTop || 0;
   }
 
   public artistTrackBy(index: number, artist: Artist) {

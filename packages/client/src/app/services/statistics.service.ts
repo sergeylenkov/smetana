@@ -6,10 +6,9 @@ import { StatisticsAPI } from '../api/statistics.api';
   providedIn: 'root',
 })
 export class StatisticsService {
-  constructor(private api: StatisticsAPI) {
-  }
+  constructor(private api: StatisticsAPI) {}
 
-  public async add(track: Track): Promise<void> {    
+  public async add(track: Track): Promise<void> {
     return this.api.add({ trackId: track.id });
   }
 }

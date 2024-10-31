@@ -4,7 +4,7 @@ import { SearchTrack } from '../../dto/search-track';
 @Component({
   selector: 'app-search-track',
   templateUrl: './search-track.component.html',
-  styleUrls: ['./search-track.component.scss']
+  styleUrls: ['./search-track.component.scss'],
 })
 export class SearchTrackComponent implements OnInit {
   @Input() track?: SearchTrack;

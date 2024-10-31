@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { IntersectionService } from '../../services/intersection.service';
 import { Album } from '../../dto/album';
 
@@ -7,7 +14,7 @@ export const CARD_MARGIN = 10;
 @Component({
   selector: 'app-album-card',
   templateUrl: './album-card.component.html',
-  styleUrls: ['./album-card.component.scss']
+  styleUrls: ['./album-card.component.scss'],
 })
 export class AlbumCardComponent implements OnInit, AfterViewInit {
   @Input() album?: Album;
@@ -17,14 +24,16 @@ export class AlbumCardComponent implements OnInit, AfterViewInit {
 
   constructor(private intersectionService: IntersectionService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     if (this.element) {
-      this.intersectionService.add(this.element.nativeElement, (element: Element) => {
-        this.loadImage();
-      });
+      this.intersectionService.add(
+        this.element.nativeElement,
+        (element: Element) => {
+          this.loadImage();
+        }
+      );
     }
   }
 
@@ -34,7 +43,7 @@ export class AlbumCardComponent implements OnInit, AfterViewInit {
 
       image.onload = () => {
         this.cover = image.src;
-      }
+      };
 
       image.src = this.album?.coverUrl;
 

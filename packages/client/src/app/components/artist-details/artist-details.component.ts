@@ -13,7 +13,11 @@ export class ArtistDetailsComponent implements OnInit {
   public artist?: Artist;
   public albums: Album[] = [];
 
-  constructor(private service: ArtistsService, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private service: ArtistsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const id = this.route.snapshot.params['id'];
@@ -22,8 +26,7 @@ export class ArtistDetailsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   private async loadArtist(id: number) {
     this.artist = await this.service.getArtist(id);
@@ -31,6 +34,6 @@ export class ArtistDetailsComponent implements OnInit {
 
     this.albums = albums.sort((a, b) => {
       return a.year - b.year;
-    })
+    });
   }
 }

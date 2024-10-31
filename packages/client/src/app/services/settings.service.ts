@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 
 enum StorageKeys {
   Volume = 'Volume',
-  ScrollPosition = 'ScrollPosition'
+  ScrollPosition = 'ScrollPosition',
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  constructor() {
-  }
+  constructor() {}
 
   public set volume(value: number) {
     localStorage.setItem(StorageKeys.Volume, String(value));

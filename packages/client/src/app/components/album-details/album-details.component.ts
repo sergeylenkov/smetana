@@ -20,9 +20,14 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   private _onStart?: Subscription;
   private _onStop?: Subscription;
 
-  constructor(private service: AlbumsService, private route: ActivatedRoute, private router: Router, private playerService: PlayerService) {
+  constructor(
+    private service: AlbumsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private playerService: PlayerService
+  ) {
     this.loadCurrentAlbum();
-    
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.loadCurrentAlbum();
@@ -48,7 +53,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   }
 
   private loadCurrentAlbum() {
-    const id = this.route.snapshot.params['id']; 
+    const id = this.route.snapshot.params['id'];
     if (id) {
       this.loadAlbum(id);
     }
@@ -59,7 +64,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
 
     this.album = await this.service.getAlbum(id);
     const tracks = await this.service.getTracks(id);
-    console.log('loadAlbum', this.album)
+
     this.tracks = tracks.sort((a, b) => {
       return a.track - b.track;
     });
@@ -79,7 +84,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   public onPlayTrack(id: number) {
     const track = this.tracks.find((item) => {
       return item.id === id;
-    })
+    });
 
     if (track) {
       this.playerService.playTrack(track);

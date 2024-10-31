@@ -1,0 +1,7 @@
+<div class="genres">
+  <div *ngFor="let genre of genres;">
+    <a [routerLink]="['/genre', genre.id]">
+      {{genre.name}} - {{genre.tracksCount}}
+    </a>
+  </div>
+</div>

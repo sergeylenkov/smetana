@@ -21,41 +21,45 @@ export class PlayerService {
   private _playlist: Track[] = [];
   private _state: PlayerState = PlayerState.Stopped;
 
-  constructor(private player: Player, private settings: SettingsService, private statistics: StatisticsService) {
+  constructor(
+    private player: Player,
+    private settings: SettingsService,
+    private statistics: StatisticsService
+  ) {
     this.player.volume = settings.volume;
 
     this.player.onStart = (track: Track) => {
       this._state = PlayerState.Playing;
       this.onStart.emit(track);
-    }
+    };
 
     this.player.onStop = () => {
       this._state = PlayerState.Stopped;
       this.onStop.emit();
-    }
+    };
 
     this.player.onEnd = () => {
       this._state = PlayerState.Stopped;
       this.nextTrack();
 
       this.onEnd.emit();
-    }
+    };
 
     this.player.onPause = () => {
       this._state = PlayerState.Paused;
 
       this.onPause.emit();
-    }
+    };
 
     this.player.onResume = () => {
       this._state = PlayerState.Playing;
 
       this.onResume.emit();
-    }
+    };
 
     this.player.onProgress = (progress) => {
       this.onProgress.emit(progress);
-    }
+    };
 
     this.onStart = new EventEmitter();
     this.onStop = new EventEmitter();
@@ -142,7 +146,9 @@ export class PlayerService {
 
   private getCurrentTrackIndex(): number | undefined {
     if (this.track) {
-      const index = this._playlist.findIndex(item => item.id === this.track?.id);
+      const index = this._playlist.findIndex(
+        (item) => item.id === this.track?.id
+      );
       return index === -1 ? undefined : index;
     }
 

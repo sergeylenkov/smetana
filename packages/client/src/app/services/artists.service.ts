@@ -5,7 +5,7 @@ import { Artist } from '../dto/artist';
 
 @Injectable({
   providedIn: 'root',
- })
+})
 export class ArtistsService {
   constructor(private api: ArtistsAPI) {}
 
