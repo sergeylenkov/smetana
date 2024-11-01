@@ -295,6 +295,9 @@ export class Scanner {
       title = this.getTrackTitleFromFile(fileName);
     }
 
+    const genres = metadata.common.genre ? metadata.common.genre?.join(',').split(/(?:,|\|)+/) : [];
+    const clearGenres = genres.map((g) => this.clearGenre(g));
+
     const track: Track = {
       key: `${albumArtist}_${album}_${year}`,
       path: folder,
@@ -303,7 +306,7 @@ export class Scanner {
       album: this.clearAlbumTitle(album),
       albumArtist: clearArtist,
       year: year,
-      genres: metadata.common.genre || [],
+      genres: clearGenres,
       artists: [...new Set(clearArtists)],
       composers: metadata.common.composer || [],
       track: metadata.common.track.no || 0,
@@ -378,6 +381,9 @@ export class Scanner {
         const stats = await FS.stat(join(folder, fileName));
         const clearArtist = this.clearArtistTitle(artist);
 
+        const genres = genre.split(/(?:,|\|)+/);
+        const clearGenres = genres.map((g) => this.clearGenre(g));
+
         const track: Track = {
           key: `${clearArtist}_${album}_${year}`,
           path: folder,
@@ -386,7 +392,7 @@ export class Scanner {
           album: this.clearAlbumTitle(album),
           albumArtist: clearArtist,
           year: year,
-          genres: [trim(genre, [' ', '"', '\''])],
+          genres: clearGenres,
           artists: [clearArtist],
           composers: composer ? [composer] : [],
           track: cueTrack.number || 0,
@@ -542,6 +548,17 @@ export class Scanner {
     }
 
     return trim(newTitle, [' ', '"', '\'']);
+  }
+
+  private clearGenre(genre: string) {
+    let newGenre = genre.trim();
+
+    newGenre = newGenre.split(' ').map(word => {
+      let lower = word.toLocaleLowerCase();
+      return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
+    }).join(' ');
+
+    return trim(newGenre, [' ', '"', '\'']);
   }
 
   private getTrackTitleFromFile(file: string): string {
