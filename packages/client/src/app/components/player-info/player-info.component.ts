@@ -27,25 +27,31 @@ export class PlayerInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._onStart = this.playerService.onStart.subscribe((track: Track) => {
       this.track = this.playerService.track;
-      this.album = this.playerService.album;
-      this.artists =
-        this.album?.artists.map((artist) => artist.name).join(', ') || '';
-
-      this.titleService.setTitle(`${this.track?.title} - ${this.artists}`);
+      this.updateAlbumInfo();
     });
 
     this._onStop = this.playerService.onEnd.subscribe(() => {
       this.titleService.setTitle(t('Smetana'));
     });
 
-    this._onMetadataUpdate = this.playerService.onMetadataUpdate.subscribe(() => {
-      this.album = this.playerService.album;
-    });
+    this._onMetadataUpdate = this.playerService.onMetadataUpdate.subscribe(
+      () => {
+        this.updateAlbumInfo();
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this._onStart && this._onStart.unsubscribe();
     this._onStop && this._onStop.unsubscribe();
     this._onMetadataUpdate && this._onMetadataUpdate.unsubscribe();
+  }
+
+  private updateAlbumInfo() {
+    this.album = this.playerService.album;
+    this.artists =
+      this.album?.artists.map((artist) => artist.name).join(', ') || '';
+
+    this.titleService.setTitle(`${this.track?.title} - ${this.artists}`);
   }
 }
