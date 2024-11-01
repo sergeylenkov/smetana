@@ -3,6 +3,7 @@ import { createReadStream } from 'fs';
 import { join } from 'path';
 import { Track } from './track.entity';
 import { TracksService } from './tracks.service';
+import { Album } from '../albums/album.entity';
 
 @Controller('tracks')
 export class TracksController {
@@ -24,5 +25,10 @@ export class TracksController {
 
     const file = createReadStream(join(track.path, track.fileName));
     return new StreamableFile(file);
+  }
+
+  @Get(':id/albums')
+  async getAlbums(@Param('id') id): Promise<Album[]> {
+    return this.tracksService.getAlbums(id);
   }
 }

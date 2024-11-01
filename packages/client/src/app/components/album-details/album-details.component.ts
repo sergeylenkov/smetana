@@ -5,7 +5,7 @@ import { Album } from '../../dto/album';
 import { Track } from '../../dto/track';
 import { PlayerService } from '../../services/player.service';
 import { PlayerState } from '../../models/player';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-album-details',

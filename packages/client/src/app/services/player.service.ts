@@ -14,7 +14,7 @@ export class PlayerService {
   private _playlist: Track[] = [];
   private _state: PlayerState = PlayerState.Stopped;
   public track?: Track;
-  public album?: Album;
+  public _album?: Album;
   public genre?: Genre;
   public onStart: EventEmitter<Track>;
   public onStop: EventEmitter<void>;
@@ -22,6 +22,7 @@ export class PlayerService {
   public onResume: EventEmitter<void>;
   public onEnd: EventEmitter<void>;
   public onProgress: EventEmitter<number>;
+  public onMetadataUpdate: EventEmitter<void>;
 
   constructor(
     private player: Player,
@@ -69,6 +70,17 @@ export class PlayerService {
     this.onResume = new EventEmitter();
     this.onEnd = new EventEmitter();
     this.onProgress = new EventEmitter();
+    this.onMetadataUpdate = new EventEmitter();
+  }
+
+  public set album(album: Album | undefined) {
+    this._album = album;
+
+    this.onMetadataUpdate.emit();
+  }
+
+  public get album(): Album | undefined {
+    return this._album;
   }
 
   public set tracks(tracks: Track[]) {
