@@ -4,5 +4,51 @@
   @include flex-row;
 
   position: relative;
-  max-width: 100vw;
+  flex-wrap: wrap;
+  padding: 20px 0 0 0;
+}
+
+.genre-details {
+  @include flex-row;
+
+  position: relative;
+  padding: 10px;
+  border: 1px solid var(--card-border-color);
+  border-radius: 10px;
+  margin: 0 0 10px 10px;
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--main-text-color);
+
+    &_active {
+      color: var(--active-color);
+    }
+  }
+
+  &_active {
+    border-color: var(--active-color);
+  }
+}
+
+.play-button {
+  margin: auto 10px auto 0;
+  width: 24px;
+  height: 24px;
+
+  color: var(--card-placeholder-color);
+
+  cursor: pointer;
+
+  &__icon > svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &_active {
+    color: var(--active-color);
+    animation: var(--play-button-animation);
+  }
 }

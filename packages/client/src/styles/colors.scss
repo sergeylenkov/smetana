@@ -1,16 +1,17 @@
 :root {
-  --background: rgb(250, 250, 250);
+  --background-color: rgb(250, 250, 250);
   --main-text-color: rgb(34, 34, 34);
   --secondary-text-color: rgb(119, 119, 119);
   --card-placeholder-color: rgb(59, 59, 59);
   --card-border-color: rgb(245,245,245);
-  --card-background: rgb(255,255,255);
+  --card-background-color: rgb(255,255,255);
   --nav-divider-color: rgb(236,236,236);
   --active-color: rgb(233, 211, 15);
-  --volume-track: rgb(224, 224, 224);
-  --volume-fill: rgb(255, 204, 0);
-  --volume-knob: rgb(255, 255, 255);
-  --dropdown-shadow: rgba(50, 50, 50, 0.2);
-  --hover-background: rgb(228, 228, 228);
-  --error: rgb(199, 0, 0);
+  --volume-track-color: rgb(224, 224, 224);
+  --volume-fill-color: rgb(255, 204, 0);
+  --volume-knob-color: rgb(255, 255, 255);
+  --dropdown-shadow-color: rgba(50, 50, 50, 0.2);
+  --hover-background-color: rgb(228, 228, 228);
+  --error-color: rgb(199, 0, 0);
+  --card-border-color: rgb(206, 206, 206);
 }

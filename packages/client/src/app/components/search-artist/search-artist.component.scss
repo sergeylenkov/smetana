@@ -9,7 +9,7 @@
   padding: 5px;
 
   &:hover {
-    background-color: var(--hover-background);
+    background-color: var(--hover-background-color);
   }
 
   &__title {
@@ -30,7 +30,7 @@
     border: 1px solid var(--card-border-color);
     border-radius: 2px;
 
-    background-color: var(--card-background);
+    background-color: var(--card-background-color);
     overflow: hidden;
   }
 

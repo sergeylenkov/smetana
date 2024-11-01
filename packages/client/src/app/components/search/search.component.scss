@@ -57,8 +57,8 @@
     max-height: calc(100vh - 200px);
     border: 1px solid var(--nav-divider-color);
     border-radius: 10px;
-    background-color: var(--background);
-    box-shadow: 0 10px 20px -5px var(--dropdown-shadow);
+    background-color: var(--background-color);
+    box-shadow: 0 10px 20px -5px var(--dropdown-shadow-color);
     overflow: auto;
   }
 
@@ -72,6 +72,6 @@
   &__error {
     margin: auto;
     font-size: 14px;
-    color: var(--error);
+    color: var(--error-color);
   }
 }

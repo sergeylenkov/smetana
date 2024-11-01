@@ -1,7 +1,14 @@
-<div class="genres">
-  <div *ngFor="let genre of genres;">
-    <a [routerLink]="['/genre', genre.id]">
-      {{genre.name}} - {{genre.tracksCount}}
-    </a>
-  </div>
+<div class="genre-details" *ngFor="let genre of genres;" [ngClass]="{'genre-details_active': isActive(genre.id)}">
+  <ng-container [ngSwitch]="getGenreState(genre.id)">
+    <button class="play-button play-button_active" (click)="onPauseGenre()" *ngSwitchCase="stateType.Playing">
+      <svg-icon class="play-button__icon" src="assets/pause-circle.svg"></svg-icon>
+    </button>
+    <button class="play-button play-button_active" (click)="onResumeGenre()" *ngSwitchCase="stateType.Paused">
+      <svg-icon class="play-button__icon" src="assets/play-circle.svg"></svg-icon>
+    </button>
+    <button class="play-button" (click)="onPlayGenre(genre.id)" *ngSwitchDefault>
+      <svg-icon class="play-button__icon" src="assets/play-circle.svg"></svg-icon>
+    </button>
+  </ng-container>
+  <div class="genre-details__title" [ngClass]="{'genre-details__title_active': isActive(genre.id)}">{{genre.name}}</div>
 </div>

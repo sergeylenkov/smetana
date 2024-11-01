@@ -5,21 +5,23 @@ import { PlayerState } from '../models/player';
 import { Player } from '../player/player';
 import { SettingsService } from './settings.service';
 import { StatisticsService } from './statistics.service';
+import { Genre } from '../dto/genre';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
+  private _playlist: Track[] = [];
+  private _state: PlayerState = PlayerState.Stopped;
   public track?: Track;
-  public _album?: Album;
+  public album?: Album;
+  public genre?: Genre;
   public onStart: EventEmitter<Track>;
   public onStop: EventEmitter<void>;
   public onPause: EventEmitter<void>;
   public onResume: EventEmitter<void>;
   public onEnd: EventEmitter<void>;
   public onProgress: EventEmitter<number>;
-  private _playlist: Track[] = [];
-  private _state: PlayerState = PlayerState.Stopped;
 
   constructor(
     private player: Player,
@@ -67,14 +69,6 @@ export class PlayerService {
     this.onResume = new EventEmitter();
     this.onEnd = new EventEmitter();
     this.onProgress = new EventEmitter();
-  }
-
-  public set album(album: Album | undefined) {
-    this._album = album;
-  }
-
-  public get album(): Album | undefined {
-    return this._album;
   }
 
   public set tracks(tracks: Track[]) {
