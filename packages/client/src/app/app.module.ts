@@ -30,6 +30,7 @@ import { LocalePipe } from './pipes/locale.pipe';
 import { StatisticsService } from './services/statistics.service';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { GenresComponent } from './components/genres/genres.component';
+import { RadioComponent } from './components/radio/radio.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { GenresComponent } from './components/genres/genres.component';
     ArtistCardComponent,
     ArtistDetailsComponent,
     GenresComponent,
+    RadioComponent,
     ClickOutsideDirective,
     LocalePipe,
   ],

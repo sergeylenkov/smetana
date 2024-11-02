@@ -1,0 +1,50 @@
+@import '../../../styles/mixins.scss';
+
+:host {
+  @include flex-column;
+
+  position: relative;
+  height: calc(100vh - 70px);
+}
+
+.radio {
+  &-button {
+    @include flex-row;
+
+    position: relative;
+    margin: auto auto 0 auto;
+
+    &__title {
+      font-size: 32px;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--main-text-color);
+    }
+  }
+
+  &-info {
+    margin: 10px auto auto auto;
+    font-size: 16px;
+    color: var(--main-text-color);
+  }
+}
+
+.play-button {
+  margin: auto 10px auto 0;
+  width: 32px;
+  height: 32px;
+
+  color: var(--card-placeholder-color);
+
+  cursor: pointer;
+
+  &__icon > svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  &_active {
+    color: var(--active-color);
+    animation: var(--play-button-animation);
+  }
+}

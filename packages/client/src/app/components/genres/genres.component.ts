@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs';
   providers: [GenresService],
 })
 export class GenresComponent implements OnInit {
+  private _onStart?: Subscription;
+  private _onStop?: Subscription;
   public genres: Genre[] = [];
   public stateType = PlayerState;
   public currentGenre?: Genre;
-  private _onStart?: Subscription;
-  private _onStop?: Subscription;
 
   constructor(private service: GenresService, private playerService: PlayerService) {}
 

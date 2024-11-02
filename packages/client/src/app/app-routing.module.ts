@@ -4,6 +4,7 @@ import { ArtistDetailsComponent } from './components/artist-details/artist-detai
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { GenresComponent } from './components/genres/genres.component';
+import { RadioComponent } from './components/radio/radio.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'artists', component: ArtistsListComponent },
   { path: 'artist/:id', component: ArtistDetailsComponent },
   { path: 'genres', component: GenresComponent },
+  { path: 'radio', component: RadioComponent },
 ];
 
 @NgModule({

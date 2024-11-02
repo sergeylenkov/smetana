@@ -17,14 +17,13 @@ export class PlayerService {
     this._shell.invoke(`$player.Volume = ${this._volume};`);
   }
 
-  public play(track: Track): void {
+  public async play(track: Track): Promise<void> {
     try {
       const path = join(track.path, track.fileName).replace(/'/g, "''");
       console.log('Play', path);
-
-      this._shell.invoke(`$player.Open('${path}');`).then(() => {
-        this._shell.invoke('$player.Play();');
-      });
+      await this._shell.invoke('$player.Play();');
+      await this._shell.invoke(`$player.Open('${path}');`);
+      await this._shell.invoke('$player.Play();');
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -44,13 +43,10 @@ export class PlayerService {
     );
   }
 
-  private initPlayer(): Promise<void> {
-    return this._shell
-      .invoke('Add-Type -AssemblyName presentationCore;')
-      .then(() => {
-        this._shell.invoke(
-          '$player = New-Object system.windows.media.mediaplayer;',
-        );
-      });
+  private async initPlayer(): Promise<void> {
+    await this._shell.invoke('Add-Type -AssemblyName presentationCore;');
+    await this._shell.invoke(
+      '$player = New-Object system.windows.media.mediaplayer;',
+    );
   }
 }
